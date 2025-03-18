@@ -1,0 +1,15 @@
+global:
+  scrape_interval: 5s
+  external_labels:
+    cluster: tenant-metrics
+    namespace: tenant-metrics
+
+scrape_configs:
+
+remote_write:
+  - url: http://mimir-lb:9009/api/v1/push
+    # Add X-Scope-OrgID header so that Mimir knows what tenant the remote write data should be stored in.
+    # In this case, our tenant is "tenant-metrics"
+    headers:
+      X-Scope-OrgID: tenant-metrics
+    send_exemplars: true

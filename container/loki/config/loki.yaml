@@ -1,0 +1,35 @@
+auth_enabled: false
+
+server:
+  http_listen_port: 3100
+  log_level: debug
+
+common:
+  path_prefix: /loki
+  replication_factor: 1
+  ring:
+    kvstore:
+      store: memberlist
+  storage:
+    s3:
+      endpoint: minio-loki:9000
+      insecure: true
+      access_key_id: loki
+      secret_access_key: password
+      s3forcepathstyle: true
+      bucketnames: loki
+
+schema_config:
+  configs:
+    - from: 2020-10-24
+      store: tsdb
+      object_store: s3
+      schema: v13
+      index:
+        prefix: index_
+        period: 24h
+
+memberlist:
+  join_members:
+  - loki-1:7946
+  - loki-2:7946
