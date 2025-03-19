@@ -36,8 +36,11 @@ public class WebApiServiceImpl implements WebApiService
 
 		this.delay(optDelay);
 		HttpStatusCode httpStatus = this.makeHttpStatus(optCode);
-		int value = this.roll(httpStatus);
-		this.insertDice(value);
+		int value = 0;
+		if (httpStatus == HttpStatus.OK) {
+			value = this.roll(httpStatus);
+			this.insertDice(value);
+		}
 		ResponseEntity entity = new ResponseEntity<>(value, httpStatus);
 
 		return entity;
@@ -103,13 +106,8 @@ public class WebApiServiceImpl implements WebApiService
 	{
 		UtilEnvInfo.logStartClassMethod();
 
-		int value = 0;
-		if (httpStatus == HttpStatus.OK) {
-			value = this.getRandomNumber(1, 6);
-			logger.info("The value of dice is: '{}'", value);
-		} else {
-			logger.warn("The value not to roll is: {}, and the http status code is: '{}'", value, httpStatus);
-		}
+		int value = this.getRandomNumber(1, 6);
+		logger.info("The value of dice is: '{}'", value);
 
 		return value;
 	}
