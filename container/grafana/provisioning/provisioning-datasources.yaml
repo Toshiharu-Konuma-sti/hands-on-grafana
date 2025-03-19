@@ -1,0 +1,82 @@
+apiVersion: 1
+
+datasources:
+
+  - name: "Mimir for Metrics"
+    type: prometheus
+    uid: mimir-tenant-metrice
+    access: proxy
+    orgId: 1
+    url: http://mimir-lb:9009/prometheus
+    version: 1
+    editable: true
+    jsonData:
+      httpHeaderName1: "X-Scope-OrgID"
+      alertmanagerUid: "alertmanager"
+      exemplarTraceIdDestinations:
+        - name: trace_id
+          datasourceUid: tempo
+    secureJsonData:
+      httpHeaderValue1: "tenant-metrics"
+    isDefault: false
+
+  - name: "Mimir for Trace"
+    type: prometheus
+    uid: mimir-tenant-trace
+    access: proxy
+    orgId: 1
+    url: http://mimir-lb:9009/prometheus
+    version: 1
+    editable: true
+    jsonData:
+      httpHeaderName1: "X-Scope-OrgID"
+      alertmanagerUid: "alertmanager"
+    secureJsonData:
+      httpHeaderValue1: "tenant-trace"
+    isDefault: false
+
+  - name: Loki
+    type: loki
+    uid: loki
+    access: proxy
+    orgId: 1
+    url: http://loki-lb:9009
+    version: 1
+    editable: true
+    jsonData:
+      derivedFields:
+        - name: trace_id
+          datasourceUid: tempo
+          matcherType: label
+          matcherRegex: trace_id
+          url: $${__value.raw}
+
+  - name: Tempo
+    type: tempo
+    uid: tempo
+    access: proxy
+    orgId: 1
+    url: http://tempo-lb-3200:9009
+    basicAuth: false
+    isDefault: true
+    version: 1
+    editable: true
+    apiVersion: 1
+    jsonData:
+      httpMethod: GET
+      serviceMap:
+        datasourceUid: mimir-tenant-trace
+      tracesToLogs:
+        datasourceUid: 'loki'
+        spanStartTimeShift: '-1s'
+      nodeGraph:
+        enabled: true
+
+  - name: Pyroscope
+    type: grafana-pyroscope-datasource
+    uid: pyroscope
+    access: proxy
+    orgId: 1
+    url: http://pyroscope:4040
+    editable: true
+

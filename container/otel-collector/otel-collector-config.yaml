@@ -1,0 +1,74 @@
+receivers:
+  otlp:
+    protocols:
+      grpc:
+        endpoint: 0.0.0.0:4317
+      http:
+        endpoint: 0.0.0.0:4318
+  prometheus:
+    config:
+      scrape_configs:
+        - job_name: "webapp"
+          scrape_interval: 5s
+          metrics_path: /actuator/prometheus
+          static_configs:
+            - targets: ["webui:8081"]
+            - targets: ["webapi:8082"]
+  mysql:
+    username: root
+    password: password
+    endpoint: mysql:3306
+    metrics:
+      mysql.query.slow.count:
+        enabled: true
+
+exporters:
+  prometheusremotewrite:
+    endpoint: http://prometheus-mimir:9090/api/v1/write
+#    endpoint: http://prometheus-mimir:9090/api/v1/otlp/v1/metrics
+    tls:
+      insecure: true
+    resource_to_telemetry_conversion:
+      enabled: true
+  otlphttp/mimir:
+    endpoint: http://mimir-lb:9009/otlp
+    headers:
+      X-Scope-OrgID: tenant-metrics
+    tls:
+      insecure: true
+  otlphttp/loki:
+    endpoint: http://loki-lb:9009/otlp
+    tls:
+      insecure: true
+  otlphttp/tempo:
+    endpoint: http://tempo-lb-otlp:9009
+    tls:
+      insecure: true
+  otlphttp/jaeger:
+    endpoint: http://jaeger:4318
+    tls:
+      insecure: true
+  zipkin:
+    endpoint: http://zipkin:9411/api/v2/spans
+    format: proto
+  debug:
+    verbosity: detailed
+
+processors:
+  batch:
+
+service:
+  telemetry:
+    logs:
+      level: "debug"
+  pipelines:
+    metrics:
+      receivers: [otlp, prometheus, mysql]
+      exporters: [prometheusremotewrite]
+#      exporters: [debug, otlphttp/mimir]
+    logs:
+      receivers: [otlp]
+      exporters: [otlphttp/loki]
+    traces:
+      receivers: [otlp]
+      exporters: [otlphttp/tempo, otlphttp/jaeger, zipkin]

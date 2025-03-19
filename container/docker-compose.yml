@@ -1,0 +1,471 @@
+x-healthcheck-minio: &minioHealthcheck
+  # Check if the 9000 port is open.
+  test: ["CMD-SHELL", "echo > /dev/tcp/127.0.0.1/9000; if [ $$? -eq 0 ]; then echo 'Healthcheck Successful';exit 0;else echo 'Healthcheck Failed';exit 1;fi;"]
+  interval: 3s
+  timeout: 10s
+  retries: 60
+
+version: '3.8'
+
+services:
+
+##############################
+# Grafana LGTM Stack
+##############################
+
+  grafana:
+    container_name: grafana
+    hostname: grafana
+    image: grafana/grafana:11.5.2
+    volumes:
+      - ./grafana/provisioning/provisioning-datasources.yaml:/etc/grafana/provisioning/datasources/provisioning-datasources.yaml:ro
+    environment:
+      - GF_AUTH_ANONYMOUS_ENABLED=true
+      - GF_AUTH_ANONYMOUS_ORG_ROLE=Admin
+      - GF_AUTH_DISABLE_LOGIN_FORM=true
+      - GF_FEATURE_TOGGLES_ENABLE=traceqlEditor
+      - GF_USERS_DEFAULT_THEME=light
+    ports:
+      - 3000:3000
+    networks:
+      - internal
+      - external
+
+#-----------------------------
+# Grafana Mimir
+#-----------------------------
+
+  prometheus-mimir:
+    hostname: prometheus-mimir
+    container_name: prometheus-mimir
+    image: prom/prometheus:v3.2.1
+    command:
+      - --web.enable-remote-write-receiver
+#      - --web.enable-otlp-receiver
+      - --enable-feature=exemplar-storage
+      - --log.level=debug
+    ports:
+      - 9090:9090
+    networks:
+      - internal
+      - external
+    volumes:
+      - ./prometheus/config/prometheus-mimir.yml:/prometheus/prometheus.yml
+    depends_on:
+      - mimir-lb
+
+  mimir-lb:
+    hostname: mimir-lb
+    container_name: mimir-lb
+    image: &nginxImage nginx:1.26.3
+    volumes:
+      - ./nginx/config/nginx-mimir.conf:/etc/nginx/nginx.conf:ro
+    depends_on:
+      - mimir-1
+      - mimir-2
+    ports:
+      - 9009:9009
+    networks:
+      - internal
+      - external
+
+  mimir-1:
+    hostname: mimir-1
+    container_name: mimir-1
+    image: &mimirImage grafana/mimir:2.15.1
+    command: ["-config.file=/etc/mimir.yaml"]
+    depends_on:
+      minio-mimir:
+        condition: service_healthy
+    volumes:
+      - ./mimir/config/mimir.yaml:/etc/mimir.yaml
+      - ./mimir/config/alertmanager-fallback-config.yaml:/etc/alertmanager-fallback-config.yaml
+      - ./mimir/data/mimir-1:/data
+    networks:
+      - internal
+
+  mimir-2:
+    hostname: mimir-2
+    container_name: mimir-2
+    image: *mimirImage
+    command: ["-config.file=/etc/mimir.yaml"]
+    depends_on:
+      minio-mimir:
+        condition: service_healthy
+    volumes:
+      - ./mimir/config/mimir.yaml:/etc/mimir.yaml
+      - ./mimir/config/alertmanager-fallback-config.yaml:/etc/alertmanager-fallback-config.yaml
+      - ./mimir/data/mimir-2:/data
+    networks:
+      - internal
+
+  minio-mimir:
+    hostname: minio-mimir
+    container_name: minio-mimir
+    image: &minioImage minio/minio:RELEASE.2025-03-12T18-04-18Z
+    entrypoint: [""]
+    command: ["sh", "-c", "mkdir -p /data/mimir && minio server --console-address :9001 /data"]
+    environment:
+      MINIO_ROOT_USER: mimir
+      MINIO_ROOT_PASSWORD: ${MINIO_PASS}
+    volumes:
+      - ./minio/data/mimir:/data
+    healthcheck: *minioHealthcheck
+    ports:
+      - 9001:9001
+    networks:
+      - internal
+      - external
+
+#-----------------------------
+# Grafana Loki
+#-----------------------------
+
+  loki-lb:
+    hostname: loki-lb
+    container_name: loki-lb
+    image: *nginxImage
+    volumes:
+      - ./nginx/config/nginx-loki.conf:/etc/nginx/nginx.conf:ro
+    depends_on:
+      - loki-1
+      - loki-2
+    networks:
+      - internal
+
+  loki-1:
+    hostname: loki-1
+    container_name: loki-1
+    image: &lokiImage grafana/loki:3.4.2
+    command: -config.file=/etc/loki/local-config.yaml
+    volumes:
+      - ./loki/config/loki.yaml:/etc/loki/local-config.yaml
+    depends_on:
+      minio-loki:
+        condition: service_healthy
+    networks:
+      - internal
+
+  loki-2:
+    hostname: loki-2
+    container_name: loki-2
+    image: *lokiImage
+    command: -config.file=/etc/loki/local-config.yaml
+    volumes:
+      - ./loki/config/loki.yaml:/etc/loki/local-config.yaml
+    depends_on:
+      minio-loki:
+        condition: service_healthy
+    networks:
+      - internal
+
+  minio-loki-createbuckets:
+    hostname: minio-loki-createbuckets
+    container_name: minio-loki-createbuckets
+    image: &miniomcImage minio/mc:RELEASE.2025-03-12T17-29-24Z
+    depends_on:
+      - minio-loki
+    entrypoint: >
+      /bin/sh -c "
+      /usr/bin/mc config host add myminio http://minio-loki:9000 loki ${MINIO_PASS};
+      /usr/bin/mc rm -r --force myminio/loki;
+      /usr/bin/mc mb myminio/loki;
+      /usr/bin/mc policy set public myminio/loki;
+      exit 0;
+      "
+    networks:
+      - internal
+
+  minio-loki:
+    hostname: minio-loki
+    container_name: minio-loki
+    image: *minioImage
+    entrypoint: [""]
+    command: ["sh", "-c", "mkdir -p /data/loki && minio server --console-address :9002 /data"]
+    environment:
+      MINIO_ROOT_USER: loki
+      MINIO_ROOT_PASSWORD: ${MINIO_PASS}
+    volumes:
+      - ./minio/data/loki:/data
+    healthcheck: *minioHealthcheck
+    ports:
+      - 9002:9002
+    networks:
+      - internal
+      - external
+
+#-----------------------------
+# Grafana Tempo
+#-----------------------------
+
+  tempo-lb-otlp:
+    hostname: tempo-lb-otlp
+    container_name: tempo-lb-otlp
+    image: *nginxImage
+    volumes:
+      - ./nginx/config/nginx-tempo-otlp.conf:/etc/nginx/nginx.conf:ro
+    depends_on:
+      - tempo-1
+      - tempo-2
+    networks:
+      - internal
+
+  tempo-lb-3200:
+    hostname: tempo-lb-3200
+    container_name: tempo-lb-3200
+    image: *nginxImage
+    volumes:
+      - ./nginx/config/nginx-tempo-3200.conf:/etc/nginx/nginx.conf:ro
+    depends_on:
+      - tempo-1
+      - tempo-2
+    networks:
+      - internal
+
+  tempo-init:
+    container_name: tempo-init
+    hostname: tempo-init
+    image: &tempoImage grafana/tempo:2.7.1
+    user: root
+    entrypoint:
+      - "chown"
+      - "10001:10001"
+      - "/var/tempo-1"
+      - "/var/tempo-2"
+    volumes:
+      - ./tempo/data/tempo-1:/var/tempo-1
+      - ./tempo/data/tempo-2:/var/tempo-2
+    networks:
+      - internal
+
+  tempo-1:
+    container_name: tempo-1
+    hostname: tempo-1
+    image: *tempoImage
+    command: [ "-config.file=/etc/tempo.yaml" ]
+    volumes:
+      - ./tempo/config/tempo.yaml:/etc/tempo.yaml
+      - ./tempo/data/tempo-1:/var/tempo
+#    ports:
+#      - 3200:3200  # tempo
+#      - 4317:4317  # otlp grpc
+#      - 4318:4318  # otlp http
+    networks:
+      - internal
+    depends_on:
+      tempo-init:
+        condition: service_started
+      minio-tempo:
+        condition: service_healthy
+
+  tempo-2:
+    container_name: tempo-2
+    hostname: tempo-2
+    image: *tempoImage
+    command: [ "-config.file=/etc/tempo.yaml" ]
+    volumes:
+      - ./tempo/config/tempo.yaml:/etc/tempo.yaml
+      - ./tempo/data/tempo-2:/var/tempo
+    networks:
+      - internal
+    depends_on:
+      tempo-init:
+        condition: service_started
+      minio-tempo:
+        condition: service_healthy
+
+  minio-tempo-createbuckets:
+    hostname: minio-tempo-createbuckets
+    container_name: minio-tempo-createbuckets
+    image: *miniomcImage
+    depends_on:
+      - minio-tempo
+    entrypoint: >
+      /bin/sh -c "
+      /usr/bin/mc config host add myminio http://minio-tempo:9000 tempo ${MINIO_PASS};
+      /usr/bin/mc rm -r --force myminio/tempo;
+      /usr/bin/mc mb myminio/tempo;
+      /usr/bin/mc policy set public myminio/tempo;
+      exit 0;
+      "
+    networks:
+      - internal
+
+  minio-tempo:
+    hostname: minio-tempo
+    container_name: minio-tempo
+    image: *minioImage
+    entrypoint: [""]
+    command: ["sh", "-c", "mkdir -p /data/tempo && minio server --console-address :9003 /data"]
+    environment:
+      MINIO_ROOT_USER: tempo
+      MINIO_ROOT_PASSWORD: ${MINIO_PASS}
+    volumes:
+      - ./minio/data/tempo:/data
+    healthcheck: *minioHealthcheck
+    ports:
+      - 9003:9003
+    networks:
+      - internal
+      - external
+
+#-----------------------------
+# Grafana Pyroscope
+#-----------------------------
+
+  pyroscope:
+    container_name: pyroscope
+    hostname: pyroscope
+    image: grafana/pyroscope:1.12.0
+    ports:
+      - 4040:4040
+    networks:
+      - internal
+      - external
+
+##############################
+# obsewrvability: distributed tracing
+##############################
+
+  jaeger:
+    container_name: jaeger
+    hostname: jaeger
+    image: jaegertracing/all-in-one:1.67.0
+    ports:
+      - 16686:16686
+    networks:
+      - internal
+      - external
+    environment:
+      COLLECTOR_OTLP_ENABLED: "true"
+
+  zipkin:
+    container_name: zipkin
+    hostname: zipkin
+    image: openzipkin/zipkin:3.5.0
+    restart: always
+    ports:
+      - 9411:9411
+    networks:
+      - internal
+      - external
+
+##############################
+# otel collector
+##############################
+
+  otel-collector:
+    container_name: otel-collector
+    hostname: otel-collector
+    image: otel/opentelemetry-collector-contrib:0.119.0
+    restart: always
+    command: ["--config=/etc/otel-collector-config.yaml", ""]
+    volumes:
+      - ./otel-collector/otel-collector-config.yaml:/etc/otel-collector-config.yaml
+    ports:
+      - "1888:1888" # pprof extension
+      - "8888:8888" # Prometheus metrics exposed by the collector
+      - "8889:8889" # Prometheus exporter metrics
+      - "13133:13133" # health_check extension
+      - "4317:4317" # OTLP gRPC receiver
+      - "4318:4318" # OTLP http receiver
+      - "55679:55679" # zpages extension
+    networks:
+      - internal
+      - external
+
+##############################
+# monitored servers
+##############################
+
+  webui:
+    container_name: webui
+    hostname: webui
+    image: eclipse-temurin:21
+    ports:
+      - 8081:8081
+    networks:
+      - internal
+      - external
+    environment:
+      # variables for 'io.opentelemetry.instrumentation:opentelemetry-spring-boot-starter'
+      OTEL_EXPORTER_OTLP_ENDPOINT: "http://otel-collector:4318"
+      OTEL_SERVICE_NAME: "webui"
+      OTEL_LOG_LEVEL: "debug"
+      PYROSCOPE_APPLICATION_NAME: my.java.app.webui
+      PYROSCOPE_SERVER_ADDRESS: http://pyroscope:4040
+#    volumes:
+#      - ../webapp/webui:/webui
+#    working_dir: /webui
+#    command:
+#      - /bin/bash
+#      - -c
+#      - |
+#        ./gradlew clean
+#        ./gradlew bootRun
+    tty: true
+
+  webapi:
+    container_name: webapi
+    hostname: webapi
+    image: eclipse-temurin:21
+    ports:
+      - 8082:8082
+    networks:
+      - internal
+      - external
+    environment:
+      # variables for 'io.opentelemetry.instrumentation:opentelemetry-spring-boot-starter'
+      OTEL_EXPORTER_OTLP_ENDPOINT: "http://otel-collector:4318"
+      OTEL_SERVICE_NAME: "webapi"
+      OTEL_LOG_LEVEL: "debug"
+      PYROSCOPE_APPLICATION_NAME: my.java.app.webapi
+      PYROSCOPE_SERVER_ADDRESS: http://pyroscope:4040
+#    volumes:
+#      - ../webapp/webapi:/webapi
+#    working_dir: /webapi
+#    command:
+#      - /bin/bash
+#      - -c
+#      - |
+#        ./gradlew clean
+#        ./gradlew bootRun
+    tty: true
+
+  mysql:
+    hostname: mysql
+    container_name: mysql
+    image: mysql:8.0
+    ports:
+      - 3306:3306
+    networks:
+      - internal
+      - external
+    volumes:
+      - ./mysql/config/my.cnf:/etc/mysql/conf.d/my.cnf
+      - ./mysql/init:/docker-entrypoint-initdb.d
+    command: mysqld
+    environment:
+      MYSQL_ROOT_PASSWORD: ${ROOT_PASS}
+      MYSQL_DATABASE: ${DB_NAME}
+      MYSQL_USER: ${DB_USER}
+      MYSQL_PASSWORD: ${DB_PASS}
+      TZ: "Asia/Tokyo"
+#    logging:
+#      driver: loki
+#      options:
+#        loki-url: http://localhost:3100/loki/api/v1/push
+
+##############################
+# networks
+##############################
+
+networks:
+  internal:
+    name: intra-net
+    driver: bridge
+    internal: true
+  external:
+    name: hands-net
+    driver: bridge
+
