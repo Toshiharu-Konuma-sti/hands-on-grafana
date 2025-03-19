@@ -1,0 +1,8 @@
+		<ol>
+			<li><a th:href="${cUrl}">Normal</a></li>
+			<li><a th:href="${cUrl} + '?delay=100'" onclick="putLoadingImage();">Cause 0.1 sec delay at API</a></li>
+			<li><a th:href="${cUrl} + '?delay=1000'" onclick="putLoadingImage();">Cause 1.0 sec delay at API</a></li>
+			<li><a th:href="${cUrl} + '?delay=2000'" onclick="putLoadingImage();">Cause 2.0 sec delay at API</a></li>
+			<li><a th:href="${cUrl} + '?code=4'">Cause 4xx error at API</a></li>
+			<li><a th:href="${cUrl} + '?code=5'">Cause 5xx error at API</a></li>
+		</ol>

@@ -394,15 +394,15 @@ services:
       OTEL_LOG_LEVEL: "debug"
       PYROSCOPE_APPLICATION_NAME: my.java.app.webui
       PYROSCOPE_SERVER_ADDRESS: http://pyroscope:4040
-#    volumes:
-#      - ../webapp/webui:/webui
-#    working_dir: /webui
-#    command:
-#      - /bin/bash
-#      - -c
-#      - |
-#        ./gradlew clean
-#        ./gradlew bootRun
+    volumes:
+      - ../webapp/webui:/webui
+    working_dir: /webui
+    command:
+      - /bin/bash
+      - -c
+      - |
+        ./gradlew clean
+        ./gradlew bootRun
     tty: true
 
   webapi:
@@ -421,15 +421,15 @@ services:
       OTEL_LOG_LEVEL: "debug"
       PYROSCOPE_APPLICATION_NAME: my.java.app.webapi
       PYROSCOPE_SERVER_ADDRESS: http://pyroscope:4040
-#    volumes:
-#      - ../webapp/webapi:/webapi
-#    working_dir: /webapi
-#    command:
-#      - /bin/bash
-#      - -c
-#      - |
-#        ./gradlew clean
-#        ./gradlew bootRun
+    volumes:
+      - ../webapp/webapi:/webapi
+    working_dir: /webapi
+    command:
+      - /bin/bash
+      - -c
+      - |
+        ./gradlew clean
+        ./gradlew bootRun
     tty: true
 
   mysql:
