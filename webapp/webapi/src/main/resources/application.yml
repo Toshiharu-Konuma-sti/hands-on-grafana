@@ -1,0 +1,41 @@
+server:
+  port: 8082
+
+spring:
+  application:
+    name: webapi-app-yml
+
+  datasource:
+    url: jdbc:mysql://mysql:3306/mytest
+#    url: jdbc:mysql://localhost:3306/mytest
+    username: myuser
+    password: mypass
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa:
+    show-sql: true
+
+# variables for spring-boot-starter-actuator
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,metrics,prometheus
+  metrics:
+    distribution:
+      percentiles-histogram:
+        http.server.requests: true
+  tracing:
+    sampling:
+      probability: 1.0
+  otlp:
+    metrics:
+      export:
+        url: http://otel-collector:4318/v1/metrics
+        step: 5s
+        resourceAttributes:
+          service.name: webapi
+          service.instance.id: webapi:8082
+#    logging:
+#      endpoint: http://otel-collector:4318/v1/logs
+#    tracing:
+#      endpoint: http://otel-collector:4318/v1/traces

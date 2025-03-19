@@ -1,0 +1,50 @@
+plugins {
+	id 'java'
+	id 'org.springframework.boot' version '3.4.3'
+	id 'io.spring.dependency-management' version '1.1.7'
+}
+
+group = 'jp.sios'
+version = '0.0.1-SNAPSHOT'
+
+java {
+	toolchain {
+		languageVersion = JavaLanguageVersion.of(21)
+	}
+}
+
+repositories {
+	mavenCentral()
+}
+
+dependencies {
+
+	// fundamental libraries necessary to run the environment of Spring Boot
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+	developmentOnly 'org.springframework.boot:spring-boot-devtools'
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+
+	// libraries for Metrics in OpenTelemetry (using both OpenTelemetry and Prometheus protocol)
+	implementation 'org.springframework.boot:spring-boot-starter-actuator'
+	runtimeOnly 'io.micrometer:micrometer-registry-otlp'
+	runtimeOnly 'io.micrometer:micrometer-registry-prometheus'
+
+	// library for Logging and Tracing in OpenTelemetry
+	implementation 'io.opentelemetry.instrumentation:opentelemetry-spring-boot-starter:2.12.0'
+
+	// library for examplar
+	implementation 'io.micrometer:micrometer-tracing-bridge-otel'
+
+	// library for pyroscope
+	implementation 'io.pyroscope:agent:0.18.0'
+
+	// libraties necessary to connect to a database
+	implementation 'com.mysql:mysql-connector-j:9.2.0'
+	implementation 'org.springframework.boot:spring-boot-starter-jdbc'
+
+}
+
+tasks.named('test') {
+	useJUnitPlatform()
+}
