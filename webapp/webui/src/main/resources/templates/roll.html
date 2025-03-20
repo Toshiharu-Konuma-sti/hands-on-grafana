@@ -1,7 +1,7 @@
 <html>
 <head>
-<style th:replace="~{include/style-css}"></style>
-<script th:replace="~{include/script}"></script>
+<link rel="stylesheet" type="text/css" href="../css/main.css" th:href="@{/css/main.css}">
+<script src="../script/main.js" th:src="@{/script/main.js}"></script>
 </head>
 <body th:classappend="${dice} == '0' ? 'shake' : ''">
 <div th:replace="~{include/title-roll}">title</div>
