@@ -32,13 +32,15 @@ public class WebApiController {
 	// {{{ public ResponseEntity<Integer> rolldice(...)
 	public ResponseEntity<Integer> rolldice(
 		HttpServletRequest request,
-		@RequestParam("delay") Optional<String> optDelay, @RequestParam("code") Optional<String> optCode)
+		@RequestParam("sleep") Optional<String> optSleep,
+		@RequestParam("loop") Optional<String> optLoop,
+		@RequestParam("code") Optional<String> optCode)
 	{
 		UtilEnvInfo.logStartRequest(request);
-		logger.info("The received parameters are: delay='{}', code='{}'", optDelay, optCode);
 		UtilEnvInfo.logStartClassMethod();
+		logger.info("The received parameters are: sleep='{}', loop='{}' and code='{}'", optSleep, optLoop, optCode);
 
-		ResponseEntity<Integer> entity = service.rollDice(optDelay, optCode);
+		ResponseEntity<Integer> entity = service.rollDice(optSleep, optLoop, optCode);
 
 		UtilEnvInfo.logFinishRequest(request);
 		return entity;

@@ -7,6 +7,6 @@ import jp.sios.apisl.handson.grafana.webapp.webapi.entity.Dice;
 
 public interface WebApiService
 {
-	public ResponseEntity<Integer> rollDice(Optional<String> optDelay, Optional<String> optCode);
+	public ResponseEntity<Integer> rollDice(Optional<String> optSleep, Optional<String> optLoop, Optional<String> optCode);
 	public List<Dice> listDice();
 }

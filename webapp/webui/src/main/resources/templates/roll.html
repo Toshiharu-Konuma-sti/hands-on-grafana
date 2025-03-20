@@ -3,7 +3,7 @@
 <style th:replace="~{include/style-css}"></style>
 <script th:replace="~{include/script}"></script>
 </head>
-<body>
+<body th:classappend="${dice} == '0' ? 'shake' : ''">
 <div th:replace="~{include/title-roll}">title</div>
 <div>
 	<ul>
