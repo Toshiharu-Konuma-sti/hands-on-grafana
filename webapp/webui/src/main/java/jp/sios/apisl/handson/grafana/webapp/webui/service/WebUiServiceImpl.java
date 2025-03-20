@@ -32,14 +32,15 @@ public class WebUiServiceImpl implements WebUiService
 	}
 	// }}}
 
-	// {{{ public String callRollDiceApi(Optional<String> optDelay, Optional<String> optCode)
-	public String callRollDiceApi(Optional<String> optDelay, Optional<String> optCode)
+	// {{{ public String callRollDiceApi(Optional<String> optSleep, Optional<String> optLoop, Optional<String> optCode)
+	public String callRollDiceApi(Optional<String> optSleep, Optional<String> optLoop,  Optional<String> optCode)
 	{
 		UtilEnvInfo.logStartClassMethod();
 
 		String path = "/api/dice/v1/roll";
 		List<String> paramList = new ArrayList<String>();
-		optDelay.ifPresent(delay -> paramList.add("delay=" + delay));
+		optSleep.ifPresent(sleep -> paramList.add("sleep=" + sleep));
+		optLoop.ifPresent(loop -> paramList.add("loop=" + loop));
 		optCode.ifPresent(code -> paramList.add("code=" + code));
 		if (paramList.size() > 0) {
 			path += "?" + String.join("&", paramList);

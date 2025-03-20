@@ -28,41 +28,70 @@ public class WebApiServiceImpl implements WebApiService
 	}
 	// }}}
 
-	// {{{ public ResponseEntity<Integer> rollDice(Optional<String> optDelay, Optional<String> optCode)
-	public ResponseEntity<Integer> rollDice(Optional<String> optDelay, Optional<String> optCode)
+	// {{{ public ResponseEntity<Integer> rollDice(Optional<String> optSleep, Optional<String> optLoop, Optional<String> optCode)
+	public ResponseEntity<Integer> rollDice(Optional<String> optSleep, Optional<String> optLoop, Optional<String> optCode)
 	{
 		UtilEnvInfo.logStartClassMethod();
-		logger.info("The received parameters are: delay='{}', code='{}'", optDelay, optCode);
+		logger.info("The received parameters are: sleep='{}', loop='{}' and code='{}'", optSleep, optLoop, optCode);
 
-		this.delay(optDelay);
+		this.sleep(optSleep);
+		this.loop(optLoop);
 		HttpStatusCode httpStatus = this.makeHttpStatus(optCode);
-		int value = this.roll(httpStatus);
-		this.insertDice(value);
+		int value = 0;
+		if (httpStatus == HttpStatus.OK) {
+			value = this.roll(httpStatus);
+			this.insertDice(value);
+		}
 		ResponseEntity entity = new ResponseEntity<>(value, httpStatus);
 
 		return entity;
 	}
 	// }}}
 
-	// {{{ private void delay(Optional<String> optDelay)
-	private void delay(Optional<String> optDelay)
+	// {{{ private void sleep(Optional<String> optSleep)
+	private void sleep(Optional<String> optSleep)
 	{
 		UtilEnvInfo.logStartClassMethod();
 
-		if (optDelay.isPresent()) {
+		if (optSleep.isPresent()) {
 			try {
-				int delay = Integer.parseInt(optDelay.get());
-				logger.warn("!!! The delay is: {} ms !!!", delay);
+				int milliSecond = Integer.parseInt(optSleep.get());
+				logger.warn("!!! The sleep is: {} ms !!!", milliSecond);
 				try {
-					Thread.sleep(delay);
-					logger.warn("!!! The delay has finnished !!!");
+					Thread.sleep(milliSecond);
+					logger.warn("!!! The sleep has finnished !!!");
 				} 
 				catch(InterruptedException ex) {
 					logger.error("The exception was happened with sleep(): '{}'", ex);
 				}
 			}
 			catch(NumberFormatException ex) {
-				logger.error("The processing of delay was skipped, because the value of parameter was not a number: '{}'", optDelay.get());
+				logger.error("The processing of sleep was skipped, because the value of parameter was not an integer: '{}'", optSleep.get());
+			}
+		}
+		return;
+	}
+	// }}}
+
+	// {{{ private void loop(Optional<String> optLoop)
+	private void loop(Optional<String> optLoop)
+	{
+		UtilEnvInfo.logStartClassMethod();
+
+		if (optLoop.isPresent()) {
+			try {
+				int loopCount = Integer.parseInt(optLoop.get());
+				int interval = loopCount / 5;
+				logger.warn("!!! The loop is: {} count !!!", loopCount);
+				for (int i = 1; i <= loopCount; i++) {
+					if ((i != 0) && ((i % interval) == 0)) {
+						logger.warn("The progress of loop is: {}/{} count", String.format("%,d", i), String.format("%,d", loopCount));
+					}
+				}
+				logger.warn("!!! The loop has finnished !!!");
+			}
+			catch(NumberFormatException ex) {
+				logger.error("The processing of loop was skipped, because the value of parameter was not an integer: '{}'", optLoop.get());
 			}
 		}
 		return;
@@ -103,13 +132,8 @@ public class WebApiServiceImpl implements WebApiService
 	{
 		UtilEnvInfo.logStartClassMethod();
 
-		int value = 0;
-		if (httpStatus == HttpStatus.OK) {
-			value = this.getRandomNumber(1, 6);
-			logger.info("The value of dice is: '{}'", value);
-		} else {
-			logger.warn("The value not to roll is: {}, and the http status code is: '{}'", value, httpStatus);
-		}
+		int value = this.getRandomNumber(1, 6);
+		logger.info("The value of dice is: '{}'", value);
 
 		return value;
 	}
