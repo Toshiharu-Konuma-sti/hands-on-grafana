@@ -42,13 +42,15 @@ public class WebUiController
 	// {{{ public ModelAndView index(...)
 	public ModelAndView roll(
 		HttpServletRequest request, ModelAndView model,
-		@RequestParam("delay") Optional<String> optDelay, @RequestParam("code") Optional<String> optCode)
+		@RequestParam("sleep") Optional<String> optSleep,
+		@RequestParam("loop") Optional<String> optLoop,
+		@RequestParam("code") Optional<String> optCode)
 	{
 		UtilEnvInfo.logStartRequest(request);
-		logger.info("The received request parameters are: delay='{}', code='{}'", optDelay, optCode);
+		logger.info("The received request parameters are: sleep='{}', loop='{}' and code='{}'", optSleep, optLoop, optCode);
 		UtilEnvInfo.logStartClassMethod();
 
-		String dice = this.service.callRollDiceApi(optDelay, optCode);
+		String dice = this.service.callRollDiceApi(optSleep, optLoop, optCode);
 		JSONArray diceList = this.service.callListDiceApi();
 		String currentUrl = this.service.getCurrentUrl(request);
 

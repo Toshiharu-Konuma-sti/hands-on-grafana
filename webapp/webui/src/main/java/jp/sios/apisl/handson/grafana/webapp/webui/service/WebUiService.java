@@ -6,7 +6,7 @@ import org.json.JSONArray;
 
 public interface WebUiService
 {
-	public String callRollDiceApi(Optional<String> optDelay, Optional<String> optCode);
+	public String callRollDiceApi(Optional<String> optSleep, Optional<String> optLoop, Optional<String> optCode);
 	public JSONArray callListDiceApi();
 	public String getCurrentUrl(HttpServletRequest request);
 }
