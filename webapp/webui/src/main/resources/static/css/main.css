@@ -1,4 +1,3 @@
-<style type="text/css">
 .main {
 	display: flex;
 }
@@ -29,4 +28,3 @@ td {
 	animation:rumble 0.1s linear 4;
 	background-color: lightpink;
 }
-</style>
