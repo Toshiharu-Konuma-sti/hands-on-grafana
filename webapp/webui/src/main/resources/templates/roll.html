@@ -1,13 +1,10 @@
 <html>
-<head>
-<link rel="stylesheet" type="text/css" href="../css/main.css" th:href="@{/css/main.css}">
-<script src="../script/main.js" th:src="@{/script/main.js}"></script>
-</head>
+<head th:replace="~{include/head}"></head>
 <body th:classappend="${dice} == '0' ? 'shake' : ''">
 <div th:replace="~{include/title-roll}">title</div>
 <div>
 	<ul>
-		<li><a href="/list">&#x21CC; Swith to /list</a></li>
+		<li><a href="/list">&#x21CC; Switch to /list</a></li>
 	</ul>
 </div>
 <div class="main">

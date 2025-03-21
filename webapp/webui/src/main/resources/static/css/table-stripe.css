@@ -1,0 +1,9 @@
+table th {
+	background: lightcyan;
+}
+table td {
+	background: #eee;
+}
+table tr:nth-child(odd) td {
+	background: #fff;
+}
