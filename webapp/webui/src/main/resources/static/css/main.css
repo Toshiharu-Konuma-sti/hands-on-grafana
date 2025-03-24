@@ -15,9 +15,13 @@ body {
 	margin-right: 16px;
 }
 table {
-	border-spacing: 10px;
+	border-spacing: 5px;
+}
+table th {
+	padding: 5px;
 }
 table td {
+	padding: 5px;
 	text-align: center;
 }
 .negation {

@@ -1,5 +1,6 @@
 table th {
-	background: lightcyan;
+	background: darkcyan;
+	color: white;
 }
 table td {
 	background: #eee;
