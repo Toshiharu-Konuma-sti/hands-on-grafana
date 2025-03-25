@@ -16,6 +16,12 @@ datasources:
       exemplarTraceIdDestinations:
         - name: trace_id
           datasourceUid: tempo
+        - name: trace_id
+          url: http://localhost:16686/trace/$${__value.raw}
+          urlDisplayLabel: Jaeger
+        - name: trace_id
+          url: http://localhost:9411/zipkin/traces/$${__value.raw}
+          urlDisplayLabel: Zipkin
     secureJsonData:
       httpHeaderValue1: "tenant-metrics"
     isDefault: false
