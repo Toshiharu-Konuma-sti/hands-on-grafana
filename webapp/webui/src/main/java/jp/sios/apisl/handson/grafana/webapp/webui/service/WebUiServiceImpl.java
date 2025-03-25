@@ -36,6 +36,7 @@ public class WebUiServiceImpl implements WebUiService
 	public String callRollDiceApi(Optional<String> optSleep, Optional<String> optLoop,  Optional<String> optCode)
 	{
 		UtilEnvInfo.logStartClassMethod();
+		logger.info("The received request parameters are: sleep='{}', loop='{}' and code='{}'", optSleep, optLoop, optCode);
 
 		String path = "/api/dice/v1/roll";
 		List<String> paramList = new ArrayList<String>();

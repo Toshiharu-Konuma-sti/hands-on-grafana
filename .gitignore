@@ -1,4 +1,6 @@
 
+*.swp
+
 container/mimir/data/
 container/minio/data/
 container/tempo/data/

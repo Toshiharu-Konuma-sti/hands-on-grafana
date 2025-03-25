@@ -16,6 +16,12 @@ datasources:
       exemplarTraceIdDestinations:
         - name: trace_id
           datasourceUid: tempo
+        - name: trace_id
+          url: http://localhost:16686/trace/$${__value.raw}
+          urlDisplayLabel: Jaeger
+        - name: trace_id
+          url: http://localhost:9411/zipkin/traces/$${__value.raw}
+          urlDisplayLabel: Zipkin
     secureJsonData:
       httpHeaderValue1: "tenant-metrics"
     isDefault: false
@@ -50,6 +56,18 @@ datasources:
           matcherType: label
           matcherRegex: trace_id
           url: $${__value.raw}
+        - name: Jaeger
+          matcherType: label
+          matcherRegex: trace_id
+          targetBlank: true
+          url: http://localhost:16686/trace/$${__value.raw}
+          urlDisplayLabel: Jaeger
+        - name: Zipkin
+          matcherType: label
+          matcherRegex: trace_id
+          targetBlank: true
+          url: http://localhost:9411/zipkin/traces/$${__value.raw}
+          urlDisplayLabel: Zipkin
 
   - name: Tempo
     type: tempo
@@ -71,6 +89,18 @@ datasources:
         spanStartTimeShift: '-1s'
       nodeGraph:
         enabled: true
+      tracesToMetrics:
+        datasourceUid: mimir-tenant-metrice
+        queries:
+          - name: p99 latency
+            query: "histogram_quantile(.99, sum(rate(http_server_requests_seconds_bucket{$__tags}[1m])) by (le))"
+        spanStartTimeShift: -10m
+        spanEndTimeShift: 10m
+        tags:
+          - key: service.name
+            value: server_address
+          - key: job
+            value: ""
 
   - name: Pyroscope
     type: grafana-pyroscope-datasource
