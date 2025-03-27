@@ -9,7 +9,10 @@ echo "# START SCRIPT"
 echo "############################################################"
 
 echo "\n### START: Destory existing containers ##########"
-docker-compose down -v --remove-orphans
+docker-compose \
+	-f docker-compose.yml \
+	-f docker-compose-app.yml \
+	down -v --remove-orphans
 
 #	echo "\n### START: Delete the existing data directory for Tempo ##########"
 #	#	TMP_DAT_DIR=$CUR_DIR/tempo/data/
@@ -27,7 +30,10 @@ docker-compose down -v --remove-orphans
 #	#	docker plugin install grafana/loki-docker-driver:latest --alias loki --grant-all-permissions
 
 echo "\n### START: Create new containers ##########"
-docker-compose up -d -V --remove-orphans
+docker-compose \
+	-f docker-compose.yml \
+	-f docker-compose-app.yml \
+	up -d -V --remove-orphans
 
 echo "\n### START: Show a list of container ##########"
 docker ps -a
