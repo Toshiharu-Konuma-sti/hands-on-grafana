@@ -32,17 +32,17 @@ public class WebUiServiceImpl implements WebUiService
 	}
 	// }}}
 
-	// {{{ public String callRollDiceApi(Optional<String> optSleep, Optional<String> optLoop, Optional<String> optCode)
-	public String callRollDiceApi(Optional<String> optSleep, Optional<String> optLoop,  Optional<String> optCode)
+	// {{{ public String callRollDiceApi(Optional<String> optSleep, Optional<String> optLoop, Optional<String> optError)
+	public String callRollDiceApi(Optional<String> optSleep, Optional<String> optLoop,  Optional<String> optError)
 	{
 		UtilEnvInfo.logStartClassMethod();
-		logger.info("The received request parameters are: sleep='{}', loop='{}' and code='{}'", optSleep, optLoop, optCode);
+		logger.info("The received request parameters are: sleep='{}', loop='{}' and error='{}'", optSleep, optLoop, optError);
 
 		String path = "/api/dice/v1/roll";
 		List<String> paramList = new ArrayList<String>();
 		optSleep.ifPresent(sleep -> paramList.add("sleep=" + sleep));
 		optLoop.ifPresent(loop -> paramList.add("loop=" + loop));
-		optCode.ifPresent(code -> paramList.add("code=" + code));
+		optError.ifPresent(error -> paramList.add("error=" + error));
 		if (paramList.size() > 0) {
 			path += "?" + String.join("&", paramList);
 		}

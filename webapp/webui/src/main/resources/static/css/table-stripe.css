@@ -2,9 +2,9 @@ table th {
 	background: darkcyan;
 	color: white;
 }
-table td {
+.content-body-history table td {
 	background: #eee;
 }
-table tr:nth-child(odd) td {
+.content-body-history table tr:nth-child(odd) td {
 	background: #fff;
 }

@@ -9,6 +9,5 @@
 			<li><a th:href="${cUrl} + '?loop=1000000000'" onclick="putLoadingImage();">Loop 1B count at API</a></li>
 			<li><a th:href="${cUrl} + '?loop=2000000000'" onclick="putLoadingImage();">Loop 2B count at API</a></li>
 
-			<li><a th:href="${cUrl} + '?code=4'">Cause 4xx error at API</a></li>
-			<li><a th:href="${cUrl} + '?code=5'">Cause 5xx error at API</a></li>
+			<li><a th:href="${cUrl} + '?error=1'">Cause 5xx error at API</a></li>
 		</ol>

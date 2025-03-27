@@ -28,20 +28,23 @@ public class WebApiServiceImpl implements WebApiService
 	}
 	// }}}
 
-	// {{{ public ResponseEntity<Integer> rollDice(Optional<String> optSleep, Optional<String> optLoop, Optional<String> optCode)
-	public ResponseEntity<Integer> rollDice(Optional<String> optSleep, Optional<String> optLoop, Optional<String> optCode)
+	// {{{ public ResponseEntity<Integer> rollDice(Optional<String> optSleep, Optional<String> optLoop, Optional<String> optError)
+	public ResponseEntity<Integer> rollDice(Optional<String> optSleep, Optional<String> optLoop, Optional<String> optError)
 	{
 		UtilEnvInfo.logStartClassMethod();
-		logger.info("The received parameters are: sleep='{}', loop='{}' and code='{}'", optSleep, optLoop, optCode);
+		logger.info("The received parameters are: sleep='{}', loop='{}' and error='{}'", optSleep, optLoop, optError);
 
 		this.sleep(optSleep);
 		this.loop(optLoop);
-		HttpStatusCode httpStatus = this.makeHttpStatus(optCode);
+		HttpStatusCode httpStatus = this.makeHttpStatus(optError);
 		int value = 0;
-		if (httpStatus == HttpStatus.OK) {
-			value = this.roll(httpStatus);
-			this.insertDice(value);
+		if (httpStatus != HttpStatus.OK) {
+			ResponseEntity entity = new ResponseEntity<>(value, httpStatus);
+			return entity;
 		}
+
+		value = this.roll(httpStatus);
+		this.insertDice(value);
 		ResponseEntity entity = new ResponseEntity<>(value, httpStatus);
 
 		return entity;
@@ -98,24 +101,21 @@ public class WebApiServiceImpl implements WebApiService
 	}
 	// }}}
 
-	// {{{ private HttpStatusCode makeHttpStatus(Optional<String> optCode)
-	private HttpStatusCode makeHttpStatus(Optional<String> optCode)
+	// {{{ private HttpStatusCode makeHttpStatus(Optional<String> optError)
+	private HttpStatusCode makeHttpStatus(Optional<String> optError)
 	{
 		UtilEnvInfo.logStartClassMethod();
 
 		HttpStatusCode httpStatus = HttpStatus.OK;
 
-		if (optCode.isPresent()) {
-			String code = optCode.get();
-			logger.info("The code in parameter is: '{}'", code);
-			if (code.equals("4")) {
-				httpStatus = HttpStatus.FORBIDDEN;
-			}
-			else if (code.equals("5")) {
+		if (optError.isPresent()) {
+			String error = optError.get();
+			logger.info("The error in parameter is: '{}'", error);
+			if (error.equals("1")) {
 				httpStatus = HttpStatus.INTERNAL_SERVER_ERROR;
 			}
 			if (httpStatus == HttpStatus.OK) {
-				logger.warn("The retruning an intended http status code was skipped, because a code is without regulations: '{}'", code);
+				logger.warn("The retruning an intended http status code was skipped, because an error is without regulations: '{}'", error);
 			} else {
 				logger.error("!!! The intended http status code will be occured: '{}' !!!", httpStatus);
 			}

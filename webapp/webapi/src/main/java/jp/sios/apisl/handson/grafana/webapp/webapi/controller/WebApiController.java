@@ -34,13 +34,13 @@ public class WebApiController {
 		HttpServletRequest request,
 		@RequestParam("sleep") Optional<String> optSleep,
 		@RequestParam("loop") Optional<String> optLoop,
-		@RequestParam("code") Optional<String> optCode)
+		@RequestParam("error") Optional<String> optError)
 	{
 		UtilEnvInfo.logStartRequest(request);
 		UtilEnvInfo.logStartClassMethod();
-		logger.info("The received parameters are: sleep='{}', loop='{}' and code='{}'", optSleep, optLoop, optCode);
+		logger.info("The received parameters are: sleep='{}', loop='{}' and error='{}'", optSleep, optLoop, optError);
 
-		ResponseEntity<Integer> entity = service.rollDice(optSleep, optLoop, optCode);
+		ResponseEntity<Integer> entity = service.rollDice(optSleep, optLoop, optError);
 
 		UtilEnvInfo.logFinishRequest(request);
 		return entity;
