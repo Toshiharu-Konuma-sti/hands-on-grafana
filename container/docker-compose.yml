@@ -81,7 +81,6 @@ services:
         condition: service_healthy
     volumes:
       - ./mimir/config/mimir.yaml:/etc/mimir.yaml
-      - ./mimir/config/alertmanager-fallback-config.yaml:/etc/alertmanager-fallback-config.yaml
       - ./mimir/data/mimir-1:/data
     networks:
       - internal
@@ -96,7 +95,6 @@ services:
         condition: service_healthy
     volumes:
       - ./mimir/config/mimir.yaml:/etc/mimir.yaml
-      - ./mimir/config/alertmanager-fallback-config.yaml:/etc/alertmanager-fallback-config.yaml
       - ./mimir/data/mimir-2:/data
     networks:
       - internal
