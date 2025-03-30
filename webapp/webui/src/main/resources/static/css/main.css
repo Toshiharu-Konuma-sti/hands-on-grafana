@@ -11,9 +11,9 @@ body {
 .content-body {
 	display: flex;
 }
-.content-body-dice {
-	margin-right: 16px;
-}
+//.content-body-dice {
+//	margin-right: 16px;
+//}
 table {
 	border-spacing: 5px;
 }
