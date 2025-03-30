@@ -28,19 +28,9 @@ public class WebUiController
 	}
 	// }}}
 
-	@GetMapping(value = {"/"})
-	// {{{ public String index(HttpServletRequest request)
-	public String index(HttpServletRequest request)
-	{
-		UtilEnvInfo.logStartRequest(request);
-		UtilEnvInfo.logFinishRequest(request);
-		return "redirect:/roll";
-	}
-	// }}}
-
-	@RequestMapping(value = {"/roll"})
+	@RequestMapping(value = {"/"})
 	// {{{ public ModelAndView index(...)
-	public ModelAndView roll(
+	public ModelAndView index(
 		HttpServletRequest request, ModelAndView model,
 		@RequestParam("sleep") Optional<String> optSleep,
 		@RequestParam("loop") Optional<String> optLoop,
@@ -58,40 +48,11 @@ public class WebUiController
 		model.addObject("list", diceList);
 		model.addObject("cUrl", currentUrl);
 
-		model.setViewName("roll");
+		model.setViewName("index");
 
 		UtilEnvInfo.logFinishRequest(request);
 		return model;
 	}
 	// }}}
-
-	@RequestMapping(value = {"/list"})
-	// {{{ public ModelAndView list(...)
-	public ModelAndView list(
-		HttpServletRequest request, ModelAndView model)
-	{
-		UtilEnvInfo.logStartRequest(request);
-		UtilEnvInfo.logStartClassMethod();
-
-		JSONArray diceList = this.service.callListDiceApi();
-		String currentUrl = this.service.getCurrentUrl(request);
-
-		int dice = 0;
-		if (diceList.length() > 0) {
-			JSONObject row = diceList.getJSONObject(0);
-			dice = row.getInt("value");
-		}
-
-		model.addObject("dice", dice);
-		model.addObject("list", diceList);
-		model.addObject("cUrl", currentUrl);
-
-		model.setViewName("list");
-
-		UtilEnvInfo.logFinishRequest(request);
-		return model;
-	}
-	// }}}
-
 
 }

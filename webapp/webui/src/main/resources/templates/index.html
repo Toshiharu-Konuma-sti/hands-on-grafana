@@ -1,18 +1,13 @@
 <html>
 <head th:replace="~{include/head}"></head>
 <body th:classappend="${dice} == '0' ? 'shake' : ''">
-<div th:replace="~{include/title-roll}">title</div>
-<div>
-	<ul>
-		<li><a href="/list">&#x21CC; Switch to /list</a></li>
-	</ul>
-</div>
+<div th:replace="~{include/title}">title</div>
 <div class="main">
 	<div class="menu">
 		<div class="menu-title">
 			<h2>Roll a dice</h2>
 		</div>
-		<div th:replace="~{include/menu-item-roll}">title</div>
+		<div th:replace="~{include/menu-item}">title</div>
 	</div>
 	<div class="content">
 		<div class="content-title">
