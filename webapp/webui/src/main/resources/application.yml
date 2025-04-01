@@ -31,6 +31,23 @@ management:
 #    tracing:
 #      endpoint: http://otel-collector:4318/v1/traces
 
+# variables for 'io.opentelemetry.instrumentation:opentelemetry-spring-boot-starter'
+otel:
+  exporter:
+    otlp:
+      endpoint: http://otel-collector:4318
+  service:
+    name: webui
+  log:
+    level: debug
+
+# variables for 'io.pyroscope:agent'
+pyroscope:
+  application:
+    name: my.java.app.webui
+  server:
+    address: http://pyroscope:4040
+
 handson:
   webapi:
     host: webapi:8082
