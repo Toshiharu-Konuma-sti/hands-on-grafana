@@ -210,12 +210,12 @@ services:
     networks:
       - internal
 
-  tempo-lb-3200:
-    hostname: tempo-lb-3200
-    container_name: tempo-lb-3200
+  tempo-lb-view:
+    hostname: tempo-lb-view
+    container_name: tempo-lb-view
     image: *nginxImage
     volumes:
-      - ./nginx/config/nginx-tempo-3200.conf:/etc/nginx/nginx.conf:ro
+      - ./nginx/config/nginx-tempo-view.conf:/etc/nginx/nginx.conf:ro
     depends_on:
       - tempo-1
       - tempo-2
@@ -246,10 +246,6 @@ services:
     volumes:
       - ./tempo/config/tempo.yaml:/etc/tempo.yaml
       - ./tempo/data/tempo-1:/var/tempo
-#    ports:
-#      - 3200:3200  # tempo
-#      - 4317:4317  # otlp grpc
-#      - 4318:4318  # otlp http
     networks:
       - internal
     depends_on:

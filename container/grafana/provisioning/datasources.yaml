@@ -72,7 +72,7 @@ datasources:
     uid: tempo
     access: proxy
     orgId: 1
-    url: http://tempo-lb-3200:9009
+    url: http://tempo-lb-view:9009
     editable: true
     isDefault: false
     jsonData:
