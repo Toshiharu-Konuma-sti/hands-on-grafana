@@ -1,7 +1,6 @@
 auth_enabled: false
 
 server:
-  http_listen_port: 3100
   log_level: debug
 
 common:
@@ -31,5 +30,5 @@ schema_config:
 
 memberlist:
   join_members:
-  - loki-1:7946
-  - loki-2:7946
+    - loki-1
+    - loki-2

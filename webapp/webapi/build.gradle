@@ -30,11 +30,11 @@ dependencies {
 	runtimeOnly 'io.micrometer:micrometer-registry-otlp'
 	runtimeOnly 'io.micrometer:micrometer-registry-prometheus'
 
+	// library for Metrics to enable an exemplar
+	implementation 'io.micrometer:micrometer-tracing-bridge-otel'
+
 	// library for Logging and Tracing in OpenTelemetry
 	implementation 'io.opentelemetry.instrumentation:opentelemetry-spring-boot-starter:2.12.0'
-
-	// library for examplar
-	implementation 'io.micrometer:micrometer-tracing-bridge-otel'
 
 	// library for pyroscope
 	implementation 'io.pyroscope:agent:0.18.0'

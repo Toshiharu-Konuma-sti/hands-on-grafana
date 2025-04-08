@@ -15,14 +15,6 @@ services:
     networks:
       - internal
       - external
-    environment:
-      # variables for 'io.opentelemetry.instrumentation:opentelemetry-spring-boot-starter'
-      OTEL_EXPORTER_OTLP_ENDPOINT: "http://otel-collector:4318"
-      OTEL_SERVICE_NAME: "webui"
-      OTEL_LOG_LEVEL: "debug"
-      # variables for 'io.pyroscope:agent'
-      PYROSCOPE_APPLICATION_NAME: my.java.app.webui
-      PYROSCOPE_SERVER_ADDRESS: http://pyroscope:4040
     volumes:
       - ../webapp/webui:/webui
     working_dir: /webui
@@ -43,14 +35,6 @@ services:
     networks:
       - internal
       - external
-    environment:
-      # variables for 'io.opentelemetry.instrumentation:opentelemetry-spring-boot-starter'
-      OTEL_EXPORTER_OTLP_ENDPOINT: "http://otel-collector:4318"
-      OTEL_SERVICE_NAME: "webapi"
-      OTEL_LOG_LEVEL: "debug"
-      # variables for 'io.pyroscope:agent'
-      PYROSCOPE_APPLICATION_NAME: my.java.app.webapi
-      PYROSCOPE_SERVER_ADDRESS: http://pyroscope:4040
     volumes:
       - ../webapp/webapi:/webapi
     working_dir: /webapi
