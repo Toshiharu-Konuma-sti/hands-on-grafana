@@ -8,11 +8,11 @@ distributor:
   ring:
     kvstore:
       store: memberlist
-  receivers:                           # this configuration will listen on all ports and protocols that tempo is capable of.
-    jaeger:                            # the receives all come from the OpenTelemetry collector.  more configuration information can
-      protocols:                       # be found there: https://github.com/open-telemetry/opentelemetry-collector/tree/main/receiver
-        thrift_http:                   #
-          endpoint: ":14268"      # for a production deployment you should only enable the receivers you need!
+  receivers:
+    jaeger:
+      protocols:
+        thrift_http:
+          endpoint: ":14268"
         grpc:
           endpoint: ":14250"
         thrift_binary:
@@ -43,6 +43,9 @@ compactor:
       store: memberlist
 
 metrics_generator:
+  ring:
+    kvstore:
+      store: memberlist
   storage:
     path: /var/tempo/generator/wal
     remote_write:
