@@ -1,0 +1,13 @@
+apiVersion: 1
+
+contactPoints:
+
+  - name: "My 1st Contact E-mail"
+    orgId: 1
+    receivers:
+      - uid: my-1st-contact-email
+        type: email
+        settings:
+          addresses: target-address@test.com
+          singleEmail: false
+        disableResolveMessage: false

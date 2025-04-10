@@ -21,12 +21,15 @@ services:
       - ./grafana/provisioning/datasources.yaml:/etc/grafana/provisioning/datasources/datasources.yaml:ro
       - ./grafana/provisioning/dashboards.yaml:/etc/grafana/provisioning/dashboards/dashboards.yaml:ro
       - ./grafana/provisioning/dashboards/my-explore-collection.json:/etc/grafana/provisioning/dashboards/my-explore-collection.json:ro
+      - ./grafana/provisioning/alerting:/etc/grafana/provisioning/alerting
     environment:
       - GF_AUTH_ANONYMOUS_ENABLED=true
       - GF_AUTH_ANONYMOUS_ORG_ROLE=Admin
       - GF_AUTH_DISABLE_LOGIN_FORM=true
       - GF_FEATURE_TOGGLES_ENABLE=traceqlEditor
       - GF_USERS_DEFAULT_THEME=light
+      - GF_SMTP_ENABLED=true
+      - GF_SMTP_HOST=maildev:1025
     ports:
       - 3000:3000
     networks:
@@ -366,6 +369,21 @@ services:
       - "4317:4317" # OTLP gRPC receiver
       - "4318:4318" # OTLP http receiver
       - "55679:55679" # zpages extension
+    networks:
+      - internal
+      - external
+
+##############################
+# smtp mock server
+##############################
+
+  maildev:
+    container_name: maildev
+    hostname: maildev
+    image: maildev/maildev
+    ports:
+      - "1080:1080"
+      - "1025:1025"
     networks:
       - internal
       - external

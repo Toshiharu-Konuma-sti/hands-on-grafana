@@ -59,6 +59,8 @@ cat << EOS
  *   - micrometer: http://localhost:8081/actuator for webui
  *   - webapi:     http://localhost:8082/api/dice/v1/roll
  *   - webapi:     http://localhost:8082/api/dice/v1/list
+ * - Access to server to use a hands-on with the URL below.
+ *   - MailDev:    http://localhost:1080/
  ***********************************************************/
 
 EOS
