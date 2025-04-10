@@ -46,6 +46,7 @@ cat << EOS
  *   - Grafana:    http://localhost:3000
  *     - dashboard(Prometheus):    https://grafana.com/grafana/dashboards/4701-jvm-micrometer/
  *     - dashboard(OpenTelemetry): https://grafana.com/grafana/dashboards/20352-opentelemetry-jvm-micrometer/
+ *   - MailDev:    http://localhost:1080
  *   - Prometheus: http://localhost:9090 for Mimir
  *   - Mimir:      http://localhost:9009
  *   - MINIO:      http://localhost:9001 for Mimir
@@ -59,8 +60,6 @@ cat << EOS
  *   - micrometer: http://localhost:8081/actuator for webui
  *   - webapi:     http://localhost:8082/api/dice/v1/roll
  *   - webapi:     http://localhost:8082/api/dice/v1/list
- * - Access to server to use a hands-on with the URL below.
- *   - MailDev:    http://localhost:1080/
  ***********************************************************/
 
 EOS
