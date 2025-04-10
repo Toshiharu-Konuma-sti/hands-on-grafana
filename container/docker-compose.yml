@@ -18,10 +18,10 @@ services:
     hostname: grafana
     image: grafana/grafana:11.5.2
     volumes:
-      - ./grafana/provisioning/datasources.yaml:/etc/grafana/provisioning/datasources/datasources.yaml:ro
-      - ./grafana/provisioning/dashboards.yaml:/etc/grafana/provisioning/dashboards/dashboards.yaml:ro
+      - ./grafana/provisioning/datasources/datasources.yaml:/etc/grafana/provisioning/datasources/datasources.yaml:ro
+      - ./grafana/provisioning/dashboards/dashboards.yaml:/etc/grafana/provisioning/dashboards/dashboards.yaml:ro
       - ./grafana/provisioning/dashboards/my-explore-collection.json:/etc/grafana/provisioning/dashboards/my-explore-collection.json:ro
-      - ./grafana/provisioning/alerting:/etc/grafana/provisioning/alerting
+      - ./grafana/provisioning/alerting:/etc/grafana/provisioning/alerting:ro
     environment:
       - GF_AUTH_ANONYMOUS_ENABLED=true
       - GF_AUTH_ANONYMOUS_ORG_ROLE=Admin
