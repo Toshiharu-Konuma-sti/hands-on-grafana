@@ -5,9 +5,9 @@
 			<li><a th:href="${cUrl} + '?sleep=1000'" onclick="putLoadingImage();">Sleep 1.0 sec at API</a></li>
 			<li><a th:href="${cUrl} + '?sleep=2000'" onclick="putLoadingImage();">Sleep 2.0 sec at API</a></li>
 
-			<li><a th:href="${cUrl} + '?loop=500000000'" onclick="putLoadingImage();">Loop 500M count at API</a></li>
-			<li><a th:href="${cUrl} + '?loop=1000000000'" onclick="putLoadingImage();">Loop 1B count at API</a></li>
-			<li><a th:href="${cUrl} + '?loop=2000000000'" onclick="putLoadingImage();">Loop 2B count at API</a></li>
+			<li><a th:href="${cUrl} + '?loop=1000000'" onclick="putLoadingImage();">Loop 1M count at API</a></li>
+			<li><a th:href="${cUrl} + '?loop=3000000'" onclick="putLoadingImage();">Loop 3M count at API</a></li>
+			<li><a th:href="${cUrl} + '?loop=5000000'" onclick="putLoadingImage();">Loop 5M count at API</a></li>
 
 			<li><a th:href="${cUrl} + '?error=1'">Cause 5xx error at API</a></li>
 		</ol>

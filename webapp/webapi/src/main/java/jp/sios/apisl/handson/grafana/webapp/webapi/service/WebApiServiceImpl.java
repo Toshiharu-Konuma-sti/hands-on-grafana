@@ -1,19 +1,19 @@
 package jp.sios.apisl.handson.grafana.webapp.webapi.service;
 
-import java.util.List;
-import java.time.LocalDateTime;
-import java.util.Optional;
-import java.util.concurrent.ThreadLocalRandom;
-import java.io.InputStream;
 import java.io.BufferedReader;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.IOException;
+import java.time.LocalDateTime;
+import java.util.List;
+import java.util.Optional;
+import java.util.concurrent.ThreadLocalRandom;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
-import org.springframework.core.io.ClassPathResource;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 import jp.sios.apisl.handson.grafana.webapp.webapi.entity.Dice;
@@ -23,6 +23,7 @@ import jp.sios.apisl.handson.grafana.webapp.webapi.util.UtilEnvInfo;
 public class WebApiServiceImpl implements WebApiService
 {
 
+	private static final String READ_FILE_PATH_IN_LOOP = "application.yml";
 	private static final Logger logger = LoggerFactory.getLogger(WebApiServiceImpl.class);
 	private final JdbcTemplate jdbcTemplate;
 
@@ -90,29 +91,40 @@ public class WebApiServiceImpl implements WebApiService
 			try {
 				int loopCount = Integer.parseInt(optLoop.get());
 				int interval = loopCount / 5;
+				String line = null;
 				logger.warn("!!! The loop is: {} count !!!", loopCount);
 				for (int i = 1; i <= loopCount; i++) {
 
-					try (InputStream inputStream = new ClassPathResource("application.yml").getInputStream()) {
-						logger.debug("Successfully loaded a file.");
-						BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
-						String line = reader.readLine();
-						logger.debug("Read line: {}", line);
-					} catch (IOException ex) {
-						logger.error("Failed to load a file: '{}'", ex.getMessage());
-					}
+					line = this.readFile(WebApiServiceImpl.READ_FILE_PATH_IN_LOOP);
 					
 					if ((i != 0) && ((i % interval) == 0)) {
 						logger.warn("The progress of loop is: {}/{} count", String.format("%,d", i), String.format("%,d", loopCount));
 					}
 				}
-				logger.warn("!!! The loop has finnished !!!");
+				logger.warn("!!! The loop has finnished !!! : The read text is: '{}'", line);
 			}
 			catch(NumberFormatException ex) {
 				logger.error("The processing of loop was skipped, because the value of parameter was not an integer: '{}'", optLoop.get());
 			}
 		}
 		return;
+	}
+	// }}}
+
+	// {{{ private String readFile(String filePath)
+	private String readFile(String filePath)
+	{
+		String line = null;
+		try (InputStream inputStream = new ClassPathResource(filePath).getInputStream()) {
+			logger.debug("Successfully loaded a file.");
+			BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
+			line = reader.readLine();
+			logger.debug("Read line: {}", line);
+		} catch (IOException ex) {
+			logger.error("Failed to load a file: '{}'", ex.getMessage());
+		}
+		
+		return line;
 	}
 	// }}}
 
