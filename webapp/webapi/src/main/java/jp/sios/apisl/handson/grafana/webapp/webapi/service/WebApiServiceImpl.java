@@ -4,11 +4,16 @@ import java.util.List;
 import java.time.LocalDateTime;
 import java.util.Optional;
 import java.util.concurrent.ThreadLocalRandom;
+import java.io.InputStream;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.io.IOException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 import jp.sios.apisl.handson.grafana.webapp.webapi.entity.Dice;
@@ -87,6 +92,16 @@ public class WebApiServiceImpl implements WebApiService
 				int interval = loopCount / 5;
 				logger.warn("!!! The loop is: {} count !!!", loopCount);
 				for (int i = 1; i <= loopCount; i++) {
+
+					try (InputStream inputStream = new ClassPathResource("application.yml").getInputStream()) {
+						logger.debug("Successfully loaded a file.");
+						BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
+						String line = reader.readLine();
+						logger.debug("Read line: {}", line);
+					} catch (IOException ex) {
+						logger.error("Failed to load a file: '{}'", ex.getMessage());
+					}
+					
 					if ((i != 0) && ((i % interval) == 0)) {
 						logger.warn("The progress of loop is: {}/{} count", String.format("%,d", i), String.format("%,d", loopCount));
 					}
