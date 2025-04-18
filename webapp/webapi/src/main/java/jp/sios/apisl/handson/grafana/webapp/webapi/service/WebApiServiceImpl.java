@@ -1,23 +1,29 @@
 package jp.sios.apisl.handson.grafana.webapp.webapi.service;
 
-import java.util.List;
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.IOException;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.ThreadLocalRandom;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 import jp.sios.apisl.handson.grafana.webapp.webapi.entity.Dice;
+import jp.sios.apisl.handson.grafana.webapp.webapi.exception.HandsOnException;
 import jp.sios.apisl.handson.grafana.webapp.webapi.util.UtilEnvInfo;
 
 @Service
 public class WebApiServiceImpl implements WebApiService
 {
 
+	private static final String READ_FILE_PATH_IN_LOOP = "application.yml";
 	private static final Logger logger = LoggerFactory.getLogger(WebApiServiceImpl.class);
 	private final JdbcTemplate jdbcTemplate;
 
@@ -36,16 +42,18 @@ public class WebApiServiceImpl implements WebApiService
 
 		this.sleep(optSleep);
 		this.loop(optLoop);
-		HttpStatusCode httpStatus = this.makeHttpStatus(optError);
-		int value = 0;
-		if (httpStatus != HttpStatus.OK) {
-			ResponseEntity entity = new ResponseEntity<>(value, httpStatus);
+		try {
+			this.error(optError);
+		}
+		catch(HandsOnException ex) {
+			logger.error("The exception was happened with error(): '{}'", (Object[]) ex.getStackTrace());
+			ResponseEntity<Integer> entity = new ResponseEntity<>(0, HttpStatus.INTERNAL_SERVER_ERROR);
 			return entity;
 		}
 
-		value = this.roll(httpStatus);
+		int value = this.roll();
 		this.insertDice(value);
-		ResponseEntity entity = new ResponseEntity<>(value, httpStatus);
+		ResponseEntity<Integer> entity = new ResponseEntity<>(value, HttpStatus.OK);
 
 		return entity;
 	}
@@ -65,7 +73,7 @@ public class WebApiServiceImpl implements WebApiService
 					logger.warn("!!! The sleep has finnished !!!");
 				} 
 				catch(InterruptedException ex) {
-					logger.error("The exception was happened with sleep(): '{}'", ex);
+					logger.error("The exception was happened with sleep(): '{}'", (Object[]) ex.getStackTrace());
 				}
 			}
 			catch(NumberFormatException ex) {
@@ -85,13 +93,17 @@ public class WebApiServiceImpl implements WebApiService
 			try {
 				int loopCount = Integer.parseInt(optLoop.get());
 				int interval = loopCount / 5;
+				String line = null;
 				logger.warn("!!! The loop is: {} count !!!", loopCount);
 				for (int i = 1; i <= loopCount; i++) {
+
+					line = this.readFile(WebApiServiceImpl.READ_FILE_PATH_IN_LOOP);
+					
 					if ((i != 0) && ((i % interval) == 0)) {
 						logger.warn("The progress of loop is: {}/{} count", String.format("%,d", i), String.format("%,d", loopCount));
 					}
 				}
-				logger.warn("!!! The loop has finnished !!!");
+				logger.warn("!!! The loop has finnished !!! : The read text is: '{}'", line);
 			}
 			catch(NumberFormatException ex) {
 				logger.error("The processing of loop was skipped, because the value of parameter was not an integer: '{}'", optLoop.get());
@@ -101,34 +113,38 @@ public class WebApiServiceImpl implements WebApiService
 	}
 	// }}}
 
-	// {{{ private HttpStatusCode makeHttpStatus(Optional<String> optError)
-	private HttpStatusCode makeHttpStatus(Optional<String> optError)
+	// {{{ private String readFile(String filePath)
+	private String readFile(String filePath)
 	{
-		UtilEnvInfo.logStartClassMethod();
-
-		HttpStatusCode httpStatus = HttpStatus.OK;
-
-		if (optError.isPresent()) {
-			String error = optError.get();
-			logger.info("The error in parameter is: '{}'", error);
-			if (error.equals("1")) {
-				httpStatus = HttpStatus.INTERNAL_SERVER_ERROR;
-			}
-			if (httpStatus == HttpStatus.OK) {
-				logger.warn("The retruning an intended http status code was skipped, because an error is without regulations: '{}'", error);
-			} else {
-				logger.error("!!! The intended http status code will be occured: '{}' !!!", httpStatus);
-			}
-		} else {
-			logger.info("The returned http status code will be: '{}'", httpStatus);
+		String line = null;
+		try (InputStream inputStream = new ClassPathResource(filePath).getInputStream()) {
+			logger.debug("Successfully loaded a file.");
+			BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
+			line = reader.readLine();
+			logger.debug("Read line: {}", line);
+		} catch (IOException ex) {
+			logger.error("Failed to load a file: '{}'", ex.getMessage());
 		}
-
-		return httpStatus;
+		
+		return line;
 	}
 	// }}}
 
-	// {{{ private int roll(HttpStatusCode httpStatus)
-	private int roll(HttpStatusCode httpStatus)
+	// {{{ private void error(Optional<String> optError)
+	private void error(Optional<String> optError) throws HandsOnException
+	{
+		UtilEnvInfo.logStartClassMethod();
+
+		if (optError.isPresent()) {
+			logger.error("!!! It received a direction to occur an exception: '{}' !!!", "HandsOnException");
+			throw new HandsOnException("It received a direction to occur an exception.");
+		}
+		return;
+	}
+	// }}}
+
+	// {{{ private int roll()
+	private int roll()
 	{
 		UtilEnvInfo.logStartClassMethod();
 

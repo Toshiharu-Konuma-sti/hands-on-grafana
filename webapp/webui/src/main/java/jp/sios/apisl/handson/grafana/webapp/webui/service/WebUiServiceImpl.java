@@ -25,10 +25,10 @@ public class WebUiServiceImpl implements WebUiService
 	@Value("${handson.webapi.host}")
 	private String webapiHost;
 
-	// {{{ public WebUiServiceImpl(RestClient.Builder restClientBuilder)
-	public WebUiServiceImpl(RestClient.Builder restClientBuilder)
+	// {{{ public WebUiServiceImpl(RestClient restClient)
+	public WebUiServiceImpl(RestClient restClient)
 	{
-		this.restClient = restClientBuilder.build();
+		this.restClient = restClient;
 	}
 	// }}}
 
