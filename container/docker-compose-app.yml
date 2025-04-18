@@ -9,7 +9,7 @@ services:
   webui:
     container_name: webui
     hostname: webui
-    image: eclipse-temurin:21
+    image: &webappImage eclipse-temurin:21
     ports:
       - 8081:8081
     networks:
@@ -29,7 +29,7 @@ services:
   webapi:
     container_name: webapi
     hostname: webapi
-    image: eclipse-temurin:21
+    image: *webappImage
     ports:
       - 8082:8082
     networks:
@@ -69,6 +69,21 @@ services:
 #      driver: loki
 #      options:
 #        loki-url: http://localhost:3100/loki/api/v1/push
+
+  webui-node-exporter:
+    hostname: webui-node-exporter
+    container_name: webui-node-exporter
+    image: &nodeExpImage prom/node-exporter:v1.9.1
+    pid: "service:webui"
+    networks:
+      - internal
+  webapi-node-exporter:
+    hostname: webapi-node-exporter
+    container_name: webapi-node-exporter
+    image: *nodeExpImage
+    pid: "service:webapi"
+    networks:
+      - internal
 
 ##############################
 # networks
