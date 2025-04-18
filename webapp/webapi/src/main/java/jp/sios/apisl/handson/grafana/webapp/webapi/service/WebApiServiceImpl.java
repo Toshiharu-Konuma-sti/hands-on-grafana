@@ -12,11 +12,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 import jp.sios.apisl.handson.grafana.webapp.webapi.entity.Dice;
+import jp.sios.apisl.handson.grafana.webapp.webapi.exception.HandsOnException;
 import jp.sios.apisl.handson.grafana.webapp.webapi.util.UtilEnvInfo;
 
 @Service
@@ -42,16 +42,18 @@ public class WebApiServiceImpl implements WebApiService
 
 		this.sleep(optSleep);
 		this.loop(optLoop);
-		HttpStatusCode httpStatus = this.makeHttpStatus(optError);
-		int value = 0;
-		if (httpStatus != HttpStatus.OK) {
-			ResponseEntity entity = new ResponseEntity<>(value, httpStatus);
+		try {
+			this.error(optError);
+		}
+		catch(HandsOnException ex) {
+			logger.error("The exception was happened with error(): '{}'", (Object[]) ex.getStackTrace());
+			ResponseEntity<Integer> entity = new ResponseEntity<>(0, HttpStatus.INTERNAL_SERVER_ERROR);
 			return entity;
 		}
 
-		value = this.roll(httpStatus);
+		int value = this.roll();
 		this.insertDice(value);
-		ResponseEntity entity = new ResponseEntity<>(value, httpStatus);
+		ResponseEntity<Integer> entity = new ResponseEntity<>(value, HttpStatus.OK);
 
 		return entity;
 	}
@@ -71,7 +73,7 @@ public class WebApiServiceImpl implements WebApiService
 					logger.warn("!!! The sleep has finnished !!!");
 				} 
 				catch(InterruptedException ex) {
-					logger.error("The exception was happened with sleep(): '{}'", ex);
+					logger.error("The exception was happened with sleep(): '{}'", (Object[]) ex.getStackTrace());
 				}
 			}
 			catch(NumberFormatException ex) {
@@ -128,34 +130,21 @@ public class WebApiServiceImpl implements WebApiService
 	}
 	// }}}
 
-	// {{{ private HttpStatusCode makeHttpStatus(Optional<String> optError)
-	private HttpStatusCode makeHttpStatus(Optional<String> optError)
+	// {{{ private void error(Optional<String> optError)
+	private void error(Optional<String> optError) throws HandsOnException
 	{
 		UtilEnvInfo.logStartClassMethod();
 
-		HttpStatusCode httpStatus = HttpStatus.OK;
-
 		if (optError.isPresent()) {
-			String error = optError.get();
-			logger.info("The error in parameter is: '{}'", error);
-			if (error.equals("1")) {
-				httpStatus = HttpStatus.INTERNAL_SERVER_ERROR;
-			}
-			if (httpStatus == HttpStatus.OK) {
-				logger.warn("The retruning an intended http status code was skipped, because an error is without regulations: '{}'", error);
-			} else {
-				logger.error("!!! The intended http status code will be occured: '{}' !!!", httpStatus);
-			}
-		} else {
-			logger.info("The returned http status code will be: '{}'", httpStatus);
+			logger.error("!!! It received a direction to occur an exception: '{}' !!!", "HandsOnException");
+			throw new HandsOnException("It received a direction to occur an exception.");
 		}
-
-		return httpStatus;
+		return;
 	}
 	// }}}
 
-	// {{{ private int roll(HttpStatusCode httpStatus)
-	private int roll(HttpStatusCode httpStatus)
+	// {{{ private int roll()
+	private int roll()
 	{
 		UtilEnvInfo.logStartClassMethod();
 
