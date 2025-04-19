@@ -1,9 +1,9 @@
 		<ol id="menu-roll">
 			<li><a th:href="${cUrl}">Roll normally</a></li>
 
-			<li><a th:href="${cUrl} + '?sleep=100'" onclick="putLoadingImage();">Sleep 0.1 sec at API</a></li>
-			<li><a th:href="${cUrl} + '?sleep=1000'" onclick="putLoadingImage();">Sleep 1.0 sec at API</a></li>
-			<li><a th:href="${cUrl} + '?sleep=2000'" onclick="putLoadingImage();">Sleep 2.0 sec at API</a></li>
+			<li><a th:href="${cUrl} + '?sleep=5000'" onclick="putLoadingImage();">Sleep 05 sec at API</a></li>
+			<li><a th:href="${cUrl} + '?sleep=15000'" onclick="putLoadingImage();">Sleep 15 sec at API</a></li>
+			<li><a th:href="${cUrl} + '?sleep=30000'" onclick="putLoadingImage();">Sleep 30 sec at API</a></li>
 
 			<li><a th:href="${cUrl} + '?loop=1000000'" onclick="putLoadingImage();">Loop 1M count at API</a></li>
 			<li><a th:href="${cUrl} + '?loop=3000000'" onclick="putLoadingImage();">Loop 3M count at API</a></li>
