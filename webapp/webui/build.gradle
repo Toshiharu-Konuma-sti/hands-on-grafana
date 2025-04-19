@@ -36,8 +36,8 @@ dependencies {
 	// library for Logging and Tracing in OpenTelemetry
 	implementation 'io.opentelemetry.instrumentation:opentelemetry-spring-boot-starter:2.12.0'
 
-	// library for pyroscope
-	implementation 'io.pyroscope:agent:0.18.0'
+//	// library for pyroscope
+//	implementation 'io.pyroscope:agent:0.18.0'
 
 	// libraries and so forth
 	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'

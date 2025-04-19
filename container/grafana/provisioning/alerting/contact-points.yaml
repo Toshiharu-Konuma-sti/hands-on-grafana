@@ -2,10 +2,10 @@ apiVersion: 1
 
 contactPoints:
 
-  - name: "Hands-on Recieve E-mail"
+  - name: "Hands-on Receive E-mail"
     orgId: 1
     receivers:
-      - uid: hands-on-recieve-email
+      - uid: hands-on-receive-email
         type: email
         settings:
           addresses: target-address@test.com

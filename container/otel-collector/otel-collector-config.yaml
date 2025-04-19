@@ -12,8 +12,14 @@ receivers:
           scrape_interval: 5s
           metrics_path: /actuator/prometheus
           static_configs:
-            - targets: ["webui:8081"]
-            - targets: ["webapi:8082"]
+            - targets:
+              - webui:8081
+              - webapi:8082
+        - job_name: node-exporter
+          static_configs:
+            - targets:
+              - webui-node-exporter:9100
+              - webapi-node-exporter:9100
   mysql:
     username: root
     password: password

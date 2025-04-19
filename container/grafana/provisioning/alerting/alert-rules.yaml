@@ -60,4 +60,4 @@ groups:
         labels: {}
         isPaused: false
         notification_settings:
-          receiver: "Hands-on Recieve E-mail"
+          receiver: "Hands-on Receive E-mail"

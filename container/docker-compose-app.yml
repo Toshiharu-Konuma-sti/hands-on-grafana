@@ -9,7 +9,7 @@ services:
   webui:
     container_name: webui
     hostname: webui
-    image: eclipse-temurin:21
+    image: &webappImage eclipse-temurin:21
     ports:
       - 8081:8081
     networks:
@@ -22,14 +22,19 @@ services:
       - /bin/bash
       - -c
       - |
+        wget -O ./pyroscope.jar https://github.com/grafana/pyroscope-java/releases/download/v2.0.0/pyroscope.jar
         ./gradlew clean
-        ./gradlew bootRun
+        ./gradlew build
+        java -javaagent:pyroscope.jar -jar build/libs/apisl.handson.grafana.webapp.webui-0.0.1-SNAPSHOT.jar
+    environment:
+      PYROSCOPE_APPLICATION_NAME: webapp.webui
+      PYROSCOPE_SERVER_ADDRESS: http://pyroscope:4040
     tty: true
 
   webapi:
     container_name: webapi
     hostname: webapi
-    image: eclipse-temurin:21
+    image: *webappImage
     ports:
       - 8082:8082
     networks:
@@ -42,8 +47,13 @@ services:
       - /bin/bash
       - -c
       - |
+        wget -O ./pyroscope.jar https://github.com/grafana/pyroscope-java/releases/download/v2.0.0/pyroscope.jar
         ./gradlew clean
-        ./gradlew bootRun
+        ./gradlew build
+        java -javaagent:pyroscope.jar -jar build/libs/apisl.handson.grafana.webapp.webapi-0.0.1-SNAPSHOT.jar
+    environment:
+      PYROSCOPE_APPLICATION_NAME: webapp.webapi
+      PYROSCOPE_SERVER_ADDRESS: http://pyroscope:4040
     tty: true
 
   mysql:
@@ -69,6 +79,21 @@ services:
 #      driver: loki
 #      options:
 #        loki-url: http://localhost:3100/loki/api/v1/push
+
+  webui-node-exporter:
+    hostname: webui-node-exporter
+    container_name: webui-node-exporter
+    image: &nodeExpImage prom/node-exporter:v1.9.1
+    pid: "service:webui"
+    networks:
+      - internal
+  webapi-node-exporter:
+    hostname: webapi-node-exporter
+    container_name: webapi-node-exporter
+    image: *nodeExpImage
+    pid: "service:webapi"
+    networks:
+      - internal
 
 ##############################
 # networks

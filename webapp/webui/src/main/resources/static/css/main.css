@@ -11,9 +11,6 @@ body {
 .content-body {
 	display: flex;
 }
-//.content-body-dice {
-//	margin-right: 16px;
-//}
 table {
 	border-spacing: 5px;
 }
@@ -24,9 +21,10 @@ table td {
 	padding: 5px;
 	text-align: center;
 }
-.negation {
-	text-decoration: line-through;
-	color: #a9a9a9;
+.disabled-link {
+	pointer-events: none;
+	color: gray;
+	text-decoration: none;
 }
 @keyframes rumble {
 	0%   { transform:translate(0); }
@@ -38,4 +36,8 @@ table td {
 .shake {
 	animation:rumble 0.1s linear 4;
 	background-color: lightpink;
+}
+.negation {
+	text-decoration: line-through;
+	color: gray;
 }
