@@ -35,3 +35,6 @@ out/
 
 ### VS Code ###
 .vscode/
+
+### Hands-on Training ###
+pyroscope.jar

@@ -49,11 +49,3 @@ otel:
     name: webapi
   log:
     level: debug
-
-# variables for 'io.pyroscope:agent'
-pyroscope:
-  application:
-    name: my.java.app.webapi
-  server:
-    address: http://pyroscope:4040
-

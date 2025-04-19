@@ -41,13 +41,7 @@ otel:
   log:
     level: debug
 
-# variables for 'io.pyroscope:agent'
-pyroscope:
-  application:
-    name: my.java.app.webui
-  server:
-    address: http://pyroscope:4040
-
+# variables for hands-on training
 handson:
   webapi:
     host: webapi:8082
