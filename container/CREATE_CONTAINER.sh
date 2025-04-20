@@ -47,13 +47,13 @@ cat << EOS
  *     - dashboard(Prometheus):    https://grafana.com/grafana/dashboards/4701-jvm-micrometer/
  *     - dashboard(OpenTelemetry): https://grafana.com/grafana/dashboards/20352-opentelemetry-jvm-micrometer/
  *     - dashboard(Node Exporter): https://grafana.com/grafana/dashboards/1860-node-exporter-full/
- *   - MailDev:    http://localhost:1080
+ *   - Pyroscope   http://localhost:4040
  *   - Prometheus: http://localhost:9090 for Mimir
  *   - Mimir:      http://localhost:9009
  *   - MINIO:      http://localhost:9001 for Mimir
  *   - MINIO:      http://localhost:9002 for Loki
  *   - MINIO:      http://localhost:9003 for Tempo
- *   - Pyroscope   http://localhost:4040
+ *   - MailDev:    http://localhost:1080
  *   - Jaeger:     http://localhost:16686
  *   - Zipkin:     http://localhost:9411
  * - Access to Monitored servers with the URL below.

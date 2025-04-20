@@ -49,15 +49,15 @@ services:
 #      - --web.enable-otlp-receiver
       - --enable-feature=exemplar-storage
       - --log.level=debug
+    volumes:
+      - ./prometheus/config/prometheus-mimir.yml:/prometheus/prometheus.yml
+    depends_on:
+      - mimir-lb
     ports:
       - 9090:9090
     networks:
       - internal
       - external
-    volumes:
-      - ./prometheus/config/prometheus-mimir.yml:/prometheus/prometheus.yml
-    depends_on:
-      - mimir-lb
 
   mimir-lb:
     hostname: mimir-lb
@@ -249,13 +249,13 @@ services:
     volumes:
       - ./tempo/config/tempo.yaml:/etc/tempo.yaml
       - ./tempo/data/tempo-1:/var/tempo
-    networks:
-      - internal
     depends_on:
       tempo-init:
         condition: service_started
       minio-tempo:
         condition: service_healthy
+    networks:
+      - internal
 
   tempo-2:
     container_name: tempo-2
