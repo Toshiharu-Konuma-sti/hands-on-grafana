@@ -14,20 +14,8 @@ docker-compose \
 	-f docker-compose-app.yml \
 	down -v --remove-orphans
 
-#	echo "\n### START: Delete the existing data directory for Tempo ##########"
-#	#	TMP_DAT_DIR=$CUR_DIR/tempo/data/
-#	#	if [ -d $TMP_DAT_DIR ]; then
-#	#		sudo rm -rf $TMP_DAT_DIR
-#	#	fi
-#	#	sudo rm -rf $CUR_DIR/mimir/data/
-#	#	sudo rm -rf $CUR_DIR/minio/data/
-#
-#	sudo rm -rf $CUR_DIR/mimir/data/
-#	sudo rm -rf $CUR_DIR/minio/data/
-#	sudo rm -rf $CUR_DIR/tempo/data/
-#
-#	#	echo "\n### START: Install a plugin to collect container's logs ##########"
-#	#	docker plugin install grafana/loki-docker-driver:latest --alias loki --grant-all-permissions
+#	echo "\n### START: Install a plugin to collect container's logs ##########"
+#	docker plugin install grafana/loki-docker-driver:latest --alias loki --grant-all-permissions
 
 echo "\n### START: Create new containers ##########"
 docker-compose \
@@ -47,7 +35,8 @@ cat << EOS
  *     - dashboard(Prometheus):    https://grafana.com/grafana/dashboards/4701-jvm-micrometer/
  *     - dashboard(OpenTelemetry): https://grafana.com/grafana/dashboards/20352-opentelemetry-jvm-micrometer/
  *     - dashboard(Node Exporter): https://grafana.com/grafana/dashboards/1860-node-exporter-full/
- *   - Pyroscope   http://localhost:4040
+ *   - Pyroscope:  http://localhost:4040
+ *   - Alloy:      http://localhost:12345
  *   - Prometheus: http://localhost:9090 for Mimir
  *   - Mimir:      http://localhost:9009
  *   - MINIO:      http://localhost:9001 for Mimir
@@ -58,9 +47,10 @@ cat << EOS
  *   - Zipkin:     http://localhost:9411
  * - Access to Monitored servers with the URL below.
  *   - webui:      http://localhost:8081
- *   - micrometer: http://localhost:8081/actuator for webui
  *   - webapi:     http://localhost:8082/api/dice/v1/roll
  *   - webapi:     http://localhost:8082/api/dice/v1/list
+ *   - micrometer: http://localhost:8081/actuator for webui
+ *   - micrometer: http://localhost:8082/actuator for webapi
  ***********************************************************/
 
 EOS

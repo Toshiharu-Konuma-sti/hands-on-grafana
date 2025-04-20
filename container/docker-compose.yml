@@ -350,7 +350,7 @@ services:
       - external
 
 ##############################
-# otel collector
+# container that relays a data
 ##############################
 
   otel-collector:
@@ -361,14 +361,23 @@ services:
     command: ["--config=/etc/otel-collector-config.yaml", ""]
     volumes:
       - ./otel-collector/otel-collector-config.yaml:/etc/otel-collector-config.yaml
+    networks:
+      - internal
+
+  alloy:
+    container_name: alloy
+    hostname: alloy
+    image: grafana/alloy:v1.8.1
+    command:
+      - run
+      - --server.http.listen-addr=0.0.0.0:12345
+      - --storage.path=/var/lib/alloy/data
+      - --stability.level=public-preview
+      - /etc/alloy/config.alloy
+    volumes:
+      - ./alloy/config/config.alloy:/etc/alloy/config.alloy
     ports:
-      - "1888:1888" # pprof extension
-      - "8888:8888" # Prometheus metrics exposed by the collector
-      - "8889:8889" # Prometheus exporter metrics
-      - "13133:13133" # health_check extension
-      - "4317:4317" # OTLP gRPC receiver
-      - "4318:4318" # OTLP http receiver
-      - "55679:55679" # zpages extension
+      - 12345:12345
     networks:
       - internal
       - external
