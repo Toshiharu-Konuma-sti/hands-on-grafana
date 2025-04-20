@@ -49,15 +49,15 @@ services:
 #      - --web.enable-otlp-receiver
       - --enable-feature=exemplar-storage
       - --log.level=debug
+    volumes:
+      - ./prometheus/config/prometheus-mimir.yml:/prometheus/prometheus.yml
+    depends_on:
+      - mimir-lb
     ports:
       - 9090:9090
     networks:
       - internal
       - external
-    volumes:
-      - ./prometheus/config/prometheus-mimir.yml:/prometheus/prometheus.yml
-    depends_on:
-      - mimir-lb
 
   mimir-lb:
     hostname: mimir-lb
@@ -249,13 +249,13 @@ services:
     volumes:
       - ./tempo/config/tempo.yaml:/etc/tempo.yaml
       - ./tempo/data/tempo-1:/var/tempo
-    networks:
-      - internal
     depends_on:
       tempo-init:
         condition: service_started
       minio-tempo:
         condition: service_healthy
+    networks:
+      - internal
 
   tempo-2:
     container_name: tempo-2
@@ -350,7 +350,7 @@ services:
       - external
 
 ##############################
-# otel collector
+# container that relays a data
 ##############################
 
   otel-collector:
@@ -361,14 +361,23 @@ services:
     command: ["--config=/etc/otel-collector-config.yaml", ""]
     volumes:
       - ./otel-collector/otel-collector-config.yaml:/etc/otel-collector-config.yaml
+    networks:
+      - internal
+
+  alloy:
+    container_name: alloy
+    hostname: alloy
+    image: grafana/alloy:v1.8.1
+    command:
+      - run
+      - --server.http.listen-addr=0.0.0.0:12345
+      - --storage.path=/var/lib/alloy/data
+      - --stability.level=public-preview
+      - /etc/alloy/config.alloy
+    volumes:
+      - ./alloy/config/config.alloy:/etc/alloy/config.alloy
     ports:
-      - "1888:1888" # pprof extension
-      - "8888:8888" # Prometheus metrics exposed by the collector
-      - "8889:8889" # Prometheus exporter metrics
-      - "13133:13133" # health_check extension
-      - "4317:4317" # OTLP gRPC receiver
-      - "4318:4318" # OTLP http receiver
-      - "55679:55679" # zpages extension
+      - 12345:12345
     networks:
       - internal
       - external
