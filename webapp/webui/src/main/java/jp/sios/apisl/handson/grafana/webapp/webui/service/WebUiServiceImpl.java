@@ -84,7 +84,7 @@ public class WebUiServiceImpl implements WebUiService
 			logger.info("The value recieved from the rolldice api is: '{}'", body);
 		}
 		catch (HttpClientErrorException | HttpServerErrorException ex) {
-			logger.error("!!! Could not get a response from the API, because an exception was happened: '{}' !!!", ex.getStackTrace());
+			logger.error("!!! Could not get a response from the API, because an exception was happened: '{}' !!!", (Object[]) ex.getStackTrace());
 		}
 
 		return body;

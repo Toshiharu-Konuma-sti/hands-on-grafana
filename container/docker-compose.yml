@@ -209,7 +209,6 @@ services:
       - ./nginx/config/nginx-tempo-otlp.conf:/etc/nginx/nginx.conf:ro
     depends_on:
       - tempo-1
-      - tempo-2
     networks:
       - internal
 
@@ -221,7 +220,6 @@ services:
       - ./nginx/config/nginx-tempo-view.conf:/etc/nginx/nginx.conf:ro
     depends_on:
       - tempo-1
-      - tempo-2
     networks:
       - internal
 
@@ -234,10 +232,8 @@ services:
       - "chown"
       - "10001:10001"
       - "/var/tempo-1"
-      - "/var/tempo-2"
     volumes:
       - ./tempo/data/tempo-1:/var/tempo-1
-      - ./tempo/data/tempo-2:/var/tempo-2
     networks:
       - internal
 
@@ -256,22 +252,6 @@ services:
         condition: service_healthy
     networks:
       - internal
-
-  tempo-2:
-    container_name: tempo-2
-    hostname: tempo-2
-    image: *tempoImage
-    command: [ "-config.file=/etc/tempo.yaml" ]
-    volumes:
-      - ./tempo/config/tempo.yaml:/etc/tempo.yaml
-      - ./tempo/data/tempo-2:/var/tempo
-    networks:
-      - internal
-    depends_on:
-      tempo-init:
-        condition: service_started
-      minio-tempo:
-        condition: service_healthy
 
   minio-tempo-createbuckets:
     hostname: minio-tempo-createbuckets
@@ -312,9 +292,20 @@ services:
 # Grafana Pyroscope
 #-----------------------------
 
-  pyroscope:
-    container_name: pyroscope
-    hostname: pyroscope
+  pyroscope-lb:
+    hostname: pyroscope-lb
+    container_name: pyroscope-lb
+    image: *nginxImage
+    volumes:
+      - ./nginx/config/nginx-pyroscope.conf:/etc/nginx/nginx.conf:ro
+    depends_on:
+      - pyroscope-1
+    networks:
+      - internal
+
+  pyroscope-1:
+    container_name: pyroscope-1
+    hostname: pyroscope-1
     image: grafana/pyroscope:1.12.0
     ports:
       - 4040:4040
