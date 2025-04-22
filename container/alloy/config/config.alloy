@@ -10,6 +10,6 @@ pyroscope.receive_http "default" {
 // Forwards profiles to Pyroscope
 pyroscope.write "backend" {
   endpoint {
-    url = "http://pyroscope:4040"
+    url = "http://pyroscope-lb:9009"
   }
 }

@@ -102,7 +102,7 @@ datasources:
     uid: pyroscope
     access: proxy
     orgId: 1
-    url: http://pyroscope:4040
+    url: http://pyroscope-lb:9009
     editable: true
     isDefault: false
 
