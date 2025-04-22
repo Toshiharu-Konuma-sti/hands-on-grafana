@@ -13,3 +13,39 @@ pyroscope.write "backend" {
     url = "http://pyroscope-lb:9009"
   }
 }
+
+loki.write "endpoint" {
+  endpoint {
+    url = "http://loki-lb:9009/loki/api/v1/push"
+  }
+}
+
+otelcol.exporter.otlp "tempo" {
+  client {
+    endpoint = "http://tempo-lb:9009"
+    tls {
+      insecure = true
+      insecure_skip_verify = true
+    }
+  }
+}
+
+faro.receiver "default" {
+  server {
+//    listen_address = "0.0.0.0"
+//    listen_port = 12345
+    cors_allowed_origins = ["*"]
+  }
+
+  extra_log_labels = {
+    service = "frontend-app",
+    app_name = "",
+    app_environment = "",
+    app_namespace = "",
+    app_version = "",
+  }
+  output {
+    logs   = [loki.write.endpoint.receiver]
+    traces = [otelcol.exporter.otlp.tempo.input]
+  }
+}
