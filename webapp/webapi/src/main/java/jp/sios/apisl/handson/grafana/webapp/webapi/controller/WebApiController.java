@@ -29,8 +29,8 @@ public class WebApiController {
 	// }}}
 
 	@GetMapping(value = {"/roll"})
-	// {{{ public ResponseEntity<Integer> rolldice(...)
-	public ResponseEntity<Integer> rolldice(
+	// {{{ public ResponseEntity<Integer> rollDice(...)
+	public ResponseEntity<Integer> rollDice(
 		HttpServletRequest request,
 		@RequestParam("sleep") Optional<String> optSleep,
 		@RequestParam("loop") Optional<String> optLoop,
@@ -48,8 +48,8 @@ public class WebApiController {
 	// }}}
 
 	@GetMapping(value = {"/list"})
-	// {{{ public List<Dice> listdice(HttpServletRequest request)
-	public List<Dice> listdice(HttpServletRequest request)
+	// {{{ public List<Dice> listDice(HttpServletRequest request)
+	public List<Dice> listDice(HttpServletRequest request)
 	{
 		UtilEnvInfo.logStartRequest(request);
 		UtilEnvInfo.logStartClassMethod();
