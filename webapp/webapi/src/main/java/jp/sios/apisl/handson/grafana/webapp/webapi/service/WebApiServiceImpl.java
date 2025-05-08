@@ -1,11 +1,13 @@
 package jp.sios.apisl.handson.grafana.webapp.webapi.service;
 
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.IOException;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.ThreadLocalRandom;
 import org.slf4j.Logger;
@@ -185,13 +187,18 @@ public class WebApiServiceImpl implements WebApiService
 
 		String sql = "SELECT id, value, updated_at FROM dice ORDER BY id DESC;";
 		logger.info("The sql to execute is '{}'", sql);
-		List<Dice> list = this.jdbcTemplate.query(
-			sql, (rs, rowNum) -> new Dice(
-				rs.getInt("id"),
-				rs.getInt("value"),
-				rs.getObject("updated_at", LocalDateTime.class)
-			)
-		);
+
+		List<Map<String, Object>> recordSets = this.jdbcTemplate.queryForList(sql);
+		List<Dice> list = new ArrayList<>();
+
+		for (Map<String, Object> recset : recordSets) {
+			Dice dice = new Dice(
+				((Number)recset.get("id")).intValue(),
+				((Number)recset.get("value")).intValue(),
+				((LocalDateTime)recset.get("updated_at"))
+			);
+			list.add(dice);
+		}
 		logger.info("The record count of the executed sql is: '{}'", list.size());
 
 		return list;

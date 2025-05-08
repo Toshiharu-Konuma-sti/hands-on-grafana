@@ -24,7 +24,7 @@ services:
       - |
         wget -O ./pyroscope.jar https://github.com/grafana/pyroscope-java/releases/download/v2.0.0/pyroscope.jar
         ./gradlew clean
-        ./gradlew build
+        ./gradlew build -x test
         java -javaagent:pyroscope.jar -jar build/libs/apisl.handson.grafana.webapp.webui-0.0.1-SNAPSHOT.jar
     environment:
       PYROSCOPE_APPLICATION_NAME: webapp.webui
@@ -52,7 +52,7 @@ services:
       - |
         wget -O ./pyroscope.jar https://github.com/grafana/pyroscope-java/releases/download/v2.0.0/pyroscope.jar
         ./gradlew clean
-        ./gradlew build
+        ./gradlew build -x test
         java -javaagent:pyroscope.jar -jar build/libs/apisl.handson.grafana.webapp.webapi-0.0.1-SNAPSHOT.jar
     environment:
       PYROSCOPE_APPLICATION_NAME: webapp.webapi

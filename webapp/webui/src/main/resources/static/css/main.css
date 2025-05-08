@@ -21,6 +21,10 @@ table td {
 	padding: 5px;
 	text-align: center;
 }
+.li-spacing {
+	margin-bottom: 10px;
+}
+
 .disabled-link {
 	pointer-events: none;
 	color: gray;
