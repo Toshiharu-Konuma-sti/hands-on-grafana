@@ -13,9 +13,6 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.web.servlet.ModelAndView;
 import jp.sios.apisl.handson.grafana.webapp.webui.service.WebUiService;
 
-
-
-
 class WebUiControllerTest {
 
 	@Mock
