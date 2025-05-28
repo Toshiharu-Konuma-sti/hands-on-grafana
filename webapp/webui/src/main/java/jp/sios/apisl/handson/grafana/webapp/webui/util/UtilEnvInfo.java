@@ -35,7 +35,7 @@ public class UtilEnvInfo
 	public static void logStartClassMethod() {
 		String className = UtilEnvInfo.getClassName();
 		String methodName = UtilEnvInfo.getMethodName();
-		logger.info(">>> start: {}#{}()", className, methodName);
+		logger.info(">>> calling: {}#{}()", className, methodName);
 	}
 
 	private static String getClassName()
