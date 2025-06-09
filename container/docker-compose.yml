@@ -369,6 +369,7 @@ services:
       - ./alloy/config/config.alloy:/etc/alloy/config.alloy
     ports:
       - 12345:12345
+      - 12347:12347
     networks:
       - internal
       - external
