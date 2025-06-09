@@ -40,9 +40,9 @@ faro.receiver "default" {
   extra_log_labels = {
     service = "frontend-app",
     app_name = "",
-    app_environment = "",
-    app_namespace = "",
-    app_version = "",
+//    app_environment = "",
+//    app_namespace = "",
+//    app_version = "",
   }
   output {
     logs   = [loki.write.endpoint.receiver]
