@@ -8,11 +8,11 @@
       window.GrafanaFaroWebSdk.initializeFaro({
         // Mandatory, the URL of the Grafana Cloud collector with embedded application key.
         // Copy from the configuration page of your application in Grafana.
-        url: 'http://localhost:12345/collect',
+        url: 'http://localhost:12347/collect',
 
         // Mandatory, the identification label(s) of your application
         app: {
-          name: 'my-app',
+          name: 'my-faro',
           version: '1.0.0', // Optional, but recommended
         },
       });
