@@ -12,3 +12,12 @@ providers:
       path: /etc/grafana/provisioning/dashboards/my-explore-collection.json
       foldersFromFilesStructure: false
 
+  - name: "My Real-time User Monitoring"
+    orgId: 1
+    type: file
+    disableDeletion: true
+    updateIntervalSeconds: 5
+    allowUiUpdates: true
+    options:
+      path: /etc/grafana/provisioning/dashboards/my-real-time-user-monitoring.json
+      foldersFromFilesStructure: false
