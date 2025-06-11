@@ -24,7 +24,7 @@
   "editable": true,
   "fiscalYearStartMonth": 0,
   "graphTooltip": 0,
-  "id": 5,
+  "id": 3,
   "links": [],
   "panels": [
     {
@@ -99,8 +99,9 @@
             "type": "loki",
             "uid": "loki"
           },
+          "direction": "backward",
           "editorMode": "code",
-          "expr": "avg_over_time({app_name=\"$app\"} |= \"ttfb\" | logfmt | unwrap ttfb [$__range]) by (app_name)",
+          "expr": "avg_over_time({app_name=\"$app\"} |= \"ttfb\" | logfmt | kind = `measurement` | unwrap ttfb [$__range]) by (app_name)",
           "legendFormat": "TTFB",
           "queryType": "range",
           "refId": "A"
@@ -172,8 +173,9 @@
             "type": "loki",
             "uid": "loki"
           },
+          "direction": "backward",
           "editorMode": "code",
-          "expr": "avg_over_time({app_name=\"$app\"} |= \" fcp=\" | logfmt | unwrap fcp [$__range]) by (app_name)",
+          "expr": "avg_over_time({app_name=\"$app\"} |= \" fcp=\" | logfmt | kind = `measurement` | unwrap fcp [$__range]) by (app_name)",
           "legendFormat": "FCP",
           "queryType": "range",
           "refId": "A"
@@ -247,8 +249,9 @@
             "type": "loki",
             "uid": "loki"
           },
+          "direction": "backward",
           "editorMode": "code",
-          "expr": "avg_over_time({app_name=\"$app\"} |= \"cls\" | logfmt | unwrap cls [$__range]) by (app_name)",
+          "expr": "avg_over_time({app_name=\"$app\"} |= \"cls\" | logfmt | kind = `measurement` | unwrap cls [$__range]) by (app_name)",
           "legendFormat": "CLS",
           "queryType": "range",
           "refId": "A"
@@ -320,8 +323,9 @@
             "type": "loki",
             "uid": "loki"
           },
+          "direction": "backward",
           "editorMode": "code",
-          "expr": "avg_over_time({app_name=\"$app\"} |= \" lcp=\" | logfmt | unwrap lcp [$__range]) by (app_name)",
+          "expr": "avg_over_time({app_name=\"$app\"} |= \" lcp=\" | logfmt | kind = `measurement` | unwrap lcp [$__range]) by (app_name)",
           "legendFormat": "LCP",
           "queryType": "range",
           "refId": "A"
@@ -393,8 +397,9 @@
             "type": "loki",
             "uid": "loki"
           },
+          "direction": "backward",
           "editorMode": "code",
-          "expr": "avg_over_time({app_name=\"$app\"} |= \" fid=\" | logfmt | unwrap fid [$__range]) by (app_name)",
+          "expr": "avg_over_time({app_name=\"$app\"} |= \" fid=\" | logfmt | kind = `measurement` | unwrap fid [$__range]) by (app_name)",
           "legendFormat": "FID",
           "queryType": "range",
           "refId": "A"
@@ -491,8 +496,9 @@
             "type": "loki",
             "uid": "loki"
           },
+          "direction": "backward",
           "editorMode": "code",
-          "expr": "quantile_over_time(0.75, {app_name=\"$app\"} |= \" ttfb=\" | logfmt | unwrap ttfb [5m]) by (app_name)",
+          "expr": "quantile_over_time(0.75, {app_name=\"$app\"} |= \" ttfb=\" | logfmt | kind = `measurement` | unwrap ttfb [5m]) by (app_name)",
           "legendFormat": "TTFB",
           "queryType": "range",
           "refId": "A"
@@ -502,8 +508,9 @@
             "type": "loki",
             "uid": "loki"
           },
+          "direction": "backward",
           "editorMode": "code",
-          "expr": "quantile_over_time(0.75, {app_name=\"$app\"} |= \" fcp=\" | logfmt | unwrap fcp [5m]) by (app_name)",
+          "expr": "quantile_over_time(0.75, {kind=\"measurement\",app=\"$app\"} |= \" fcp=\" | logfmt | unwrap fcp [5m]) by (app)",
           "hide": false,
           "legendFormat": "FCP",
           "queryType": "range",
@@ -514,8 +521,9 @@
             "type": "loki",
             "uid": "loki"
           },
+          "direction": "backward",
           "editorMode": "code",
-          "expr": "quantile_over_time(0.75, {app_name=\"$app\"} |= \" lcp=\" | logfmt | unwrap lcp [5m]) by (app_name)",
+          "expr": "quantile_over_time(0.75, {kind=\"measurement\",app=\"$app\"} |= \" lcp=\" | logfmt | unwrap lcp [5m]) by (app)",
           "hide": false,
           "legendFormat": "LCP",
           "queryType": "range",
@@ -616,8 +624,9 @@
             "type": "loki",
             "uid": "loki"
           },
+          "direction": "backward",
           "editorMode": "code",
-          "expr": "quantile_over_time(0.75, {app_name=\"$app\"} |= \" cls=\" | logfmt | unwrap cls [5m]) by (app_name)",
+          "expr": "quantile_over_time(0.75, {app_name=\"$app\"} |= \" cls=\" | logfmt | kind = `measurement` | unwrap cls [5m]) by (app_name)",
           "legendFormat": "CLS",
           "queryType": "range",
           "refId": "A"
@@ -718,8 +727,9 @@
             "type": "loki",
             "uid": "loki"
           },
+          "direction": "backward",
           "editorMode": "code",
-          "expr": "quantile_over_time(0.75, {app_name=\"$app\"} |= \" fid=\" | logfmt | unwrap fid [5m]) by (app_name)",
+          "expr": "quantile_over_time(0.75, {app_name=\"$app\"} |= \" fid=\" | logfmt | kind = `measurement` | unwrap fid [5m]) by (app_name)",
           "legendFormat": "FID",
           "queryType": "range",
           "refId": "A"
@@ -729,840 +739,1054 @@
       "type": "timeseries"
     },
     {
-      "collapsed": false,
+      "collapsed": true,
       "gridPos": {
         "h": 1,
         "w": 24,
         "x": 0,
         "y": 12
       },
-      "id": 16,
-      "panels": [],
-      "title": "Exceptions",
-      "type": "row"
-    },
-    {
-      "datasource": {
-        "type": "loki",
-        "uid": "loki"
-      },
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "thresholds"
-          },
-          "mappings": [],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green",
-                "value": null
-              },
-              {
-                "color": "red",
-                "value": 1
-              }
-            ]
-          }
-        },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 4,
-        "w": 2,
-        "x": 0,
-        "y": 13
-      },
-      "id": 18,
-      "options": {
-        "colorMode": "value",
-        "graphMode": "none",
-        "justifyMode": "auto",
-        "orientation": "auto",
-        "percentChangeColorMode": "standard",
-        "reduceOptions": {
-          "calcs": [
-            "lastNotNull"
-          ],
-          "fields": "",
-          "values": false
-        },
-        "showPercentChange": false,
-        "textMode": "auto",
-        "wideLayout": true
-      },
-      "pluginVersion": "11.5.2",
-      "targets": [
+      "id": 27,
+      "panels": [
         {
           "datasource": {
             "type": "loki",
             "uid": "loki"
           },
-          "expr": "sum(count_over_time({app=\"$app\",kind=\"exception\"} [$__range])) by (app)",
-          "refId": "A"
-        }
-      ],
-      "title": "Total Exceptions",
-      "type": "stat"
-    },
-    {
-      "datasource": {
-        "type": "loki",
-        "uid": "loki"
-      },
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "palette-classic"
-          },
-          "custom": {
-            "axisBorderShow": false,
-            "axisCenteredZero": false,
-            "axisColorMode": "text",
-            "axisLabel": "",
-            "axisPlacement": "auto",
-            "barAlignment": 0,
-            "barWidthFactor": 0.6,
-            "drawStyle": "line",
-            "fillOpacity": 0,
-            "gradientMode": "none",
-            "hideFrom": {
-              "legend": false,
-              "tooltip": false,
-              "viz": false
-            },
-            "insertNulls": false,
-            "lineInterpolation": "linear",
-            "lineWidth": 1,
-            "pointSize": 5,
-            "scaleDistribution": {
-              "type": "linear"
-            },
-            "showPoints": "auto",
-            "spanNulls": false,
-            "stacking": {
-              "group": "A",
-              "mode": "none"
-            },
-            "thresholdsStyle": {
-              "mode": "off"
-            }
-          },
-          "mappings": [],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green",
-                "value": null
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "thresholds"
               },
+              "custom": {
+                "align": "auto",
+                "cellOptions": {
+                  "type": "auto"
+                },
+                "inspect": false
+              },
+              "mappings": [],
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green",
+                    "value": null
+                  },
+                  {
+                    "color": "red",
+                    "value": 80
+                  }
+                ]
+              }
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 7,
+            "w": 6,
+            "x": 0,
+            "y": 49
+          },
+          "id": 36,
+          "options": {
+            "cellHeight": "sm",
+            "footer": {
+              "countRows": false,
+              "fields": "",
+              "reducer": [
+                "sum"
+              ],
+              "show": false
+            },
+            "showHeader": true,
+            "sortBy": [
               {
-                "color": "red",
-                "value": 80
+                "desc": true,
+                "displayName": "Count"
               }
             ]
-          }
-        },
-        "overrides": [
-          {
-            "matcher": {
-              "id": "byName",
-              "options": "errors"
-            },
-            "properties": [
-              {
-                "id": "color",
-                "value": {
-                  "fixedColor": "red",
-                  "mode": "fixed"
+          },
+          "pluginVersion": "11.5.2",
+          "targets": [
+            {
+              "datasource": {
+                "type": "loki",
+                "uid": "loki"
+              },
+              "direction": "backward",
+              "editorMode": "code",
+              "expr": "topk(10, count(count_over_time({app_name=\"$app\"} |= \" ttfb=\" | logfmt | kind = `measurement` [$__range])) by (browser_os))",
+              "queryType": "instant",
+              "refId": "A"
+            }
+          ],
+          "title": "Popular OS",
+          "transformations": [
+            {
+              "id": "organize",
+              "options": {
+                "excludeByName": {
+                  "Time": true
+                },
+                "indexByName": {},
+                "renameByName": {
+                  "Value #A": "Count",
+                  "browser_os": "OS"
                 }
               }
-            ]
-          }
-        ]
-      },
-      "gridPos": {
-        "h": 8,
-        "w": 12,
-        "x": 2,
-        "y": 13
-      },
-      "id": 25,
-      "options": {
-        "legend": {
-          "calcs": [],
-          "displayMode": "list",
-          "placement": "bottom",
-          "showLegend": true
-        },
-        "tooltip": {
-          "hideZeros": false,
-          "mode": "single",
-          "sort": "none"
-        }
-      },
-      "pluginVersion": "11.5.2",
-      "targets": [
-        {
-          "datasource": {
-            "type": "loki",
-            "uid": "loki"
-          },
-          "editorMode": "code",
-          "expr": "count_over_time({app=\"$app\",kind=\"exception\"} [$__interval])",
-          "legendFormat": "errors",
-          "queryType": "range",
-          "refId": "A"
-        }
-      ],
-      "title": "Exceptions Over Time",
-      "type": "timeseries"
-    },
-    {
-      "datasource": {
-        "type": "loki",
-        "uid": "loki"
-      },
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "thresholds"
-          },
-          "custom": {
-            "align": "auto",
-            "cellOptions": {
-              "type": "auto"
-            },
-            "inspect": false
-          },
-          "mappings": [],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green",
-                "value": null
-              },
-              {
-                "color": "red",
-                "value": 80
-              }
-            ]
-          }
-        },
-        "overrides": [
-          {
-            "matcher": {
-              "id": "byName",
-              "options": "Count"
-            },
-            "properties": [
-              {
-                "id": "custom.width",
-                "value": 100
-              }
-            ]
-          }
-        ]
-      },
-      "gridPos": {
-        "h": 8,
-        "w": 8,
-        "x": 14,
-        "y": 13
-      },
-      "id": 20,
-      "options": {
-        "cellHeight": "sm",
-        "footer": {
-          "countRows": false,
-          "fields": "",
-          "reducer": [
-            "sum"
-          ],
-          "show": false
-        },
-        "showHeader": true,
-        "sortBy": [
-          {
-            "desc": true,
-            "displayName": "Count"
-          }
-        ]
-      },
-      "pluginVersion": "11.5.2",
-      "targets": [
-        {
-          "datasource": {
-            "type": "loki",
-            "uid": "loki"
-          },
-          "editorMode": "code",
-          "expr": "topk(10, count(count_over_time({kind=\"exception\", app=\"$app\"} | logfmt [$__range])) by (value))",
-          "queryType": "instant",
-          "refId": "A"
-        }
-      ],
-      "title": "Top Exceptions",
-      "transformations": [
-        {
-          "id": "organize",
-          "options": {
-            "excludeByName": {
-              "Time": true
-            },
-            "indexByName": {},
-            "renameByName": {
-              "Value #A": "Count",
-              "value": "Error"
             }
-          }
-        }
-      ],
-      "type": "table"
-    },
-    {
-      "datasource": {
-        "type": "loki",
-        "uid": "loki"
-      },
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "thresholds"
-          },
-          "custom": {
-            "align": "auto",
-            "cellOptions": {
-              "type": "auto"
-            },
-            "inspect": false
-          },
-          "mappings": [],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green"
-              },
-              {
-                "color": "red",
-                "value": 80
-              }
-            ]
-          }
-        },
-        "overrides": [
-          {
-            "matcher": {
-              "id": "byName",
-              "options": "Count"
-            },
-            "properties": [
-              {
-                "id": "custom.width",
-                "value": 100
-              }
-            ]
-          }
-        ]
-      },
-      "gridPos": {
-        "h": 9,
-        "w": 14,
-        "x": 0,
-        "y": 21
-      },
-      "id": 21,
-      "options": {
-        "footer": {
-          "fields": "",
-          "reducer": [
-            "sum"
           ],
-          "show": false
+          "type": "table"
         },
-        "showHeader": true,
-        "sortBy": [
-          {
-            "desc": true,
-            "displayName": "Count"
-          }
-        ]
-      },
-      "pluginVersion": "9.0.0",
-      "targets": [
         {
           "datasource": {
             "type": "loki",
             "uid": "loki"
           },
-          "editorMode": "code",
-          "expr": "topk(10, count(count_over_time({kind=\"exception\", app=\"$app\"} | logfmt [$__range])) by (page_url))",
-          "queryType": "instant",
-          "refId": "A"
-        }
-      ],
-      "title": "Top URLs by Exception Count",
-      "transformations": [
-        {
-          "id": "organize",
-          "options": {
-            "excludeByName": {
-              "Time": true
-            },
-            "indexByName": {},
-            "renameByName": {
-              "Value #A": "Count",
-              "page_url": "URL",
-              "value": "Error"
-            }
-          }
-        }
-      ],
-      "type": "table"
-    },
-    {
-      "datasource": {
-        "type": "loki",
-        "uid": "loki"
-      },
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "thresholds"
-          },
-          "custom": {
-            "align": "auto",
-            "cellOptions": {
-              "type": "auto"
-            },
-            "inspect": false
-          },
-          "mappings": [],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green"
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "thresholds"
               },
-              {
-                "color": "red",
-                "value": 80
+              "custom": {
+                "align": "auto",
+                "cellOptions": {
+                  "type": "auto"
+                },
+                "inspect": false
+              },
+              "mappings": [],
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green",
+                    "value": null
+                  },
+                  {
+                    "color": "red",
+                    "value": 80
+                  }
+                ]
               }
-            ]
-          }
-        },
-        "overrides": [
-          {
-            "matcher": {
-              "id": "byName",
-              "options": "Version"
             },
-            "properties": [
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 7,
+            "w": 8,
+            "x": 6,
+            "y": 49
+          },
+          "id": 29,
+          "options": {
+            "cellHeight": "sm",
+            "footer": {
+              "countRows": false,
+              "fields": "",
+              "reducer": [
+                "sum"
+              ],
+              "show": false
+            },
+            "showHeader": true,
+            "sortBy": [
               {
-                "id": "custom.width",
-                "value": 150
+                "desc": true,
+                "displayName": "Count"
               }
             ]
           },
-          {
-            "matcher": {
-              "id": "byName",
-              "options": "Errors"
-            },
-            "properties": [
-              {
-                "id": "custom.width",
-                "value": 100
-              }
-            ]
-          }
-        ]
-      },
-      "gridPos": {
-        "h": 9,
-        "w": 8,
-        "x": 14,
-        "y": 21
-      },
-      "id": 23,
-      "options": {
-        "footer": {
-          "fields": "",
-          "reducer": [
-            "sum"
+          "pluginVersion": "11.5.2",
+          "targets": [
+            {
+              "datasource": {
+                "type": "loki",
+                "uid": "loki"
+              },
+              "direction": "backward",
+              "editorMode": "code",
+              "expr": "topk(10, count(count_over_time({app_name=\"$app\"} |= \" ttfb=\" | logfmt | kind = `measurement` [$__range])) by (browser_name, browser_version))",
+              "queryType": "instant",
+              "refId": "A"
+            }
           ],
-          "show": false
+          "title": "Popular Browsers",
+          "transformations": [
+            {
+              "id": "organize",
+              "options": {
+                "excludeByName": {
+                  "Time": true
+                },
+                "indexByName": {},
+                "renameByName": {
+                  "Value #A": "Count",
+                  "browser_name": "Browser",
+                  "browser_version": "Version"
+                }
+              }
+            }
+          ],
+          "type": "table"
         },
-        "showHeader": true,
-        "sortBy": [
-          {
-            "desc": true,
-            "displayName": "Count"
-          }
-        ]
-      },
-      "pluginVersion": "9.0.0",
-      "targets": [
         {
           "datasource": {
             "type": "loki",
             "uid": "loki"
           },
-          "editorMode": "code",
-          "expr": "topk(10, count by (browser_name, browser_version) (count_over_time({kind=\"exception\", app=\"$app\"} | logfmt [$__range])))",
-          "queryType": "instant",
-          "refId": "A"
-        }
-      ],
-      "title": "Top Browsers by Exception Count",
-      "transformations": [
-        {
-          "id": "organize",
-          "options": {
-            "excludeByName": {
-              "Time": true
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "thresholds"
+              },
+              "custom": {
+                "align": "auto",
+                "cellOptions": {
+                  "type": "auto"
+                },
+                "inspect": false
+              },
+              "mappings": [],
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green",
+                    "value": null
+                  },
+                  {
+                    "color": "red",
+                    "value": 80
+                  }
+                ]
+              }
             },
-            "indexByName": {},
-            "renameByName": {
-              "Value #A": "Count",
-              "browser_name": "Browser",
-              "browser_version": "Version",
-              "page_url": "URL",
-              "value": "Error"
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 7,
+            "w": 8,
+            "x": 14,
+            "y": 49
+          },
+          "id": 37,
+          "options": {
+            "cellHeight": "sm",
+            "footer": {
+              "countRows": false,
+              "fields": "",
+              "reducer": [
+                "sum"
+              ],
+              "show": false
+            },
+            "showHeader": true,
+            "sortBy": [
+              {
+                "desc": true,
+                "displayName": "Count"
+              }
+            ]
+          },
+          "pluginVersion": "11.5.2",
+          "targets": [
+            {
+              "datasource": {
+                "type": "loki",
+                "uid": "loki"
+              },
+              "direction": "backward",
+              "editorMode": "code",
+              "expr": "topk(10, count(count_over_time({app_name=\"$app\"} |= \" ttfb=\" | logfmt | kind = `measurement` [$__range])) by (browser_viewportWidth, browser_viewportHeight))",
+              "queryType": "instant",
+              "refId": "A"
             }
-          }
+          ],
+          "title": "Popular Viewports",
+          "transformations": [
+            {
+              "id": "organize",
+              "options": {
+                "excludeByName": {
+                  "Time": true
+                },
+                "indexByName": {},
+                "renameByName": {
+                  "Value #A": "Count",
+                  "browser_viewportHeight": "Height",
+                  "browser_viewportWidth": "Width"
+                }
+              }
+            }
+          ],
+          "type": "table"
+        },
+        {
+          "datasource": {
+            "type": "loki",
+            "uid": "loki"
+          },
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "palette-classic"
+              },
+              "custom": {
+                "axisBorderShow": false,
+                "axisCenteredZero": false,
+                "axisColorMode": "text",
+                "axisLabel": "",
+                "axisPlacement": "auto",
+                "barAlignment": 0,
+                "barWidthFactor": 0.6,
+                "drawStyle": "line",
+                "fillOpacity": 0,
+                "gradientMode": "none",
+                "hideFrom": {
+                  "legend": false,
+                  "tooltip": false,
+                  "viz": false
+                },
+                "insertNulls": false,
+                "lineInterpolation": "linear",
+                "lineWidth": 1,
+                "pointSize": 5,
+                "scaleDistribution": {
+                  "type": "linear"
+                },
+                "showPoints": "auto",
+                "spanNulls": true,
+                "stacking": {
+                  "group": "A",
+                  "mode": "none"
+                },
+                "thresholdsStyle": {
+                  "mode": "off"
+                }
+              },
+              "mappings": [],
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green",
+                    "value": null
+                  },
+                  {
+                    "color": "red",
+                    "value": 80
+                  }
+                ]
+              }
+            },
+            "overrides": [
+              {
+                "matcher": {
+                  "id": "byName",
+                  "options": "errors"
+                },
+                "properties": [
+                  {
+                    "id": "color",
+                    "value": {
+                      "fixedColor": "red",
+                      "mode": "fixed"
+                    }
+                  }
+                ]
+              }
+            ]
+          },
+          "gridPos": {
+            "h": 7,
+            "w": 22,
+            "x": 0,
+            "y": 56
+          },
+          "id": 30,
+          "options": {
+            "legend": {
+              "calcs": [],
+              "displayMode": "list",
+              "placement": "bottom",
+              "showLegend": true
+            },
+            "tooltip": {
+              "hideZeros": false,
+              "mode": "single",
+              "sort": "none"
+            }
+          },
+          "pluginVersion": "11.5.2",
+          "targets": [
+            {
+              "datasource": {
+                "type": "loki",
+                "uid": "loki"
+              },
+              "direction": "backward",
+              "editorMode": "code",
+              "expr": "count_over_time({app_name=\"$app\"} |= \" kind=measurement\" |= \" ttfb=\" [$__interval])",
+              "legendFormat": "visits",
+              "queryType": "range",
+              "refId": "A"
+            }
+          ],
+          "title": "Visits",
+          "type": "timeseries"
         }
       ],
-      "type": "table"
-    },
-    {
-      "collapsed": false,
-      "gridPos": {
-        "h": 1,
-        "w": 24,
-        "x": 0,
-        "y": 30
-      },
-      "id": 27,
-      "panels": [],
       "title": "Meta",
       "type": "row"
     },
     {
-      "datasource": {
-        "type": "loki",
-        "uid": "loki"
-      },
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "thresholds"
-          },
-          "custom": {
-            "align": "auto",
-            "cellOptions": {
-              "type": "auto"
-            },
-            "inspect": false
-          },
-          "mappings": [],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green"
-              },
-              {
-                "color": "red",
-                "value": 80
-              }
-            ]
-          }
-        },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 10,
-        "w": 10,
-        "x": 0,
-        "y": 31
-      },
-      "id": 29,
-      "options": {
-        "footer": {
-          "fields": "",
-          "reducer": [
-            "sum"
-          ],
-          "show": false
-        },
-        "showHeader": true,
-        "sortBy": [
-          {
-            "desc": true,
-            "displayName": "Count"
-          }
-        ]
-      },
-      "pluginVersion": "9.0.0",
-      "targets": [
-        {
-          "datasource": {
-            "type": "loki",
-            "uid": "loki"
-          },
-          "editorMode": "code",
-          "expr": "topk(10, count(count_over_time({app_name=\"$app\"} |= \" ttfb=\" | logfmt [$__range])) by (browser_name, browser_version))",
-          "queryType": "instant",
-          "refId": "A"
-        }
-      ],
-      "title": "Popular Browsers",
-      "transformations": [
-        {
-          "id": "organize",
-          "options": {
-            "excludeByName": {
-              "Time": true
-            },
-            "indexByName": {},
-            "renameByName": {
-              "Value #A": "Count",
-              "browser_name": "Browser",
-              "browser_version": "Version"
-            }
-          }
-        }
-      ],
-      "type": "table"
-    },
-    {
-      "datasource": {
-        "type": "loki",
-        "uid": "loki"
-      },
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "palette-classic"
-          },
-          "custom": {
-            "axisCenteredZero": false,
-            "axisColorMode": "text",
-            "axisLabel": "",
-            "axisPlacement": "auto",
-            "barAlignment": 0,
-            "drawStyle": "line",
-            "fillOpacity": 0,
-            "gradientMode": "none",
-            "hideFrom": {
-              "legend": false,
-              "tooltip": false,
-              "viz": false
-            },
-            "lineInterpolation": "linear",
-            "lineWidth": 1,
-            "pointSize": 5,
-            "scaleDistribution": {
-              "type": "linear"
-            },
-            "showPoints": "auto",
-            "spanNulls": true,
-            "stacking": {
-              "group": "A",
-              "mode": "none"
-            },
-            "thresholdsStyle": {
-              "mode": "off"
-            }
-          },
-          "mappings": [],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green"
-              },
-              {
-                "color": "red",
-                "value": 80
-              }
-            ]
-          }
-        },
-        "overrides": [
-          {
-            "matcher": {
-              "id": "byName",
-              "options": "errors"
-            },
-            "properties": [
-              {
-                "id": "color",
-                "value": {
-                  "fixedColor": "red",
-                  "mode": "fixed"
-                }
-              }
-            ]
-          }
-        ]
-      },
-      "gridPos": {
-        "h": 10,
-        "w": 12,
-        "x": 10,
-        "y": 31
-      },
-      "id": 30,
-      "options": {
-        "legend": {
-          "calcs": [],
-          "displayMode": "list",
-          "placement": "bottom",
-          "showLegend": true
-        },
-        "tooltip": {
-          "mode": "single",
-          "sort": "none"
-        }
-      },
-      "targets": [
-        {
-          "datasource": {
-            "type": "loki",
-            "uid": "loki"
-          },
-          "editorMode": "code",
-          "expr": "count_over_time({app_name=\"$app\"} |= \" ttfb=\" [$__interval])",
-          "legendFormat": "visits",
-          "queryType": "range",
-          "refId": "A"
-        }
-      ],
-      "title": "Visits",
-      "type": "timeseries"
-    },
-    {
-      "collapsed": false,
+      "collapsed": true,
       "gridPos": {
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 41
+        "y": 13
       },
-      "id": 32,
-      "panels": [],
-      "title": "Events",
-      "type": "row"
-    },
-    {
-      "datasource": {
-        "type": "loki",
-        "uid": "loki"
-      },
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "thresholds"
-          },
-          "custom": {
-            "align": "auto",
-            "cellOptions": {
-              "type": "auto"
-            },
-            "inspect": false
-          },
-          "mappings": [],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green"
-              },
-              {
-                "color": "red",
-                "value": 80
-              }
-            ]
-          }
-        },
-        "overrides": [
-          {
-            "matcher": {
-              "id": "byName",
-              "options": "Count"
-            },
-            "properties": [
-              {
-                "id": "custom.width",
-                "value": 100
-              }
-            ]
-          }
-        ]
-      },
-      "gridPos": {
-        "h": 8,
-        "w": 8,
-        "x": 0,
-        "y": 42
-      },
-      "id": 35,
-      "options": {
-        "footer": {
-          "fields": "",
-          "reducer": [
-            "sum"
-          ],
-          "show": false
-        },
-        "showHeader": true,
-        "sortBy": [
-          {
-            "desc": true,
-            "displayName": "Count"
-          }
-        ]
-      },
-      "pluginVersion": "9.0.0",
-      "targets": [
+      "id": 16,
+      "panels": [
         {
           "datasource": {
             "type": "loki",
             "uid": "loki"
           },
-          "editorMode": "code",
-          "expr": "topk(10, count(count_over_time({kind=\"event\", app=\"$app\"} | logfmt [$__range])) by (event_name))",
-          "queryType": "instant",
-          "refId": "A"
-        }
-      ],
-      "title": "Top Events",
-      "transformations": [
-        {
-          "id": "organize",
-          "options": {
-            "excludeByName": {
-              "Time": true
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "thresholds"
+              },
+              "mappings": [],
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green",
+                    "value": null
+                  },
+                  {
+                    "color": "red",
+                    "value": 1
+                  }
+                ]
+              }
             },
-            "indexByName": {},
-            "renameByName": {
-              "Value #A": "Count",
-              "event_name": "Name",
-              "value": "Error"
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 4,
+            "w": 2,
+            "x": 0,
+            "y": 133
+          },
+          "id": 18,
+          "options": {
+            "colorMode": "value",
+            "graphMode": "none",
+            "justifyMode": "auto",
+            "orientation": "auto",
+            "percentChangeColorMode": "standard",
+            "reduceOptions": {
+              "calcs": [
+                "lastNotNull"
+              ],
+              "fields": "",
+              "values": false
+            },
+            "showPercentChange": false,
+            "textMode": "auto",
+            "wideLayout": true
+          },
+          "pluginVersion": "11.5.2",
+          "targets": [
+            {
+              "datasource": {
+                "type": "loki",
+                "uid": "loki"
+              },
+              "direction": "backward",
+              "editorMode": "code",
+              "expr": "sum(count_over_time({app_name=\"$app\"} | logfmt | kind = `exception` [$__range])) by (app_name)",
+              "queryType": "range",
+              "refId": "A"
             }
-          }
+          ],
+          "title": "Total Exceptions",
+          "type": "stat"
+        },
+        {
+          "datasource": {
+            "type": "loki",
+            "uid": "loki"
+          },
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "palette-classic"
+              },
+              "custom": {
+                "axisBorderShow": false,
+                "axisCenteredZero": false,
+                "axisColorMode": "text",
+                "axisLabel": "",
+                "axisPlacement": "auto",
+                "barAlignment": 0,
+                "barWidthFactor": 0.6,
+                "drawStyle": "line",
+                "fillOpacity": 0,
+                "gradientMode": "none",
+                "hideFrom": {
+                  "legend": false,
+                  "tooltip": false,
+                  "viz": false
+                },
+                "insertNulls": false,
+                "lineInterpolation": "linear",
+                "lineWidth": 1,
+                "pointSize": 5,
+                "scaleDistribution": {
+                  "type": "linear"
+                },
+                "showPoints": "auto",
+                "spanNulls": false,
+                "stacking": {
+                  "group": "A",
+                  "mode": "none"
+                },
+                "thresholdsStyle": {
+                  "mode": "off"
+                }
+              },
+              "mappings": [],
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green",
+                    "value": null
+                  },
+                  {
+                    "color": "red",
+                    "value": 80
+                  }
+                ]
+              }
+            },
+            "overrides": [
+              {
+                "matcher": {
+                  "id": "byName",
+                  "options": "errors"
+                },
+                "properties": [
+                  {
+                    "id": "color",
+                    "value": {
+                      "fixedColor": "red",
+                      "mode": "fixed"
+                    }
+                  }
+                ]
+              }
+            ]
+          },
+          "gridPos": {
+            "h": 7,
+            "w": 12,
+            "x": 2,
+            "y": 133
+          },
+          "id": 25,
+          "options": {
+            "legend": {
+              "calcs": [],
+              "displayMode": "list",
+              "placement": "bottom",
+              "showLegend": true
+            },
+            "tooltip": {
+              "hideZeros": false,
+              "mode": "single",
+              "sort": "none"
+            }
+          },
+          "pluginVersion": "11.5.2",
+          "targets": [
+            {
+              "datasource": {
+                "type": "loki",
+                "uid": "loki"
+              },
+              "direction": "backward",
+              "editorMode": "code",
+              "expr": "count_over_time({app_name=\"$app\"} | logfmt | kind = `exception` [$__interval])",
+              "legendFormat": "errors",
+              "queryType": "range",
+              "refId": "A"
+            }
+          ],
+          "title": "Exceptions Over Time",
+          "type": "timeseries"
+        },
+        {
+          "datasource": {
+            "type": "loki",
+            "uid": "loki"
+          },
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "thresholds"
+              },
+              "custom": {
+                "align": "auto",
+                "cellOptions": {
+                  "type": "auto"
+                },
+                "inspect": false
+              },
+              "mappings": [],
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green",
+                    "value": null
+                  },
+                  {
+                    "color": "red",
+                    "value": 80
+                  }
+                ]
+              }
+            },
+            "overrides": [
+              {
+                "matcher": {
+                  "id": "byName",
+                  "options": "Count"
+                },
+                "properties": [
+                  {
+                    "id": "custom.width",
+                    "value": 100
+                  }
+                ]
+              }
+            ]
+          },
+          "gridPos": {
+            "h": 7,
+            "w": 8,
+            "x": 14,
+            "y": 133
+          },
+          "id": 20,
+          "options": {
+            "cellHeight": "sm",
+            "footer": {
+              "countRows": false,
+              "fields": "",
+              "reducer": [
+                "sum"
+              ],
+              "show": false
+            },
+            "showHeader": true,
+            "sortBy": [
+              {
+                "desc": true,
+                "displayName": "Count"
+              }
+            ]
+          },
+          "pluginVersion": "11.5.2",
+          "targets": [
+            {
+              "datasource": {
+                "type": "loki",
+                "uid": "loki"
+              },
+              "direction": "backward",
+              "editorMode": "code",
+              "expr": "topk(10, count(count_over_time({app_name=\"$app\"} | logfmt | kind = `exception` [$__range])) by (value))",
+              "queryType": "instant",
+              "refId": "A"
+            }
+          ],
+          "title": "Top Exceptions",
+          "transformations": [
+            {
+              "id": "organize",
+              "options": {
+                "excludeByName": {
+                  "Time": true
+                },
+                "indexByName": {},
+                "renameByName": {
+                  "Value #A": "Count",
+                  "value": "Error"
+                }
+              }
+            }
+          ],
+          "type": "table"
+        },
+        {
+          "datasource": {
+            "type": "loki",
+            "uid": "loki"
+          },
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "thresholds"
+              },
+              "custom": {
+                "align": "auto",
+                "cellOptions": {
+                  "type": "auto"
+                },
+                "inspect": false
+              },
+              "mappings": [],
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green",
+                    "value": null
+                  },
+                  {
+                    "color": "red",
+                    "value": 80
+                  }
+                ]
+              }
+            },
+            "overrides": [
+              {
+                "matcher": {
+                  "id": "byName",
+                  "options": "Count"
+                },
+                "properties": [
+                  {
+                    "id": "custom.width",
+                    "value": 100
+                  }
+                ]
+              }
+            ]
+          },
+          "gridPos": {
+            "h": 7,
+            "w": 14,
+            "x": 0,
+            "y": 148
+          },
+          "id": 21,
+          "options": {
+            "cellHeight": "sm",
+            "footer": {
+              "countRows": false,
+              "fields": "",
+              "reducer": [
+                "sum"
+              ],
+              "show": false
+            },
+            "showHeader": true,
+            "sortBy": [
+              {
+                "desc": true,
+                "displayName": "Count"
+              }
+            ]
+          },
+          "pluginVersion": "11.5.2",
+          "targets": [
+            {
+              "datasource": {
+                "type": "loki",
+                "uid": "loki"
+              },
+              "direction": "backward",
+              "editorMode": "code",
+              "expr": "topk(10, count(count_over_time({app_name=\"$app\"} | logfmt | kind = `exception` [$__range])) by (page_url))",
+              "queryType": "instant",
+              "refId": "A"
+            }
+          ],
+          "title": "Top URLs by Exception Count",
+          "transformations": [
+            {
+              "id": "organize",
+              "options": {
+                "excludeByName": {
+                  "Time": true
+                },
+                "indexByName": {},
+                "renameByName": {
+                  "Value #A": "Count",
+                  "page_url": "URL",
+                  "value": "Error"
+                }
+              }
+            }
+          ],
+          "type": "table"
+        },
+        {
+          "datasource": {
+            "type": "loki",
+            "uid": "loki"
+          },
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "thresholds"
+              },
+              "custom": {
+                "align": "auto",
+                "cellOptions": {
+                  "type": "auto"
+                },
+                "inspect": false
+              },
+              "mappings": [],
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green",
+                    "value": null
+                  },
+                  {
+                    "color": "red",
+                    "value": 80
+                  }
+                ]
+              }
+            },
+            "overrides": [
+              {
+                "matcher": {
+                  "id": "byName",
+                  "options": "Version"
+                },
+                "properties": [
+                  {
+                    "id": "custom.width",
+                    "value": 150
+                  }
+                ]
+              },
+              {
+                "matcher": {
+                  "id": "byName",
+                  "options": "Errors"
+                },
+                "properties": [
+                  {
+                    "id": "custom.width",
+                    "value": 100
+                  }
+                ]
+              }
+            ]
+          },
+          "gridPos": {
+            "h": 7,
+            "w": 8,
+            "x": 14,
+            "y": 148
+          },
+          "id": 23,
+          "options": {
+            "cellHeight": "sm",
+            "footer": {
+              "countRows": false,
+              "fields": "",
+              "reducer": [
+                "sum"
+              ],
+              "show": false
+            },
+            "showHeader": true,
+            "sortBy": [
+              {
+                "desc": true,
+                "displayName": "Count"
+              }
+            ]
+          },
+          "pluginVersion": "11.5.2",
+          "targets": [
+            {
+              "datasource": {
+                "type": "loki",
+                "uid": "loki"
+              },
+              "direction": "backward",
+              "editorMode": "code",
+              "expr": "topk(10, count by (browser_name, browser_version) (count_over_time({app_name=\"$app\"} | logfmt | kind = `exception` [$__range])))",
+              "queryType": "instant",
+              "refId": "A"
+            }
+          ],
+          "title": "Top Browsers by Exception Count",
+          "transformations": [
+            {
+              "id": "organize",
+              "options": {
+                "excludeByName": {
+                  "Time": true
+                },
+                "indexByName": {},
+                "renameByName": {
+                  "Value #A": "Count",
+                  "browser_name": "Browser",
+                  "browser_version": "Version",
+                  "page_url": "URL",
+                  "value": "Error"
+                }
+              }
+            }
+          ],
+          "type": "table"
         }
       ],
-      "type": "table"
+      "title": "Exceptions",
+      "type": "row"
+    },
+    {
+      "collapsed": true,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 14
+      },
+      "id": 32,
+      "panels": [
+        {
+          "datasource": {
+            "type": "loki",
+            "uid": "loki"
+          },
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "thresholds"
+              },
+              "custom": {
+                "align": "auto",
+                "cellOptions": {
+                  "type": "auto"
+                },
+                "inspect": false
+              },
+              "mappings": [],
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green",
+                    "value": null
+                  },
+                  {
+                    "color": "red",
+                    "value": 80
+                  }
+                ]
+              }
+            },
+            "overrides": [
+              {
+                "matcher": {
+                  "id": "byName",
+                  "options": "Count"
+                },
+                "properties": [
+                  {
+                    "id": "custom.width",
+                    "value": 100
+                  }
+                ]
+              }
+            ]
+          },
+          "gridPos": {
+            "h": 8,
+            "w": 8,
+            "x": 0,
+            "y": 134
+          },
+          "id": 35,
+          "options": {
+            "cellHeight": "sm",
+            "footer": {
+              "countRows": false,
+              "fields": "",
+              "reducer": [
+                "sum"
+              ],
+              "show": false
+            },
+            "showHeader": true,
+            "sortBy": [
+              {
+                "desc": true,
+                "displayName": "Count"
+              }
+            ]
+          },
+          "pluginVersion": "11.5.2",
+          "targets": [
+            {
+              "datasource": {
+                "type": "loki",
+                "uid": "loki"
+              },
+              "direction": "backward",
+              "editorMode": "code",
+              "expr": "topk(10, count(count_over_time({app_name=\"$app\"} |= \"kind=event\" | logfmt [$__range])) by (event_name))",
+              "queryType": "instant",
+              "refId": "A"
+            }
+          ],
+          "title": "Top Events",
+          "transformations": [
+            {
+              "id": "organize",
+              "options": {
+                "excludeByName": {
+                  "Time": true
+                },
+                "indexByName": {},
+                "renameByName": {
+                  "Value #A": "Count",
+                  "event_name": "Name",
+                  "value": "Error"
+                }
+              }
+            }
+          ],
+          "type": "table"
+        }
+      ],
+      "title": "Events",
+      "type": "row"
     }
   ],
   "preload": false,
-  "refresh": "",
+  "refresh": "5s",
   "schemaVersion": 40,
   "tags": [],
   "templating": {
@@ -1576,12 +1800,17 @@
           "type": "loki",
           "uid": "loki"
         },
-        "definition": "label_values(app_name)",
+        "definition": "",
         "includeAll": false,
         "label": "app",
         "name": "app",
         "options": [],
-        "query": "label_values(app_name)",
+        "query": {
+          "label": "app_name",
+          "refId": "LokiVariableQueryEditor-VariableQuery",
+          "stream": "",
+          "type": 1
+        },
         "refresh": 1,
         "regex": "",
         "type": "query"
@@ -1589,13 +1818,13 @@
     ]
   },
   "time": {
-    "from": "now-1h",
+    "from": "now-3h",
     "to": "now"
   },
   "timepicker": {},
   "timezone": "",
   "title": "My Real-time User Monitoring",
-  "uid": "ceoiru3vfn11cf",
+  "uid": "my-real-time-user-monitoring",
   "version": 1,
   "weekStart": ""
 }
