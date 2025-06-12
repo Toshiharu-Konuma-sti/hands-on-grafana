@@ -1,10 +1,6 @@
 
-  (function () {
-    // Create a script tag for loading the library
-    var script = document.createElement('script');
-
     // Initialize the Web SDK at the onLoad event of the script element so it is called when the library is loaded.
-    script.onload = () => {
+    window.init = () => {
       window.GrafanaFaroWebSdk.initializeFaro({
         // Mandatory, the URL of the Grafana Cloud collector with embedded application key.
         // Copy from the configuration page of your application in Grafana.
@@ -15,13 +11,12 @@
           name: 'my-faro',
           version: '1.0.0', // Optional, but recommended
         },
+//        transports: [new window.GrafanaFaroWebSdk.ConsoleTransport()],
       });
     };
 
-    // Set the source of the script tag to the CDN
-    script.src = 'https://unpkg.com/@grafana/faro-web-sdk@^1.0.0-beta/dist/bundle/faro-web-sdk.iife.js';
-
-    // Append the script tag to the head of the HTML document
-    document.head.appendChild(script);
-  })();
+    // Dynamically add the tracing instrumentation when the tracing bundle loads
+    window.addTracing = () => {
+        window.GrafanaFaroWebSdk.faro.instrumentations.add(new window.GrafanaFaroWebTracing.TracingInstrumentation());
+    };
 
