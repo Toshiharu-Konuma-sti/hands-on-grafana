@@ -70,7 +70,7 @@
       },
       "gridPos": {
         "h": 3,
-        "w": 3,
+        "w": 4,
         "x": 0,
         "y": 1
       },
@@ -144,8 +144,8 @@
       },
       "gridPos": {
         "h": 3,
-        "w": 3,
-        "x": 3,
+        "w": 5,
+        "x": 4,
         "y": 1
       },
       "id": 9,
@@ -220,8 +220,8 @@
       },
       "gridPos": {
         "h": 3,
-        "w": 3,
-        "x": 6,
+        "w": 5,
+        "x": 9,
         "y": 1
       },
       "id": 11,
@@ -294,8 +294,8 @@
       },
       "gridPos": {
         "h": 3,
-        "w": 3,
-        "x": 9,
+        "w": 5,
+        "x": 14,
         "y": 1
       },
       "id": 10,
@@ -368,8 +368,8 @@
       },
       "gridPos": {
         "h": 3,
-        "w": 4,
-        "x": 12,
+        "w": 5,
+        "x": 19,
         "y": 1
       },
       "id": 12,
@@ -599,7 +599,7 @@
       },
       "gridPos": {
         "h": 8,
-        "w": 7,
+        "w": 8,
         "x": 8,
         "y": 4
       },
@@ -702,8 +702,8 @@
       },
       "gridPos": {
         "h": 8,
-        "w": 7,
-        "x": 15,
+        "w": 8,
+        "x": 16,
         "y": 4
       },
       "id": 6,
@@ -784,9 +784,9 @@
           },
           "gridPos": {
             "h": 7,
-            "w": 6,
+            "w": 8,
             "x": 0,
-            "y": 49
+            "y": 117
           },
           "id": 36,
           "options": {
@@ -876,8 +876,8 @@
           "gridPos": {
             "h": 7,
             "w": 8,
-            "x": 6,
-            "y": 49
+            "x": 8,
+            "y": 117
           },
           "id": 29,
           "options": {
@@ -968,8 +968,8 @@
           "gridPos": {
             "h": 7,
             "w": 8,
-            "x": 14,
-            "y": 49
+            "x": 16,
+            "y": 117
           },
           "id": 37,
           "options": {
@@ -1101,9 +1101,9 @@
           },
           "gridPos": {
             "h": 7,
-            "w": 22,
+            "w": 24,
             "x": 0,
-            "y": 56
+            "y": 202
           },
           "id": 30,
           "options": {
@@ -1182,7 +1182,7 @@
             "h": 4,
             "w": 2,
             "x": 0,
-            "y": 133
+            "y": 118
           },
           "id": 18,
           "options": {
@@ -1299,7 +1299,7 @@
             "h": 7,
             "w": 12,
             "x": 2,
-            "y": 133
+            "y": 118
           },
           "id": 25,
           "options": {
@@ -1382,9 +1382,9 @@
           },
           "gridPos": {
             "h": 7,
-            "w": 8,
+            "w": 10,
             "x": 14,
-            "y": 133
+            "y": 118
           },
           "id": 20,
           "options": {
@@ -1488,7 +1488,7 @@
             "h": 7,
             "w": 14,
             "x": 0,
-            "y": 148
+            "y": 189
           },
           "id": 21,
           "options": {
@@ -1603,9 +1603,9 @@
           },
           "gridPos": {
             "h": 7,
-            "w": 8,
+            "w": 10,
             "x": 14,
-            "y": 148
+            "y": 189
           },
           "id": 23,
           "options": {
@@ -1726,7 +1726,7 @@
             "h": 8,
             "w": 8,
             "x": 0,
-            "y": 134
+            "y": 119
           },
           "id": 35,
           "options": {
@@ -1782,6 +1782,141 @@
         }
       ],
       "title": "Events",
+      "type": "row"
+    },
+    {
+      "collapsed": true,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 15
+      },
+      "id": 38,
+      "panels": [
+        {
+          "datasource": {
+            "type": "loki",
+            "uid": "loki"
+          },
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "thresholds"
+              },
+              "custom": {
+                "align": "auto",
+                "cellOptions": {
+                  "type": "auto"
+                },
+                "inspect": false
+              },
+              "mappings": [],
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green",
+                    "value": null
+                  },
+                  {
+                    "color": "red",
+                    "value": 80
+                  }
+                ]
+              }
+            },
+            "overrides": [
+              {
+                "matcher": {
+                  "id": "byName",
+                  "options": "labels"
+                },
+                "properties": [
+                  {
+                    "id": "custom.width",
+                    "value": 148
+                  }
+                ]
+              },
+              {
+                "matcher": {
+                  "id": "byName",
+                  "options": "Time"
+                },
+                "properties": [
+                  {
+                    "id": "custom.width",
+                    "value": 199
+                  }
+                ]
+              }
+            ]
+          },
+          "gridPos": {
+            "h": 12,
+            "w": 24,
+            "x": 0,
+            "y": 16
+          },
+          "id": 39,
+          "options": {
+            "cellHeight": "sm",
+            "footer": {
+              "countRows": false,
+              "fields": "",
+              "reducer": [
+                "sum"
+              ],
+              "show": false
+            },
+            "frameIndex": 0,
+            "showHeader": true,
+            "sortBy": []
+          },
+          "pluginVersion": "11.5.2",
+          "targets": [
+            {
+              "datasource": {
+                "type": "loki",
+                "uid": "loki"
+              },
+              "direction": "backward",
+              "editorMode": "code",
+              "expr": "{app_name=\"$app\"} | logfmt",
+              "queryType": "range",
+              "refId": "A"
+            }
+          ],
+          "title": "New Panel",
+          "transformations": [
+            {
+              "id": "extractFields",
+              "options": {
+                "delimiter": ",",
+                "format": "json",
+                "keepTime": true,
+                "replace": true,
+                "source": "labels"
+              }
+            },
+            {
+              "id": "sortBy",
+              "options": {
+                "fields": {},
+                "sort": [
+                  {
+                    "desc": true,
+                    "field": "Time"
+                  }
+                ]
+              }
+            }
+          ],
+          "type": "table"
+        }
+      ],
+      "title": "Faro log",
       "type": "row"
     }
   ],
