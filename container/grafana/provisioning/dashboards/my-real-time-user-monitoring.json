@@ -1888,7 +1888,7 @@
               "refId": "A"
             }
           ],
-          "title": "New Panel",
+          "title": "Faro log",
           "transformations": [
             {
               "id": "extractFields",
