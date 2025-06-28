@@ -770,8 +770,7 @@
                 "mode": "absolute",
                 "steps": [
                   {
-                    "color": "green",
-                    "value": null
+                    "color": "green"
                   },
                   {
                     "color": "red",
@@ -786,7 +785,7 @@
             "h": 7,
             "w": 8,
             "x": 0,
-            "y": 117
+            "y": 141
           },
           "id": 36,
           "options": {
@@ -861,8 +860,7 @@
                 "mode": "absolute",
                 "steps": [
                   {
-                    "color": "green",
-                    "value": null
+                    "color": "green"
                   },
                   {
                     "color": "red",
@@ -877,7 +875,7 @@
             "h": 7,
             "w": 8,
             "x": 8,
-            "y": 117
+            "y": 141
           },
           "id": 29,
           "options": {
@@ -953,8 +951,7 @@
                 "mode": "absolute",
                 "steps": [
                   {
-                    "color": "green",
-                    "value": null
+                    "color": "green"
                   },
                   {
                     "color": "red",
@@ -969,7 +966,7 @@
             "h": 7,
             "w": 8,
             "x": 16,
-            "y": 117
+            "y": 141
           },
           "id": 37,
           "options": {
@@ -1071,8 +1068,7 @@
                 "mode": "absolute",
                 "steps": [
                   {
-                    "color": "green",
-                    "value": null
+                    "color": "green"
                   },
                   {
                     "color": "red",
@@ -1103,7 +1099,7 @@
             "h": 7,
             "w": 24,
             "x": 0,
-            "y": 202
+            "y": 226
           },
           "id": 30,
           "options": {
@@ -1166,8 +1162,7 @@
                 "mode": "absolute",
                 "steps": [
                   {
-                    "color": "green",
-                    "value": null
+                    "color": "green"
                   },
                   {
                     "color": "red",
@@ -1182,7 +1177,7 @@
             "h": 4,
             "w": 2,
             "x": 0,
-            "y": 118
+            "y": 142
           },
           "id": 18,
           "options": {
@@ -1267,8 +1262,7 @@
                 "mode": "absolute",
                 "steps": [
                   {
-                    "color": "green",
-                    "value": null
+                    "color": "green"
                   },
                   {
                     "color": "red",
@@ -1299,7 +1293,7 @@
             "h": 7,
             "w": 12,
             "x": 2,
-            "y": 118
+            "y": 142
           },
           "id": 25,
           "options": {
@@ -1355,8 +1349,7 @@
                 "mode": "absolute",
                 "steps": [
                   {
-                    "color": "green",
-                    "value": null
+                    "color": "green"
                   },
                   {
                     "color": "red",
@@ -1384,7 +1377,7 @@
             "h": 7,
             "w": 10,
             "x": 14,
-            "y": 118
+            "y": 142
           },
           "id": 20,
           "options": {
@@ -1459,8 +1452,7 @@
                 "mode": "absolute",
                 "steps": [
                   {
-                    "color": "green",
-                    "value": null
+                    "color": "green"
                   },
                   {
                     "color": "red",
@@ -1488,7 +1480,7 @@
             "h": 7,
             "w": 14,
             "x": 0,
-            "y": 189
+            "y": 213
           },
           "id": 21,
           "options": {
@@ -1564,8 +1556,7 @@
                 "mode": "absolute",
                 "steps": [
                   {
-                    "color": "green",
-                    "value": null
+                    "color": "green"
                   },
                   {
                     "color": "red",
@@ -1605,7 +1596,7 @@
             "h": 7,
             "w": 10,
             "x": 14,
-            "y": 189
+            "y": 213
           },
           "id": 23,
           "options": {
@@ -1697,8 +1688,7 @@
                 "mode": "absolute",
                 "steps": [
                   {
-                    "color": "green",
-                    "value": null
+                    "color": "green"
                   },
                   {
                     "color": "red",
@@ -1726,7 +1716,7 @@
             "h": 8,
             "w": 8,
             "x": 0,
-            "y": 119
+            "y": 143
           },
           "id": 35,
           "options": {
@@ -1891,13 +1881,44 @@
           "title": "Faro log",
           "transformations": [
             {
+              "id": "organize",
+              "options": {
+                "excludeByName": {
+                  "labels": false
+                },
+                "includeByName": {},
+                "indexByName": {
+                  "Time": 0,
+                  "tsNs": 1,
+                  "labelTypes": 2,
+                  "id": 3,
+                  "trace_id": 4,
+                  "Jaeger": 5,
+                  "Zipkin": 6,
+                  "labels": 7,
+                  "Line": 8
+                },
+                "renameByName": {
+                  "labels": ""
+                }
+              }
+            },
+            {
               "id": "extractFields",
               "options": {
                 "delimiter": ",",
                 "format": "json",
-                "keepTime": true,
-                "replace": true,
+                "keepTime": false,
+                "replace": false,
                 "source": "labels"
+              }
+            },
+            {
+              "id": "extractFields",
+              "options": {
+                "delimiter": ",",
+                "format": "kvp",
+                "source": "Line"
               }
             },
             {
@@ -1908,6 +1929,18 @@
                   {
                     "desc": true,
                     "field": "Time"
+                  }
+                ]
+              }
+            },
+            {
+              "id": "sortBy",
+              "options": {
+                "fields": {},
+                "sort": [
+                  {
+                    "desc": true,
+                    "field": "tsNs"
                   }
                 ]
               }
