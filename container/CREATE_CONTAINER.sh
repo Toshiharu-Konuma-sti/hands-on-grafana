@@ -20,29 +20,6 @@ docker-compose \
 }
 # }}}
 
-# {{{ clean_up_volume()
-# $1: a current directory
-# $2: a volume folder to clean up
-clean_up_volume()
-{
-	CUR_DIR=$1
-	shift
-	VOL_DIR="$@"
-	echo "\n### START: Clean up a volume folder ##########"
-	for VDIR in $VOL_DIR; do
-		RM_DIR="$CUR_DIR/$VDIR"
-		if [ -d $RM_DIR ]; then
-			# sort a processing depend on a directory's owner(yourself or other).
-			if [ "$(ls -ld $RM_DIR | awk '{print $3}')" = $USER ]; then
-				rm -rf $RM_DIR
-			else
-				sudo rm -rf $RM_DIR
-			fi
-		fi
-	done
-}
-# }}}
-
 # {{{ install_plugin_collectiong_log()
 install_plugin_collectiong_log()
 {
@@ -118,21 +95,12 @@ finish_banner()
 # }}}
 
 S_TIME=$(date +%s)
-CUR_DIR=$(cd $(dirname $0); pwd)
-VOL_DIR="
-	mimir/data/mimir-1
-	mimir/data/mimir-2
-	tempo/data/tempo-1
-	minio/data/mimir
-	minio/data/loki
-	minio/data/tempo
-"
+
 case "$1" in
 	"down")
 		clear
 		start_banner
 		destory_container
-		clean_up_volume $CUR_DIR $VOL_DIR
 		show_list_container
 		finish_banner $S_TIME
 		;;
@@ -152,7 +120,6 @@ case "$1" in
 		clear
 		start_banner
 		destory_container
-		clean_up_volume $CUR_DIR $VOL_DIR
 		create_container
 		show_list_container
 		show_url
