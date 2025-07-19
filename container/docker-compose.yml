@@ -83,7 +83,7 @@ services:
         condition: service_healthy
     volumes:
       - ./mimir/config/mimir.yaml:/etc/mimir.yaml
-      - ./mimir/data/mimir-1:/data
+      - mimir-data-1:/data
     networks:
       - internal
 
@@ -97,7 +97,7 @@ services:
         condition: service_healthy
     volumes:
       - ./mimir/config/mimir.yaml:/etc/mimir.yaml
-      - ./mimir/data/mimir-2:/data
+      - mimir-data-2:/data
     networks:
       - internal
 
@@ -111,7 +111,7 @@ services:
       MINIO_ROOT_USER: mimir
       MINIO_ROOT_PASSWORD: ${MINIO_PASS}
     volumes:
-      - ./minio/data/mimir:/data
+      - minio-mimir:/data
     healthcheck: *minioHealthcheck
     ports:
       - 9001:9001
@@ -188,7 +188,7 @@ services:
       MINIO_ROOT_USER: loki
       MINIO_ROOT_PASSWORD: ${MINIO_PASS}
     volumes:
-      - ./minio/data/loki:/data
+      - minio-loki:/data
     healthcheck: *minioHealthcheck
     ports:
       - 9002:9002
@@ -232,7 +232,7 @@ services:
       - "10001:10001"
       - "/var/tempo"
     volumes:
-      - ./tempo/data/tempo-1:/var/tempo
+      - tempo-data-1:/var/tempo
     networks:
       - internal
 
@@ -243,7 +243,7 @@ services:
     command: [ "-config.file=/etc/tempo.yaml" ]
     volumes:
       - ./tempo/config/tempo.yaml:/etc/tempo.yaml
-      - ./tempo/data/tempo-1:/var/tempo
+      - tempo-data-1:/var/tempo
     depends_on:
       tempo-init:
         condition: service_started
@@ -279,7 +279,7 @@ services:
       MINIO_ROOT_USER: tempo
       MINIO_ROOT_PASSWORD: ${MINIO_PASS}
     volumes:
-      - ./minio/data/tempo:/data
+      - minio-tempo:/data
     healthcheck: *minioHealthcheck
     ports:
       - 9003:9003
@@ -386,6 +386,18 @@ services:
     networks:
       - internal
       - external
+
+##############################
+# volumes
+##############################
+
+volumes:
+  mimir-data-1:
+  mimir-data-2:
+  tempo-data-1:
+  minio-mimir:
+  minio-loki:
+  minio-tempo:
 
 ##############################
 # networks
