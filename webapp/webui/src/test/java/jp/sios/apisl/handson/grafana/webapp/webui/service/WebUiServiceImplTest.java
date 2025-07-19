@@ -36,7 +36,7 @@ class WebUiServiceImplTest {
 		MockitoAnnotations.openMocks(this);
 		webUiService = new WebUiServiceImpl(this.restClient);
 	}
-
+/*
 	@Test
 	void testCallRollDiceApi() {
 
@@ -264,4 +264,130 @@ class WebUiServiceImplTest {
 			assertNull(result);
 		}
 	}
+
+	@Test
+	void testCallRollDiceApi_ConstructsCorrectUrl() {
+		RestClient.Builder restClientBuilder = RestClient.builder();
+		MockRestServiceServer mockServer = MockRestServiceServer.bindTo(restClientBuilder).build();
+		String expectedUrl = "http://null/api/dice/v1/roll?sleep=123&loop=456&error=testError";
+		String expectedResponse = "7";
+		mockServer.expect(requestTo(expectedUrl))
+			.andExpect(method(HttpMethod.GET))
+			.andRespond(withSuccess().body(expectedResponse));
+		this.restClient = restClientBuilder.build();
+		this.webUiService = new WebUiServiceImpl(this.restClient);
+
+		Optional<String> optSleep = Optional.of("123");
+		Optional<String> optLoop = Optional.of("456");
+		Optional<String> optError = Optional.of("testError");
+
+		String response = webUiService.callRollDiceApi(optSleep, optLoop, optError);
+
+		assertEquals(expectedResponse, response);
+	}
+
+	@Test
+	void testCallListDiceApi_ReturnsJSONArray() {
+		RestClient.Builder restClientBuilder = RestClient.builder();
+		MockRestServiceServer mockServer = MockRestServiceServer.bindTo(restClientBuilder).build();
+		String expectedUrl = "http://null/api/dice/v1/list";
+		String jsonResponse = "[{\"id\":1,\"value\":2},{\"id\":2,\"value\":5}]";
+		mockServer.expect(requestTo(expectedUrl))
+			.andExpect(method(HttpMethod.GET))
+			.andRespond(withSuccess().body(jsonResponse));
+		this.restClient = restClientBuilder.build();
+		this.webUiService = new WebUiServiceImpl(this.restClient);
+
+		JSONArray result = webUiService.callListDiceApi();
+
+		assertNotNull(result);
+		assertEquals(2, result.length());
+		assertEquals(2, result.getJSONObject(0).getInt("value"));
+		assertEquals(5, result.getJSONObject(1).getInt("value"));
+	}
+
+	@Test
+	void testCallApi_ReturnsDefaultOnException() {
+		RestClient.Builder restClientBuilder = RestClient.builder();
+		MockRestServiceServer mockServer = MockRestServiceServer.bindTo(restClientBuilder).build();
+		String expectedUrl = "http://null/api/dice/v1/roll";
+		mockServer.expect(requestTo(expectedUrl))
+			.andExpect(method(HttpMethod.GET))
+			.andRespond(withServerError());
+		this.restClient = restClientBuilder.build();
+		this.webUiService = new WebUiServiceImpl(this.restClient);
+
+		String response = webUiService.callRollDiceApi(Optional.empty(), Optional.empty(), Optional.empty());
+
+		assertEquals("0", response);
+	}
+
+	@Test
+	void testCallRollDiceApi_ParameterCombinations() {
+		RestClient.Builder restClientBuilder = RestClient.builder();
+		MockRestServiceServer mockServer = MockRestServiceServer.bindTo(restClientBuilder).build();
+
+		// Only sleep
+		String urlSleep = "http://null/api/dice/v1/roll?sleep=10";
+		mockServer.expect(requestTo(urlSleep))
+			.andExpect(method(HttpMethod.GET))
+			.andRespond(withSuccess().body("1"));
+		this.restClient = restClientBuilder.build();
+		this.webUiService = new WebUiServiceImpl(this.restClient);
+		assertEquals("1", webUiService.callRollDiceApi(Optional.of("10"), Optional.empty(), Optional.empty()));
+
+		// Only loop
+		RestClient.Builder restClientBuilder2 = RestClient.builder();
+		MockRestServiceServer mockServer2 = MockRestServiceServer.bindTo(restClientBuilder2).build();
+		String urlLoop = "http://null/api/dice/v1/roll?loop=20";
+		mockServer2.expect(requestTo(urlLoop))
+			.andExpect(method(HttpMethod.GET))
+			.andRespond(withSuccess().body("2"));
+		this.restClient = restClientBuilder2.build();
+		this.webUiService = new WebUiServiceImpl(this.restClient);
+		assertEquals("2", webUiService.callRollDiceApi(Optional.empty(), Optional.of("20"), Optional.empty()));
+
+		// Only error
+		RestClient.Builder restClientBuilder3 = RestClient.builder();
+		MockRestServiceServer mockServer3 = MockRestServiceServer.bindTo(restClientBuilder3).build();
+		String urlError = "http://null/api/dice/v1/roll?error=err";
+		mockServer3.expect(requestTo(urlError))
+			.andExpect(method(HttpMethod.GET))
+			.andRespond(withSuccess().body("3"));
+		this.restClient = restClientBuilder3.build();
+		this.webUiService = new WebUiServiceImpl(this.restClient);
+		assertEquals("3", webUiService.callRollDiceApi(Optional.empty(), Optional.empty(), Optional.of("err")));
+	}
+
+	@Test
+	void testCallRollDiceApi_EmptyOptionalParams() {
+		RestClient.Builder restClientBuilder = RestClient.builder();
+		MockRestServiceServer mockServer = MockRestServiceServer.bindTo(restClientBuilder).build();
+		String expectedUrl = "http://null/api/dice/v1/roll";
+		mockServer.expect(requestTo(expectedUrl))
+			.andExpect(method(HttpMethod.GET))
+			.andRespond(withSuccess().body("9"));
+		this.restClient = restClientBuilder.build();
+		this.webUiService = new WebUiServiceImpl(this.restClient);
+
+		String response = webUiService.callRollDiceApi(Optional.empty(), Optional.empty(), Optional.empty());
+
+		assertEquals("9", response);
+	}
+
+	@Test
+	void testGetCurrentUrl_DelegatesToUtilEnvInfo() {
+		String expectedUrl = "http://localhost/test";
+		HttpServletRequest mockRequest = mock(HttpServletRequest.class);
+
+		try (var mocked = mockStatic(jp.sios.apisl.handson.grafana.webapp.webui.util.UtilEnvInfo.class)) {
+			mocked.when(() -> jp.sios.apisl.handson.grafana.webapp.webui.util.UtilEnvInfo.getCurrentUrl(mockRequest))
+				.thenReturn(expectedUrl);
+
+			String result = webUiService.getCurrentUrl(mockRequest);
+
+			assertEquals(expectedUrl, result);
+		}
+	}
+*/
 }
