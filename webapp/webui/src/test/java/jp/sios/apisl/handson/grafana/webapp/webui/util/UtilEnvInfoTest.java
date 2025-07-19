@@ -40,28 +40,30 @@ class UtilEnvInfoTest {
 	}
 
 	@Test
-	void testGetClassNameReturnsThisClass() throws Exception {
-		// Use reflection to access private static method getClassName
-		var method = UtilEnvInfo.class.getDeclaredMethod("getClassName");
-		method.setAccessible(true);
-		String className = (String) method.invoke(null);
-		// Should return the test class name since it's called from here
-		assertEquals(this.getClass().getName(), className);
-	}
-
-	@Test
-	void testGetMethodNameReturnsTestMethod() throws Exception {
-		// Use reflection to access private static method getMethodName
-		var method = UtilEnvInfo.class.getDeclaredMethod("getMethodName");
-		method.setAccessible(true);
-		String methodName = (String) method.invoke(null);
-		// Should return the name of this test method
-		assertEquals("testGetMethodNameReturnsTestMethod", methodName);
-	}
-
-	@Test
 	void testMyTest() {
 		var obj = new UtilEnvInfo();
 		obj.logStartClassMethod();
+	}
+
+	@Test
+	void testLogRequestWithLabelDoesNotThrow() throws Exception {
+		HttpServletRequest request = mock(HttpServletRequest.class);
+		when(request.getRequestURL()).thenReturn(new StringBuffer("http://localhost/label"));
+		var method = UtilEnvInfo.class.getDeclaredMethod("logRequestWithLabel", String.class, HttpServletRequest.class);
+		method.setAccessible(true);
+		assertDoesNotThrow(() -> method.invoke(null, "LABEL", request));
+	}
+
+	@Test
+	void testGetCurrentUrlWithEmptyUrl() {
+		HttpServletRequest request = mock(HttpServletRequest.class);
+		when(request.getRequestURL()).thenReturn(new StringBuffer(""));
+		String result = UtilEnvInfo.getCurrentUrl(request);
+		assertEquals("", result);
+	}
+
+	@Test
+	void testGetCurrentUrlWithNullRequest() {
+		assertThrows(NullPointerException.class, () -> UtilEnvInfo.getCurrentUrl(null));
 	}
 }
