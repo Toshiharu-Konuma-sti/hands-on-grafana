@@ -70,11 +70,11 @@ show_url()
  *   - Jaeger:     http://localhost:16686
  *   - Zipkin:     http://localhost:9411
  * - Access to Monitored servers with the URL below.
- *   - webui:      http://localhost:8081
- *   - webapi:     http://localhost:8082/api/dice/v1/roll
- *   - webapi:     http://localhost:8082/api/dice/v1/list
- *   - micrometer: http://localhost:8081/actuator for webui
- *   - micrometer: http://localhost:8082/actuator for webapi
+ *   - webui:      http://localhost:8181
+ *   - webapi:     http://localhost:8182/api/dice/v1/roll
+ *   - webapi:     http://localhost:8182/api/dice/v1/list
+ *   - micrometer: http://localhost:8181/actuator for webui
+ *   - micrometer: http://localhost:8182/actuator for webapi
  ***********************************************************/
 
 EOS

@@ -1,5 +1,5 @@
 server:
-  port: 8082
+  port: 8182
 
 spring:
   application:
@@ -34,7 +34,7 @@ management:
         step: 5s
         resourceAttributes:
           service.name: webapi
-          service.instance.id: webapi:8082
+          service.instance.id: webapi:8182
 #    logging:
 #      endpoint: http://otel-collector:4318/v1/logs
 #    tracing:

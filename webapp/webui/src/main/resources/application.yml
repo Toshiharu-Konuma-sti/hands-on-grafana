@@ -1,5 +1,5 @@
 server:
-  port: 8081
+  port: 8181
 
 spring:
   application:
@@ -25,7 +25,7 @@ management:
         step: 5s
         resourceAttributes:
           service.name: webui
-          service.instance.id: webui:8081
+          service.instance.id: webui:8181
 #    logging:
 #      endpoint: http://otel-collector:4318/v1/logs
 #    tracing:
@@ -44,5 +44,5 @@ otel:
 # variables for hands-on training
 handson:
   webapi:
-    host: webapi:8082
-#    host: localhost:8082
+    host: webapi:8182
+#    host: localhost:8182

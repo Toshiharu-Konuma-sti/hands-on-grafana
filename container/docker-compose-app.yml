@@ -14,7 +14,7 @@ services:
       dockerfile: Dockerfile-webui
     image: webapp/webui:latest
     ports:
-      - 8081:8081
+      - 8181:8181
     networks:
       - internal
       - external
@@ -41,7 +41,7 @@ services:
       dockerfile: Dockerfile-webapi
     image: webapp/webapi:latest
     ports:
-      - 8082:8082
+      - 8182:8182
     networks:
       - internal
       - external
