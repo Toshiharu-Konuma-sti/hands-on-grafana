@@ -13,8 +13,8 @@ receivers:
           metrics_path: /actuator/prometheus
           static_configs:
             - targets:
-              - webui:8081
-              - webapi:8082
+              - webui:8181
+              - webapi:8182
         - job_name: node-exporter
           static_configs:
             - targets:
