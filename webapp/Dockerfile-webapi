@@ -8,5 +8,6 @@ COPY ./webapi/ /webapi/
 WORKDIR /webapi
 
 # Execute Gradle commands in order
-RUN ./gradlew clean
-RUN ./gradlew build -x test
+RUN ./gradlew clean && \
+    ./gradlew build
+# RUN ./gradlew build -x test

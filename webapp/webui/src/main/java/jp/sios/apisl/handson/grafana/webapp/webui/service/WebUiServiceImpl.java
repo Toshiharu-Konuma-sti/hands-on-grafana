@@ -22,7 +22,7 @@ public class WebUiServiceImpl implements WebUiService
 	private static final Logger logger = LoggerFactory.getLogger(WebUiServiceImpl.class);
 	private final RestClient restClient;
 
-	@Value("${handson.webapi.host}")
+	@Value("${handson.webapp.webapi.host}")
 	private String webapiHost;
 
 	// {{{ public WebUiServiceImpl(RestClient restClient)

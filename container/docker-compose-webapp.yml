@@ -6,9 +6,9 @@ services:
 # monitored servers
 ##############################
 
-  webui:
-    container_name: webui
-    hostname: webui
+  webapp-webui:
+    container_name: webapp-webui
+    hostname: webapp-webui
     build:
       context: ../webapp
       dockerfile: Dockerfile-webui
@@ -26,16 +26,16 @@ services:
         wget -O ./pyroscope.jar https://github.com/grafana/pyroscope-java/releases/download/v2.0.0/pyroscope.jar
         java -javaagent:pyroscope.jar -jar build/libs/apisl.handson.grafana.webapp.webui-0.0.1-SNAPSHOT.jar
     environment:
-      PYROSCOPE_APPLICATION_NAME: webapp.webui
+      PYROSCOPE_APPLICATION_NAME: webapp-webui
       PYROSCOPE_SERVER_ADDRESS: http://alloy:9999
       PYROSCOPE_FORMAT: jfr
       PYROSCOPE_PROFILER_ALLOC: 512k
       PYROSCOPE_PROFILER_LOCK: 10ms
     tty: true
 
-  webapi:
-    container_name: webapi
-    hostname: webapi
+  webapp-webapi:
+    container_name: webapp-webapi
+    hostname: webapp-webapi
     build:
       context: ../webapp
       dockerfile: Dockerfile-webapi
@@ -53,16 +53,16 @@ services:
         wget -O ./pyroscope.jar https://github.com/grafana/pyroscope-java/releases/download/v2.0.0/pyroscope.jar
         java -javaagent:pyroscope.jar -jar build/libs/apisl.handson.grafana.webapp.webapi-0.0.1-SNAPSHOT.jar
     environment:
-      PYROSCOPE_APPLICATION_NAME: webapp.webapi
+      PYROSCOPE_APPLICATION_NAME: webapp-webapi
       PYROSCOPE_SERVER_ADDRESS: http://alloy:9999
       PYROSCOPE_FORMAT: jfr
       PYROSCOPE_PROFILER_ALLOC: 512k
       PYROSCOPE_PROFILER_LOCK: 10ms
     tty: true
 
-  mysql:
-    hostname: mysql
-    container_name: mysql
+  webapp-mysql:
+    hostname: webapp-mysql
+    container_name: webapp-mysql
     image: mysql:8.0
     ports:
       - 3306:3306
@@ -84,18 +84,18 @@ services:
 #      options:
 #        loki-url: http://localhost:3100/loki/api/v1/push
 
-  webui-node-exporter:
-    hostname: webui-node-exporter
-    container_name: webui-node-exporter
+  webapp-webui-node-exporter:
+    hostname: webapp-webui-node-exporter
+    container_name: webapp-webui-node-exporter
     image: &nodeExpImage prom/node-exporter:v1.9.1
-    pid: "service:webui"
+    pid: "service:webapp-webui"
     networks:
       - internal
-  webapi-node-exporter:
-    hostname: webapi-node-exporter
-    container_name: webapi-node-exporter
+  webapp-webapi-node-exporter:
+    hostname: webapp-webapi-node-exporter
+    container_name: webapp-webapi-node-exporter
     image: *nodeExpImage
-    pid: "service:webapi"
+    pid: "service:webapp-webapi"
     networks:
       - internal
 

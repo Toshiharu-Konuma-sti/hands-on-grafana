@@ -8,6 +8,6 @@ COPY ./webui/ /webui/
 WORKDIR /webui
 
 # Execute Gradle commands in order
-RUN ./gradlew clean
-RUN ./gradlew build
+RUN ./gradlew clean && \
+    ./gradlew build
 # RUN ./gradlew build -x test
