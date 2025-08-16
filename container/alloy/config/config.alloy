@@ -38,7 +38,7 @@ faro.receiver "default" {
   }
 
   extra_log_labels = {
-    service = "webui-rum",
+    service = "webapp-webui-rum",
     app_name = "",
 //    app_environment = "",
 //    app_namespace = "",

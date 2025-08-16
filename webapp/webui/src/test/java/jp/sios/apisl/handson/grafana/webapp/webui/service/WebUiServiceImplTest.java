@@ -28,7 +28,7 @@ class WebUiServiceImplTest {
 
 	private WebUiServiceImpl webUiService;
 
-	@Value("${handson.webapi.host}")
+	@Value("${handson.webapp.webapi.host}")
 	private String webapiHost = "localhost";
 
 	@BeforeEach

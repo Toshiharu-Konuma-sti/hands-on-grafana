@@ -274,7 +274,7 @@
                 "uid": "pyroscope"
               },
               "groupBy": [],
-              "labelSelector": "{service_name=\"webapp.$server_address\"}",
+              "labelSelector": "{service_name=\"$server_address\"}",
               "profileTypeId": "process_cpu:cpu:nanoseconds:cpu:nanoseconds",
               "queryType": "profile",
               "refId": "A",
@@ -309,7 +309,7 @@
                 "uid": "pyroscope"
               },
               "groupBy": [],
-              "labelSelector": "{service_name=\"webapp.$server_address\"}",
+              "labelSelector": "{service_name=\"$server_address\"}",
               "profileTypeId": "memory:alloc_in_new_tlab_bytes:bytes:space:bytes",
               "queryType": "profile",
               "refId": "A",

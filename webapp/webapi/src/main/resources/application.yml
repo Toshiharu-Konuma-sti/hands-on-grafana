@@ -6,7 +6,7 @@ spring:
     name: webapi-app-yml
 
   datasource:
-    url: jdbc:mysql://mysql:3306/mytest
+    url: jdbc:mysql://webapp-mysql:3306/mytest
 #    url: jdbc:mysql://localhost:3306/mytest
     username: myuser
     password: mypass
@@ -33,8 +33,8 @@ management:
         url: http://otel-collector:4318/v1/metrics
         step: 5s
         resourceAttributes:
-          service.name: webapi
-          service.instance.id: webapi:8182
+          service.name: webapp-webapi
+          service.instance.id: webapp-webapi:8182
 #    logging:
 #      endpoint: http://otel-collector:4318/v1/logs
 #    tracing:
@@ -46,6 +46,6 @@ otel:
     otlp:
       endpoint: http://otel-collector:4318
   service:
-    name: webapi
+    name: webapp-webapi
   log:
     level: debug

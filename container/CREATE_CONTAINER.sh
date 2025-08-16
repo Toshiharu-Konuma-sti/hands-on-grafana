@@ -15,7 +15,7 @@ destory_container()
 echo "\n### START: Destory existing containers ##########"
 docker-compose \
 	-f docker-compose.yml \
-	-f docker-compose-app.yml \
+	-f docker-compose-webapp.yml \
 	down -v --remove-orphans
 }
 # }}}
@@ -34,7 +34,7 @@ create_container()
 echo "\n### START: Create new containers ##########"
 docker-compose \
 	-f docker-compose.yml \
-	-f docker-compose-app.yml \
+	-f docker-compose-webapp.yml \
 	up -d -V --remove-orphans
 }
 # }}}
