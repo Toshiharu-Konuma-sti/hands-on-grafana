@@ -74,7 +74,7 @@ services:
       - ./mysql/init:/docker-entrypoint-initdb.d
     command: mysqld
     environment:
-      MYSQL_ROOT_PASSWORD: ${ROOT_PASS}
+      MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASS}
       MYSQL_DATABASE: ${DB_NAME}
       MYSQL_USER: ${DB_USER}
       MYSQL_PASSWORD: ${DB_PASS}
