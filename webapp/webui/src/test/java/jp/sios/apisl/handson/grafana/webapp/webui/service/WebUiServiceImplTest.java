@@ -36,12 +36,35 @@ class WebUiServiceImplTest {
 		MockitoAnnotations.openMocks(this);
 		webUiService = new WebUiServiceImpl(this.restClient);
 	}
-/*
+
 	@Test
 	void testCallRollDiceApi() {
+		String testUrl = "http://null/api/dice/v1/roll";
+		String testResponse = "1";
+
+		RestClient.Builder restClientBuilder = RestClient.builder();
+		MockRestServiceServer mockServer = MockRestServiceServer.bindTo(restClientBuilder).build();
+		mockServer.expect(requestTo(testUrl))
+				.andExpect(method(HttpMethod.GET))
+				.andRespond(withSuccess().body(testResponse));
+		this.restClient = restClientBuilder.build();
+		this.webUiService = new WebUiServiceImpl(this.restClient);
+
+		Optional<String> optSleep = Optional.empty();
+		Optional<String> optLoop = Optional.empty();
+		Optional<String> optError = Optional.empty();
+
+		String response = webUiService.callRollDiceApi(optSleep, optLoop, optError);
+
+		assertNotNull(response);
+		assertEquals(testResponse, response);
+	}
+
+	@Test
+	void testCallRollDiceApi_SleepAndLoop() {
 
 		String testUrl = "http://null/api/dice/v1/roll?sleep=1000&loop=5";
-		String testResponse = "4";
+		String testResponse = "2";
 
         RestClient.Builder restClientBuilder = RestClient.builder();
         MockRestServiceServer mockServer = MockRestServiceServer.bindTo(restClientBuilder).build();
@@ -81,6 +104,29 @@ class WebUiServiceImplTest {
 		assertEquals(2, response.length());
 		assertEquals(6, response.getJSONObject(0).getInt("value"));
 	}
+/*
+	@Test
+	void testCallRollDiceApi_AllParamsPresent() {
+		String testUrl = "http://null/api/dice/v1/roll?sleep=100&loop=2&error=test";
+		String testResponse = "5";
+
+		RestClient.Builder restClientBuilder = RestClient.builder();
+		MockRestServiceServer mockServer = MockRestServiceServer.bindTo(restClientBuilder).build();
+		mockServer.expect(requestTo(testUrl))
+				.andExpect(method(HttpMethod.GET))
+				.andRespond(withSuccess().body(testResponse));
+		this.restClient = restClientBuilder.build();
+		this.webUiService = new WebUiServiceImpl(this.restClient);
+
+		Optional<String> optSleep = Optional.of("100");
+		Optional<String> optLoop = Optional.of("2");
+		Optional<String> optError = Optional.of("test");
+
+		String response = webUiService.callRollDiceApi(optSleep, optLoop, optError);
+
+		assertNotNull(response);
+		assertEquals(testResponse, response);
+	}
 
 	@Test
 	void testCallApiHandlesException() {
@@ -108,28 +154,6 @@ class WebUiServiceImplTest {
 		assertEquals("0", response); // Default body value
 	}
 
-	@Test
-	void testCallRollDiceApi_AllParamsPresent() {
-		String testUrl = "http://null/api/dice/v1/roll?sleep=100&loop=2&error=test";
-		String testResponse = "5";
-
-		RestClient.Builder restClientBuilder = RestClient.builder();
-		MockRestServiceServer mockServer = MockRestServiceServer.bindTo(restClientBuilder).build();
-		mockServer.expect(requestTo(testUrl))
-				.andExpect(method(HttpMethod.GET))
-				.andRespond(withSuccess().body(testResponse));
-		this.restClient = restClientBuilder.build();
-		this.webUiService = new WebUiServiceImpl(this.restClient);
-
-		Optional<String> optSleep = Optional.of("100");
-		Optional<String> optLoop = Optional.of("2");
-		Optional<String> optError = Optional.of("test");
-
-		String response = webUiService.callRollDiceApi(optSleep, optLoop, optError);
-
-		assertNotNull(response);
-		assertEquals(testResponse, response);
-	}
 
 	@Test
 	void testCallRollDiceApi_OnlySleep() {
@@ -145,29 +169,6 @@ class WebUiServiceImplTest {
 		this.webUiService = new WebUiServiceImpl(this.restClient);
 
 		Optional<String> optSleep = Optional.of("500");
-		Optional<String> optLoop = Optional.empty();
-		Optional<String> optError = Optional.empty();
-
-		String response = webUiService.callRollDiceApi(optSleep, optLoop, optError);
-
-		assertNotNull(response);
-		assertEquals(testResponse, response);
-	}
-
-	@Test
-	void testCallRollDiceApi_NoParams() {
-		String testUrl = "http://null/api/dice/v1/roll";
-		String testResponse = "1";
-
-		RestClient.Builder restClientBuilder = RestClient.builder();
-		MockRestServiceServer mockServer = MockRestServiceServer.bindTo(restClientBuilder).build();
-		mockServer.expect(requestTo(testUrl))
-				.andExpect(method(HttpMethod.GET))
-				.andRespond(withSuccess().body(testResponse));
-		this.restClient = restClientBuilder.build();
-		this.webUiService = new WebUiServiceImpl(this.restClient);
-
-		Optional<String> optSleep = Optional.empty();
 		Optional<String> optLoop = Optional.empty();
 		Optional<String> optError = Optional.empty();
 
