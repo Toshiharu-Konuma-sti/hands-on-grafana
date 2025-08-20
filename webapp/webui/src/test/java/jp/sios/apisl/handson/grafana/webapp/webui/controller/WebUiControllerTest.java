@@ -28,7 +28,7 @@ class WebUiControllerTest {
 	void setUp() {
 		MockitoAnnotations.openMocks(this);
 	}
-/*
+
 	@Test
 	void testIndex() {
 		// Arrange
@@ -59,7 +59,7 @@ class WebUiControllerTest {
 		verify(service).callListDiceApi();
 		verify(service).getCurrentUrl(request);
 	}
-
+/*
 	@Test
 	void testIndexWithEmptyParams() {
 		ModelAndView model = new ModelAndView();
@@ -111,3 +111,4 @@ class WebUiControllerTest {
 	}
 */
 }
+

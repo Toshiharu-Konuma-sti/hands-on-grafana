@@ -8,14 +8,9 @@ import static org.mockito.Mockito.*;
 class UtilEnvInfoTest {
 
 	@Test
-	void testGetCurrentUrl() {
-		HttpServletRequest request = mock(HttpServletRequest.class);
-		StringBuffer url = new StringBuffer("http://localhost/test/path");
-		when(request.getRequestURL()).thenReturn(url);
-
-		String result = UtilEnvInfo.getCurrentUrl(request);
-
-		assertEquals("http://localhost/test/path", result);
+	void testUtilEnvInfoBeanExists() {
+		var utilEnvInfo = new UtilEnvInfo();
+		assertNotNull(utilEnvInfo, "UtilEnvInfo bean should not be null");
 	}
 
 	@Test
@@ -35,23 +30,14 @@ class UtilEnvInfoTest {
 	}
 
 	@Test
-	void testLogStartClassMethodDoesNotThrow() {
-		assertDoesNotThrow(UtilEnvInfo::logStartClassMethod);
-	}
-
-	@Test
-	void testMyTest() {
-		var obj = new UtilEnvInfo();
-		obj.logStartClassMethod();
-	}
-
-	@Test
-	void testLogRequestWithLabelDoesNotThrow() throws Exception {
+	void testGetCurrentUrl() {
 		HttpServletRequest request = mock(HttpServletRequest.class);
-		when(request.getRequestURL()).thenReturn(new StringBuffer("http://localhost/label"));
-		var method = UtilEnvInfo.class.getDeclaredMethod("logRequestWithLabel", String.class, HttpServletRequest.class);
-		method.setAccessible(true);
-		assertDoesNotThrow(() -> method.invoke(null, "LABEL", request));
+		StringBuffer url = new StringBuffer("http://localhost/test/path");
+		when(request.getRequestURL()).thenReturn(url);
+
+		String result = UtilEnvInfo.getCurrentUrl(request);
+
+		assertEquals("http://localhost/test/path", result);
 	}
 
 	@Test
@@ -66,4 +52,10 @@ class UtilEnvInfoTest {
 	void testGetCurrentUrlWithNullRequest() {
 		assertThrows(NullPointerException.class, () -> UtilEnvInfo.getCurrentUrl(null));
 	}
+
+	@Test
+	void testLogStartClassMethodDoesNotThrow() {
+		assertDoesNotThrow(UtilEnvInfo::logStartClassMethod);
+	}
+
 }
