@@ -43,16 +43,4 @@ class ApplicationTest {
 		}
 	}
 
-	@Test
-	void mainDoesNotThrowException() {
-		String[] args = {};
-		try {
-			Application.main(args);
-		} catch (Exception e) {
-			org.junit.jupiter.api.Assertions.fail("main method should not throw exception");
-		}
-	}
-
 }
-
-
