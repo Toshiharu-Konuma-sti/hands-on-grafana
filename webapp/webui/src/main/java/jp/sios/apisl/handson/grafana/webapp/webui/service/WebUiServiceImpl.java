@@ -16,8 +16,7 @@ import jp.sios.apisl.handson.grafana.webapp.webui.util.UtilEnvInfo;
 import jp.sios.apisl.handson.grafana.webapp.webui.service.WebUiService;
 
 @Service
-public class WebUiServiceImpl implements WebUiService
-{
+public class WebUiServiceImpl implements WebUiService {
 
   private static final Logger logger = LoggerFactory.getLogger(WebUiServiceImpl.class);
   private final RestClient restClient;
@@ -26,15 +25,13 @@ public class WebUiServiceImpl implements WebUiService
   private String webapiHost;
 
   // {{{ public WebUiServiceImpl(RestClient restClient)
-  public WebUiServiceImpl(RestClient restClient)
-  {
+  public WebUiServiceImpl(RestClient restClient) {
     this.restClient = restClient;
   }
   // }}}
 
   // {{{ public String callRollDiceApi(Optional<String> optSleep, Optional<String> optLoop, Optional<String> optError)
-  public String callRollDiceApi(Optional<String> optSleep, Optional<String> optLoop,  Optional<String> optError)
-  {
+  public String callRollDiceApi(Optional<String> optSleep, Optional<String> optLoop,  Optional<String> optError) {
     UtilEnvInfo.logStartClassMethod();
     logger.info("The received request parameters are: sleep='{}', loop='{}' and error='{}'", optSleep, optLoop, optError);
 
@@ -54,8 +51,7 @@ public class WebUiServiceImpl implements WebUiService
   // }}}
 
   // {{{ public JSONArray callListDiceApi()
-  public JSONArray callListDiceApi()
-  {
+  public JSONArray callListDiceApi() {
     UtilEnvInfo.logStartClassMethod();
 
     String path = "/api/dice/v1/list";
@@ -69,8 +65,7 @@ public class WebUiServiceImpl implements WebUiService
   // }}}
 
   // {{{ private String callApi(String path, String body)
-  private String callApi(String path, String body)
-  {
+  private String callApi(String path, String body) {
     UtilEnvInfo.logStartClassMethod();
 
     String url = "http://" + this.webapiHost + path;
@@ -92,8 +87,7 @@ public class WebUiServiceImpl implements WebUiService
   // }}}
 
   // {{{ public String getCurrentUrl(HttpServletRequest request)
-  public String getCurrentUrl(HttpServletRequest request)
-  {
+  public String getCurrentUrl(HttpServletRequest request) {
     UtilEnvInfo.logStartClassMethod();
 
     String currentUrl = UtilEnvInfo.getCurrentUrl(request);

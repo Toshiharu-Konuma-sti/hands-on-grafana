@@ -13,15 +13,13 @@ import jp.sios.apisl.handson.grafana.webapp.webui.service.WebUiService;
 import jp.sios.apisl.handson.grafana.webapp.webui.util.UtilEnvInfo;
 
 @Controller
-public class WebUiController
-{
+public class WebUiController {
 
   private static final Logger logger = LoggerFactory.getLogger(WebUiController.class);
   private final WebUiService service;
 
   // {{{ public WebUiController(WebUiService service)
-  public WebUiController(WebUiService service)
-  {
+  public WebUiController(WebUiService service) {
     this.service = service;
   }
   // }}}
@@ -32,8 +30,7 @@ public class WebUiController
     HttpServletRequest request, ModelAndView model,
     @RequestParam("sleep") Optional<String> optSleep,
     @RequestParam("loop") Optional<String> optLoop,
-    @RequestParam("error") Optional<String> optError)
-  {
+    @RequestParam("error") Optional<String> optError) {
     UtilEnvInfo.logStartRequest(request);
     UtilEnvInfo.logStartClassMethod();
     logger.info("The received request parameters are: sleep='{}', loop='{}' and error='{}'", optSleep, optLoop, optError);
