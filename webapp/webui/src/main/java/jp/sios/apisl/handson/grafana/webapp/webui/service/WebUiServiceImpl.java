@@ -19,88 +19,88 @@ import jp.sios.apisl.handson.grafana.webapp.webui.service.WebUiService;
 public class WebUiServiceImpl implements WebUiService
 {
 
-    private static final Logger logger = LoggerFactory.getLogger(WebUiServiceImpl.class);
-    private final RestClient restClient;
+  private static final Logger logger = LoggerFactory.getLogger(WebUiServiceImpl.class);
+  private final RestClient restClient;
 
-    @Value("${handson.webapp.webapi.host}")
-    private String webapiHost;
+  @Value("${handson.webapp.webapi.host}")
+  private String webapiHost;
 
-    // {{{ public WebUiServiceImpl(RestClient restClient)
-    public WebUiServiceImpl(RestClient restClient)
-    {
-        this.restClient = restClient;
+  // {{{ public WebUiServiceImpl(RestClient restClient)
+  public WebUiServiceImpl(RestClient restClient)
+  {
+    this.restClient = restClient;
+  }
+  // }}}
+
+  // {{{ public String callRollDiceApi(Optional<String> optSleep, Optional<String> optLoop, Optional<String> optError)
+  public String callRollDiceApi(Optional<String> optSleep, Optional<String> optLoop,  Optional<String> optError)
+  {
+    UtilEnvInfo.logStartClassMethod();
+    logger.info("The received request parameters are: sleep='{}', loop='{}' and error='{}'", optSleep, optLoop, optError);
+
+    String path = "/api/dice/v1/roll";
+    List<String> paramList = new ArrayList<String>();
+    optSleep.ifPresent(sleep -> paramList.add("sleep=" + sleep));
+    optLoop.ifPresent(loop -> paramList.add("loop=" + loop));
+    optError.ifPresent(error -> paramList.add("error=" + error));
+    if (paramList.size() > 0) {
+      path += "?" + String.join("&", paramList);
     }
-    // }}}
 
-    // {{{ public String callRollDiceApi(Optional<String> optSleep, Optional<String> optLoop, Optional<String> optError)
-    public String callRollDiceApi(Optional<String> optSleep, Optional<String> optLoop,  Optional<String> optError)
-    {
-        UtilEnvInfo.logStartClassMethod();
-        logger.info("The received request parameters are: sleep='{}', loop='{}' and error='{}'", optSleep, optLoop, optError);
+    String body = this.callApi(path, "0");
 
-        String path = "/api/dice/v1/roll";
-        List<String> paramList = new ArrayList<String>();
-        optSleep.ifPresent(sleep -> paramList.add("sleep=" + sleep));
-        optLoop.ifPresent(loop -> paramList.add("loop=" + loop));
-        optError.ifPresent(error -> paramList.add("error=" + error));
-        if (paramList.size() > 0) {
-            path += "?" + String.join("&", paramList);
-        }
+    return body;
+  }
+  // }}}
 
-        String body = this.callApi(path, "0");
+  // {{{ public JSONArray callListDiceApi()
+  public JSONArray callListDiceApi()
+  {
+    UtilEnvInfo.logStartClassMethod();
 
-        return body;
+    String path = "/api/dice/v1/list";
+    String body = this.callApi(path, "");
+
+    JSONArray jsonList = new JSONArray(body);
+    logger.info("The object converted to json is {}", jsonList);
+
+    return jsonList;
+  }
+  // }}}
+
+  // {{{ private String callApi(String path, String body)
+  private String callApi(String path, String body)
+  {
+    UtilEnvInfo.logStartClassMethod();
+
+    String url = "http://" + this.webapiHost + path;
+    logger.info("The URL to call the API is: '{}'", url);
+
+    try {
+      body = this.restClient.get()
+        .uri(url)
+        .retrieve()
+        .body(String.class);
+      logger.info("The value recieved from the rolldice api is: '{}'", body);
     }
-    // }}}
-
-    // {{{ public JSONArray callListDiceApi()
-    public JSONArray callListDiceApi()
-    {
-        UtilEnvInfo.logStartClassMethod();
-
-        String path = "/api/dice/v1/list";
-        String body = this.callApi(path, "");
-
-        JSONArray jsonList = new JSONArray(body);
-        logger.info("The object converted to json is {}", jsonList);
-
-        return jsonList;
+    catch (HttpClientErrorException | HttpServerErrorException ex) {
+      logger.error("!!! Could not get a response from the API, because an exception was happened: '{}' !!!", (Object[]) ex.getStackTrace());
     }
-    // }}}
 
-    // {{{ private String callApi(String path, String body)
-    private String callApi(String path, String body)
-    {
-        UtilEnvInfo.logStartClassMethod();
+    return body;
+  }
+  // }}}
 
-        String url = "http://" + this.webapiHost + path;
-        logger.info("The URL to call the API is: '{}'", url);
+  // {{{ public String getCurrentUrl(HttpServletRequest request)
+  public String getCurrentUrl(HttpServletRequest request)
+  {
+    UtilEnvInfo.logStartClassMethod();
 
-        try {
-            body = this.restClient.get()
-                .uri(url)
-                .retrieve()
-                .body(String.class);
-            logger.info("The value recieved from the rolldice api is: '{}'", body);
-        }
-        catch (HttpClientErrorException | HttpServerErrorException ex) {
-            logger.error("!!! Could not get a response from the API, because an exception was happened: '{}' !!!", (Object[]) ex.getStackTrace());
-        }
+    String currentUrl = UtilEnvInfo.getCurrentUrl(request);
+    logger.info("The current URL is: {}", currentUrl);
 
-        return body;
-    }
-    // }}}
-
-    // {{{ public String getCurrentUrl(HttpServletRequest request)
-    public String getCurrentUrl(HttpServletRequest request)
-    {
-        UtilEnvInfo.logStartClassMethod();
-
-        String currentUrl = UtilEnvInfo.getCurrentUrl(request);
-        logger.info("The current URL is: {}", currentUrl);
-
-        return currentUrl;
-    }
-    // }}}
+    return currentUrl;
+  }
+  // }}}
 
 }
