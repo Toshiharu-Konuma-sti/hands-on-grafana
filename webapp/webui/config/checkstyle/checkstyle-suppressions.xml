@@ -4,5 +4,7 @@
     "http://www.puppycrawl.com/dtds/suppressions_1_1.dtd">
 
 <suppressions>
+<!--
 	<suppress checks="FileTabCharacter" files="[/\\]src[/\\]main[/\\]java[/\\]jp[/\\]sios[/\\]apisl[/\\]handson[/\\]grafana[/\\]webapp[/\\]webui[/\\](.+\.java)$"/>
+-->
 </suppressions>
