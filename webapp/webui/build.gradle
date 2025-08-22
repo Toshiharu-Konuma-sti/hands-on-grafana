@@ -54,6 +54,9 @@ jacoco {
 checkstyle {
 	toolVersion = "10.26.1"
 	configFile = file("${rootProject.projectDir}/config/checkstyle/google_checks.xml")
+	configProperties = [
+		'org.checkstyle.google.suppressionfilter.config': "${rootProject.projectDir}/config/checkstyle/checkstyle-suppressions.xml"
+	]
 }
 
 tasks.named('test') {
