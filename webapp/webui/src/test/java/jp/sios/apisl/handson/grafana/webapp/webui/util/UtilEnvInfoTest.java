@@ -7,55 +7,55 @@ import static org.mockito.Mockito.*;
 
 class UtilEnvInfoTest {
 
-	@Test
-	void testUtilEnvInfoBeanExists() {
-		var utilEnvInfo = new UtilEnvInfo();
-		assertNotNull(utilEnvInfo, "UtilEnvInfo bean should not be null");
-	}
+  @Test
+  void testUtilEnvInfoBeanExists() {
+    var utilEnvInfo = new UtilEnvInfo();
+    assertNotNull(utilEnvInfo, "UtilEnvInfo bean should not be null");
+  }
 
-	@Test
-	void testLogStartRequestDoesNotThrow() {
-		HttpServletRequest request = mock(HttpServletRequest.class);
-		when(request.getRequestURL()).thenReturn(new StringBuffer("http://localhost/start"));
+  @Test
+  void testLogStartRequestDoesNotThrow() {
+    HttpServletRequest request = mock(HttpServletRequest.class);
+    when(request.getRequestURL()).thenReturn(new StringBuffer("http://localhost/start"));
 
-		assertDoesNotThrow(() -> UtilEnvInfo.logStartRequest(request));
-	}
+    assertDoesNotThrow(() -> UtilEnvInfo.logStartRequest(request));
+  }
 
-	@Test
-	void testLogFinishRequestDoesNotThrow() {
-		HttpServletRequest request = mock(HttpServletRequest.class);
-		when(request.getRequestURL()).thenReturn(new StringBuffer("http://localhost/finish"));
+  @Test
+  void testLogFinishRequestDoesNotThrow() {
+    HttpServletRequest request = mock(HttpServletRequest.class);
+    when(request.getRequestURL()).thenReturn(new StringBuffer("http://localhost/finish"));
 
-		assertDoesNotThrow(() -> UtilEnvInfo.logFinishRequest(request));
-	}
+    assertDoesNotThrow(() -> UtilEnvInfo.logFinishRequest(request));
+  }
 
-	@Test
-	void testGetCurrentUrl() {
-		HttpServletRequest request = mock(HttpServletRequest.class);
-		StringBuffer url = new StringBuffer("http://localhost/test/path");
-		when(request.getRequestURL()).thenReturn(url);
+  @Test
+  void testGetCurrentUrl() {
+    HttpServletRequest request = mock(HttpServletRequest.class);
+    StringBuffer url = new StringBuffer("http://localhost/test/path");
+    when(request.getRequestURL()).thenReturn(url);
 
-		String result = UtilEnvInfo.getCurrentUrl(request);
+    String result = UtilEnvInfo.getCurrentUrl(request);
 
-		assertEquals("http://localhost/test/path", result);
-	}
+    assertEquals("http://localhost/test/path", result);
+  }
 
-	@Test
-	void testGetCurrentUrlWithEmptyUrl() {
-		HttpServletRequest request = mock(HttpServletRequest.class);
-		when(request.getRequestURL()).thenReturn(new StringBuffer(""));
-		String result = UtilEnvInfo.getCurrentUrl(request);
-		assertEquals("", result);
-	}
+  @Test
+  void testGetCurrentUrlWithEmptyUrl() {
+    HttpServletRequest request = mock(HttpServletRequest.class);
+    when(request.getRequestURL()).thenReturn(new StringBuffer(""));
+    String result = UtilEnvInfo.getCurrentUrl(request);
+    assertEquals("", result);
+  }
 
-	@Test
-	void testGetCurrentUrlWithNullRequest() {
-		assertThrows(NullPointerException.class, () -> UtilEnvInfo.getCurrentUrl(null));
-	}
+  @Test
+  void testGetCurrentUrlWithNullRequest() {
+    assertThrows(NullPointerException.class, () -> UtilEnvInfo.getCurrentUrl(null));
+  }
 
-	@Test
-	void testLogStartClassMethodDoesNotThrow() {
-		assertDoesNotThrow(UtilEnvInfo::logStartClassMethod);
-	}
+  @Test
+  void testLogStartClassMethodDoesNotThrow() {
+    assertDoesNotThrow(UtilEnvInfo::logStartClassMethod);
+  }
 
 }

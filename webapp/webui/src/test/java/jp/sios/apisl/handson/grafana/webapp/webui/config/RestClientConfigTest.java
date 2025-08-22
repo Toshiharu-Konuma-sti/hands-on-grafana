@@ -10,13 +10,13 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 @SpringBootTest
 public class RestClientConfigTest {
 
-	@Autowired
-	private ApplicationContext applicationContext;
+  @Autowired
+  private ApplicationContext applicationContext;
 
-	@Test
-	public void testRestClientBeanExists() {
-		// Verify that the RestClient bean is created and available in the application context
-		RestClient restClient = applicationContext.getBean(RestClient.class);
-		assertNotNull(restClient, "RestClient bean should not be null");
-	}
+  @Test
+  public void testRestClientBeanExists() {
+    // Verify that the RestClient bean is created and available in the application context
+    RestClient restClient = applicationContext.getBean(RestClient.class);
+    assertNotNull(restClient, "RestClient bean should not be null");
+  }
 }
