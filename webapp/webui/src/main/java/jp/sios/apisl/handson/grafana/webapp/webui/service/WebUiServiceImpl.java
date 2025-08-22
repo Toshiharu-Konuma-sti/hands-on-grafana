@@ -9,11 +9,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestClient;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.HttpServerErrorException;
+import org.springframework.web.client.RestClient;
 import jp.sios.apisl.handson.grafana.webapp.webui.util.UtilEnvInfo;
-import jp.sios.apisl.handson.grafana.webapp.webui.service.WebUiService;
 
 @Service
 public class WebUiServiceImpl implements WebUiService {
