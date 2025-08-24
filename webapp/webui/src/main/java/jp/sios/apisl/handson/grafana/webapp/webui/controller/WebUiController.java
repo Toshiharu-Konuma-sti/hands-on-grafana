@@ -12,6 +12,24 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+/**
+ * Web UI コントローラークラス。.
+ *
+ * <p>このクラスは、Webアプリケーションのルートパス（"/"）へのリクエストを処理します。
+ * サービスクラス {@link WebUiService} を利用して、ダイスAPIの呼び出しや
+ * 必要な情報の取得を行い、ビューにデータを渡します。
+ * </p>
+ *
+ * <p>主な機能:
+ * <ul>
+ *   <li>リクエストパラメータ（sleep, loop, error）の受け取りとログ出力</li>
+ *   <li>ダイスAPIの呼び出しと結果の取得</li>
+ *   <li>ビューへのデータ設定と画面遷移</li>
+ * </ul>
+ * </p>
+ *
+ * @author Toshiharu Konuma
+ */
 @Controller
 public class WebUiController {
 
@@ -19,13 +37,33 @@ public class WebUiController {
   private final WebUiService service;
 
   // {{{ public WebUiController(WebUiService service)
+  /**
+   * WebUiServiceのインスタンスを受け取り、WebUiControllerを初期化します。.
+   *
+   * @param service Web UIのサービスロジックを提供するWebUiServiceのインスタンス
+   */
   public WebUiController(WebUiService service) {
     this.service = service;
   }
   // }}}
 
-  @RequestMapping(value = {"/"})
   // {{{ public ModelAndView index(...)
+  /**
+   * ルートパス（"/"）へのリクエストを処理するコントローラメソッドです。.
+   *
+   * <p>リクエストパラメータとして "sleep"、"loop"、"error" を受け取り、サービスクラスを利用して
+   * サイコロAPIの呼び出しやリスト取得、現在のURLの取得を行います。取得した情報をModelAndViewに格納し、
+   * "index" ビューを返します。
+   * </p>
+   *
+   * @param request   HTTPリクエストオブジェクト
+   * @param model     ModelAndViewオブジェクト
+   * @param optSleep  "sleep" パラメータ（オプション）
+   * @param optLoop   "loop" パラメータ（オプション）
+   * @param optError  "error" パラメータ（オプション）
+   * @return          "index" ビュー名を持つModelAndViewオブジェクト
+   */
+  @RequestMapping(value = {"/"})
   public ModelAndView index(
       HttpServletRequest request, ModelAndView model,
       @RequestParam("sleep") Optional<String> optSleep,

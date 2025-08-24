@@ -4,6 +4,18 @@ import jakarta.servlet.http.HttpServletRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+/**
+ * 環境情報やリクエスト情報のログ出力を支援するユーティリティクラスです。.
+ *
+ * <p>主に以下の機能を提供します:
+ * <ul>
+ *   <li>リクエスト開始・終了時のURLログ出力</li>
+ *   <li>クラス名・メソッド名のログ出力</li>
+ *   <li>現在のリクエストURLの取得</li>
+ * </ul>
+ * ログ出力にはSLF4JのLoggerを利用しています。
+ * </p>
+ */
 public class UtilEnvInfo {
 
   private static final Logger logger = LoggerFactory.getLogger(UtilEnvInfo.getClassName());
