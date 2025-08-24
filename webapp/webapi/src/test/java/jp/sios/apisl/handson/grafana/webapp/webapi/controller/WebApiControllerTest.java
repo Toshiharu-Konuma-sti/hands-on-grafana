@@ -16,8 +16,6 @@ import org.springframework.http.ResponseEntity;
 import jp.sios.apisl.handson.grafana.webapp.webapi.entity.Dice;
 import jp.sios.apisl.handson.grafana.webapp.webapi.service.WebApiService;
 
-
-
 class WebApiControllerTest {
 
 	@Mock
@@ -41,7 +39,8 @@ class WebApiControllerTest {
 		Optional<String> optSleep = Optional.of("1000");
 		Optional<String> optLoop = Optional.of("5");
 		Optional<String> optError = Optional.empty();
-		ResponseEntity<Integer> mockResponse = ResponseEntity.ok(42);
+		Integer mockDice = 6;
+		ResponseEntity<Integer> mockResponse = ResponseEntity.ok(mockDice);
 
 		when(request.getRequestURL()).thenReturn(new StringBuffer(mockCurrentUrl));
 		when(service.rollDice(optSleep, optLoop, optError)).thenReturn(mockResponse);
@@ -51,7 +50,7 @@ class WebApiControllerTest {
 
 		// Assert
 		assertNotNull(response);
-		assertEquals(42, response.getBody());
+		assertEquals(mockDice, response.getBody());
 		verify(service, times(1)).rollDice(optSleep, optLoop, optError);
 	}
 
