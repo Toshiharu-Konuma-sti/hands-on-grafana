@@ -2,6 +2,8 @@ plugins {
 	id 'java'
 	id 'org.springframework.boot' version '3.4.3'
 	id 'io.spring.dependency-management' version '1.1.7'
+	id 'jacoco'
+	id 'checkstyle'
 }
 
 group = 'jp.sios'
@@ -45,6 +47,29 @@ dependencies {
 
 }
 
+jacoco {
+	toolVersion = "0.8.13"
+}
+
+checkstyle {
+	toolVersion = "10.26.1"
+	configFile = file("${rootProject.projectDir}/config/checkstyle/google_checks.xml")
+	configProperties = [
+		'org.checkstyle.google.suppressionfilter.config': "${rootProject.projectDir}/config/checkstyle/checkstyle-suppressions.xml"
+	]
+}
+
 tasks.named('test') {
 	useJUnitPlatform()
 }
+
+jacocoTestReport {
+	reports {
+		xml.required = true
+		html.required = true
+	}
+}
+
+test.finalizedBy jacocoTestReport
+test.finalizedBy checkstyleMain
+test.finalizedBy checkstyleTest
