@@ -4,6 +4,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import jp.sios.apisl.handson.grafana.webapp.webui.util.UtilEnvInfo;
 import org.json.JSONArray;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,7 +13,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.HttpServerErrorException;
 import org.springframework.web.client.RestClient;
-import jp.sios.apisl.handson.grafana.webapp.webui.util.UtilEnvInfo;
 
 @Service
 public class WebUiServiceImpl implements WebUiService {
@@ -29,16 +29,19 @@ public class WebUiServiceImpl implements WebUiService {
   }
   // }}}
 
-  // {{{ public String callRollDiceApi(Optional<String> optSleep, Optional<String> optLoop, Optional<String> optError)
-  public String callRollDiceApi(Optional<String> optSleep, Optional<String> optLoop,  Optional<String> optError) {
+  // {{{ public String callRollDiceApi(Optional<String> optSleep, Optional<String> optLoop, Op ... )
+  public String callRollDiceApi(
+      Optional<String> optSleep, Optional<String> optLoop,  Optional<String> optError) {
     UtilEnvInfo.logStartClassMethod();
-    logger.info("The received request parameters are: sleep='{}', loop='{}' and error='{}'", optSleep, optLoop, optError);
+    logger.info(
+        "The received request parameters are: sleep='{}', loop='{}' and error='{}'",
+        optSleep, optLoop, optError);
 
-    String path = "/api/dice/v1/roll";
     List<String> paramList = new ArrayList<String>();
     optSleep.ifPresent(sleep -> paramList.add("sleep=" + sleep));
     optLoop.ifPresent(loop -> paramList.add("loop=" + loop));
     optError.ifPresent(error -> paramList.add("error=" + error));
+    String path = "/api/dice/v1/roll";
     if (paramList.size() > 0) {
       path += "?" + String.join("&", paramList);
     }
@@ -76,9 +79,10 @@ public class WebUiServiceImpl implements WebUiService {
         .retrieve()
         .body(String.class);
       logger.info("The value recieved from the rolldice api is: '{}'", body);
-    }
-    catch (HttpClientErrorException | HttpServerErrorException ex) {
-      logger.error("!!! Could not get a response from the API, because an exception was happened: '{}' !!!", (Object[]) ex.getStackTrace());
+    } catch (HttpClientErrorException | HttpServerErrorException ex) {
+      logger.error(
+          "!!! Could not get a response from the API, because an exception was happened: '{}' !!!",
+          (Object[]) ex.getStackTrace());
     }
 
     return body;

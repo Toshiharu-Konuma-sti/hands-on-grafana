@@ -7,8 +7,8 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-import org.junit.jupiter.api.Test;
 import jakarta.servlet.http.HttpServletRequest;
+import org.junit.jupiter.api.Test;
 
 class UtilEnvInfoTest {
 

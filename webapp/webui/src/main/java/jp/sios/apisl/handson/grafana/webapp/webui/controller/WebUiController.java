@@ -27,13 +27,16 @@ public class WebUiController {
   @RequestMapping(value = {"/"})
   // {{{ public ModelAndView index(...)
   public ModelAndView index(
-    HttpServletRequest request, ModelAndView model,
-    @RequestParam("sleep") Optional<String> optSleep,
-    @RequestParam("loop") Optional<String> optLoop,
-    @RequestParam("error") Optional<String> optError) {
+      HttpServletRequest request, ModelAndView model,
+      @RequestParam("sleep") Optional<String> optSleep,
+      @RequestParam("loop") Optional<String> optLoop,
+      @RequestParam("error") Optional<String> optError) {
+
     UtilEnvInfo.logStartRequest(request);
     UtilEnvInfo.logStartClassMethod();
-    logger.info("The received request parameters are: sleep='{}', loop='{}' and error='{}'", optSleep, optLoop, optError);
+    logger.info(
+        "The received request parameters are: sleep='{}', loop='{}' and error='{}'",
+        optSleep, optLoop, optError);
 
     String dice = this.service.callRollDiceApi(optSleep, optLoop, optError);
     JSONArray diceList = this.service.callListDiceApi();

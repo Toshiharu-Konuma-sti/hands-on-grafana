@@ -1,11 +1,12 @@
 package jp.sios.apisl.handson.grafana.webapp.webui.controller;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.Mockito.when;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 import jakarta.servlet.http.HttpServletRequest;
 import java.util.Optional;
+import jp.sios.apisl.handson.grafana.webapp.webui.service.WebUiService;
 import org.json.JSONArray;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -13,7 +14,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.web.servlet.ModelAndView;
-import jp.sios.apisl.handson.grafana.webapp.webui.service.WebUiService;
 
 class WebUiControllerTest {
 
