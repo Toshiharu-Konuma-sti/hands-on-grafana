@@ -8,6 +8,13 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.ApplicationContext;
 import org.springframework.web.client.RestClient;
 
+/**
+ * {@code RestClientConfigTest} クラスは、Spring Boot のテストコンテキストを利用して
+ * RestClient の Bean が正しくアプリケーションコンテキストに登録されているかを検証するテストクラスです。.
+ *
+ * <p>このクラスは、RestClient の Bean が存在することを確認するユニットテストを提供します。
+ * </p>
+ */
 @SpringBootTest
 public class RestClientConfigTest {
 

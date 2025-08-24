@@ -20,13 +20,12 @@ import org.springframework.web.servlet.ModelAndView;
  * 必要な情報の取得を行い、ビューにデータを渡します。
  * </p>
  *
- * <p>主な機能:
+ * <p>主な機能:</p>
  * <ul>
  *   <li>リクエストパラメータ（sleep, loop, error）の受け取りとログ出力</li>
  *   <li>ダイスAPIの呼び出しと結果の取得</li>
  *   <li>ビューへのデータ設定と画面遷移</li>
  * </ul>
- * </p>
  *
  * @author Toshiharu Konuma
  */

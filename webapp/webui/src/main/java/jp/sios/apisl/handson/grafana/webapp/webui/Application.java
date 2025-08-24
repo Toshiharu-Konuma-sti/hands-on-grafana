@@ -15,6 +15,15 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @SpringBootApplication
 public class Application {
 
+  // {{{ public Application() {
+  /**
+   * アプリケーションクラスのため、インスタンス化は行いません。.
+   */
+  public Application() {
+    // A default constructor.
+  }
+  // }}}
+
   // {{{ public static void main(String[] args)
   /**
    * アプリケーションのエントリーポイントとなるメインメソッドです。.

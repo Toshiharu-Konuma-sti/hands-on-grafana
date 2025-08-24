@@ -14,6 +14,15 @@ import org.springframework.web.client.RestClient;
 @Configuration
 public class RestClientConfig {
 
+  // {{{ public RestClientConfig() {
+  /**
+   * ユーティリティクラスのため、インスタンス化は行いません。.
+   */
+  public RestClientConfig() {
+    // A default constructor.
+  }
+  // }}}
+
   // {{{ public RestClient restClient(RestClient.Builder restClientBuilder)
   /**
    * RestClientのインスタンスを生成して返します。.
