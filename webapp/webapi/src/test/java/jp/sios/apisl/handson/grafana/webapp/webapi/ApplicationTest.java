@@ -22,7 +22,6 @@ public class ApplicationTest {
       mocked.verify(() -> SpringApplication.run(Application.class, args));
     }
   }
-
 		@Test
 		void mainRunsWithoutArguments() {
 			String[] args = {};
@@ -50,4 +49,5 @@ public class ApplicationTest {
 			org.junit.jupiter.api.Assertions.fail("main method should not throw exception");
 		}
 	}
+
 }
