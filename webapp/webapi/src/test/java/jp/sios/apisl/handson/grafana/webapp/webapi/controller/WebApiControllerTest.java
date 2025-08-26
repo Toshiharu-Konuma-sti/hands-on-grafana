@@ -18,57 +18,57 @@ import jp.sios.apisl.handson.grafana.webapp.webapi.service.WebApiService;
 
 class WebApiControllerTest {
 
-	@Mock
-	private WebApiService service;
+  @Mock
+  private WebApiService service;
 
-	@Mock
-	private HttpServletRequest request;
+  @Mock
+  private HttpServletRequest request;
 
-	@InjectMocks
-	private WebApiController controller;
+  @InjectMocks
+  private WebApiController controller;
 
-	@BeforeEach
-	void setUp() {
-		MockitoAnnotations.openMocks(this);
-	}
+  @BeforeEach
+  void setUp() {
+    MockitoAnnotations.openMocks(this);
+  }
 
-	@Test
-	void testRollDice() {
-		// Arrange
-		String mockCurrentUrl = "http://localhost:8080";
-		Optional<String> optSleep = Optional.of("1000");
-		Optional<String> optLoop = Optional.of("5");
-		Optional<String> optError = Optional.empty();
-		Integer mockDice = 6;
-		ResponseEntity<Integer> mockResponse = ResponseEntity.ok(mockDice);
+  @Test
+  void testRollDice() {
+    // Arrange
+    String mockCurrentUrl = "http://localhost:8080";
+    Optional<String> optSleep = Optional.of("1000");
+    Optional<String> optLoop = Optional.of("5");
+    Optional<String> optError = Optional.empty();
+    Integer mockDice = 6;
+    ResponseEntity<Integer> mockResponse = ResponseEntity.ok(mockDice);
 
-		when(request.getRequestURL()).thenReturn(new StringBuffer(mockCurrentUrl));
-		when(service.rollDice(optSleep, optLoop, optError)).thenReturn(mockResponse);
+    when(request.getRequestURL()).thenReturn(new StringBuffer(mockCurrentUrl));
+    when(service.rollDice(optSleep, optLoop, optError)).thenReturn(mockResponse);
 
-		// Act
-		ResponseEntity<Integer> response = controller.rollDice(request, optSleep, optLoop, optError);
+    // Act
+    ResponseEntity<Integer> response = controller.rollDice(request, optSleep, optLoop, optError);
 
-		// Assert
-		assertNotNull(response);
-		assertEquals(mockDice, response.getBody());
-		verify(service, times(1)).rollDice(optSleep, optLoop, optError);
-	}
+    // Assert
+    assertNotNull(response);
+    assertEquals(mockDice, response.getBody());
+    verify(service, times(1)).rollDice(optSleep, optLoop, optError);
+  }
 
-	@Test
-	void testListDice() {
-		// Arrange
-		String mockCurrentUrl = "http://localhost:8080";
-		List<Dice> mockDiceList = List.of(new Dice(3, 1, LocalDateTime.of(2025, 3, 1, 12, 34, 56)), new Dice(2, 3, LocalDateTime.of(2025, 2, 1, 12, 34, 56)), new Dice(1, 5, LocalDateTime.of(2025, 1, 1, 12, 34, 56)));
+  @Test
+  void testListDice() {
+    // Arrange
+    String mockCurrentUrl = "http://localhost:8080";
+    List<Dice> mockDiceList = List.of(new Dice(3, 1, LocalDateTime.of(2025, 3, 1, 12, 34, 56)), new Dice(2, 3, LocalDateTime.of(2025, 2, 1, 12, 34, 56)), new Dice(1, 5, LocalDateTime.of(2025, 1, 1, 12, 34, 56)));
 
-		when(request.getRequestURL()).thenReturn(new StringBuffer(mockCurrentUrl));
-		when(service.listDice()).thenReturn(mockDiceList);
+    when(request.getRequestURL()).thenReturn(new StringBuffer(mockCurrentUrl));
+    when(service.listDice()).thenReturn(mockDiceList);
 
-		// Act
-		List<Dice> result = controller.listDice(request);
+    // Act
+    List<Dice> result = controller.listDice(request);
 
-		// Assert
-		assertNotNull(result);
-		assertEquals(3, result.size());
-		verify(service, times(1)).listDice();
-	}
+    // Assert
+    assertNotNull(result);
+    assertEquals(3, result.size());
+    verify(service, times(1)).listDice();
+  }
 }

@@ -18,47 +18,44 @@ import jp.sios.apisl.handson.grafana.webapp.webapi.util.UtilEnvInfo;
 @RequestMapping("/api/dice/v1")
 public class WebApiController {
 
-	private static final Logger logger = LoggerFactory.getLogger(WebApiController.class);
-	private final WebApiService service;
+  private static final Logger logger = LoggerFactory.getLogger(WebApiController.class);
+  private final WebApiService service;
 
-	// {{{ public WebApiController(WebApiService service)
-	public WebApiController(WebApiService service)
-	{
-		this.service = service;
-	}
-	// }}}
+  // {{{ public WebApiController(WebApiService service)
+  public WebApiController(WebApiService service) {
+    this.service = service;
+  }
+  // }}}
 
-	@GetMapping(value = {"/roll"})
-	// {{{ public ResponseEntity<Integer> rollDice(...)
-	public ResponseEntity<Integer> rollDice(
-		HttpServletRequest request,
-		@RequestParam("sleep") Optional<String> optSleep,
-		@RequestParam("loop") Optional<String> optLoop,
-		@RequestParam("error") Optional<String> optError)
-	{
-		UtilEnvInfo.logStartRequest(request);
-		UtilEnvInfo.logStartClassMethod();
-		logger.info("The received parameters are: sleep='{}', loop='{}' and error='{}'", optSleep, optLoop, optError);
+  @GetMapping(value = {"/roll"})
+  // {{{ public ResponseEntity<Integer> rollDice(...)
+  public ResponseEntity<Integer> rollDice(
+    HttpServletRequest request,
+    @RequestParam("sleep") Optional<String> optSleep,
+    @RequestParam("loop") Optional<String> optLoop,
+    @RequestParam("error") Optional<String> optError) {
+    UtilEnvInfo.logStartRequest(request);
+    UtilEnvInfo.logStartClassMethod();
+    logger.info("The received parameters are: sleep='{}', loop='{}' and error='{}'", optSleep, optLoop, optError);
 
-		ResponseEntity<Integer> entity = service.rollDice(optSleep, optLoop, optError);
+    ResponseEntity<Integer> entity = service.rollDice(optSleep, optLoop, optError);
 
-		UtilEnvInfo.logFinishRequest(request);
-		return entity;
-	}
-	// }}}
+    UtilEnvInfo.logFinishRequest(request);
+    return entity;
+  }
+  // }}}
 
-	@GetMapping(value = {"/list"})
-	// {{{ public List<Dice> listDice(HttpServletRequest request)
-	public List<Dice> listDice(HttpServletRequest request)
-	{
-		UtilEnvInfo.logStartRequest(request);
-		UtilEnvInfo.logStartClassMethod();
+  @GetMapping(value = {"/list"})
+  // {{{ public List<Dice> listDice(HttpServletRequest request)
+  public List<Dice> listDice(HttpServletRequest request) {
+    UtilEnvInfo.logStartRequest(request);
+    UtilEnvInfo.logStartClassMethod();
 
-		List<Dice> list = service.listDice();
+    List<Dice> list = service.listDice();
 
-		UtilEnvInfo.logFinishRequest(request);
-		return list;
-	}
-	// }}}
+    UtilEnvInfo.logFinishRequest(request);
+    return list;
+  }
+  // }}}
 
 }
