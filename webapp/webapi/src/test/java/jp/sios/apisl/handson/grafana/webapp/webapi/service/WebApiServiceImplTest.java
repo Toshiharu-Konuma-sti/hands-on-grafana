@@ -1,12 +1,17 @@
 package jp.sios.apisl.handson.grafana.webapp.webapi.service;
 
-import static org.mockito.Mockito.anyInt;
-import static org.mockito.Mockito.anyString;
-import static org.mockito.Mockito.atLeastOnce;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.Mockito.anyString;
+import static org.mockito.Mockito.when;
+
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+import jp.sios.apisl.handson.grafana.webapp.webapi.entity.Dice;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -14,13 +19,6 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.http.ResponseEntity;
 import org.springframework.jdbc.core.JdbcTemplate;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-import java.time.LocalDateTime;
-import jp.sios.apisl.handson.grafana.webapp.webapi.entity.Dice;
 
 class WebApiServiceImplTest {
 
@@ -109,11 +107,11 @@ class WebApiServiceImplTest {
 
   @Test
   void testListDice() {
-    List<Map<String, Object>> mockResult = new ArrayList<>();
     Map<String, Object> record = new HashMap<>();
     record.put("id", 1);
     record.put("value", 5);
     record.put("updated_at", LocalDateTime.now());
+    List<Map<String, Object>> mockResult = new ArrayList<>();
     mockResult.add(record);
 
     when(jdbcTemplate.queryForList(anyString())).thenReturn(mockResult);

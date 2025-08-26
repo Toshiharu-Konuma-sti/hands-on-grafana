@@ -22,23 +22,24 @@ public class ApplicationTest {
       mocked.verify(() -> SpringApplication.run(Application.class, args));
     }
   }
-    @Test
-    void mainRunsWithoutArguments() {
-      String[] args = {};
-      try (var mocked = mockStatic(SpringApplication.class)) {
-        Application.main(args);
-        mocked.verify(() -> SpringApplication.run(Application.class, args));
-      }
-    }
 
-    @Test
-    void mainRunsWithArguments() {
-      String[] args = {"--spring.profiles.active=test"};
-      try (var mocked = mockStatic(SpringApplication.class)) {
-        Application.main(args);
-        mocked.verify(() -> SpringApplication.run(Application.class, args));
-      }
+  @Test
+  void mainRunsWithoutArguments() {
+    String[] args = {};
+    try (var mocked = mockStatic(SpringApplication.class)) {
+      Application.main(args);
+      mocked.verify(() -> SpringApplication.run(Application.class, args));
     }
+  }
+
+  @Test
+  void mainRunsWithArguments() {
+    String[] args = {"--spring.profiles.active=test"};
+    try (var mocked = mockStatic(SpringApplication.class)) {
+      Application.main(args);
+      mocked.verify(() -> SpringApplication.run(Application.class, args));
+    }
+  }
 /*
   @Test
   void mainDoesNotThrowException() {

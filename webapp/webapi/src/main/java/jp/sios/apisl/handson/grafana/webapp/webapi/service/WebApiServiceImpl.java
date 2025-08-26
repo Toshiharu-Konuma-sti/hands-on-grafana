@@ -10,6 +10,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.ThreadLocalRandom;
+import jp.sios.apisl.handson.grafana.webapp.webapi.entity.Dice;
+import jp.sios.apisl.handson.grafana.webapp.webapi.exception.HandsOnException;
+import jp.sios.apisl.handson.grafana.webapp.webapi.util.UtilEnvInfo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.io.ClassPathResource;
@@ -17,13 +20,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
-import jp.sios.apisl.handson.grafana.webapp.webapi.entity.Dice;
-import jp.sios.apisl.handson.grafana.webapp.webapi.exception.HandsOnException;
-import jp.sios.apisl.handson.grafana.webapp.webapi.util.UtilEnvInfo;
 
 @Service
-public class WebApiServiceImpl implements WebApiService
-{
+public class WebApiServiceImpl implements WebApiService {
 
   private static final String READ_FILE_PATH_IN_LOOP = "application.yml";
   private static final Logger logger = LoggerFactory.getLogger(WebApiServiceImpl.class);
@@ -44,8 +43,7 @@ public class WebApiServiceImpl implements WebApiService
     this.loop(optLoop);
     try {
       this.error(optError);
-    }
-    catch(HandsOnException ex) {
+    } catch(HandsOnException ex) {
       logger.error("The exception was happened with error(): '{}'", (Object[]) ex.getStackTrace());
       ResponseEntity<Integer> entity = new ResponseEntity<>(0, HttpStatus.INTERNAL_SERVER_ERROR);
       return entity;
@@ -70,12 +68,10 @@ public class WebApiServiceImpl implements WebApiService
         try {
           Thread.sleep(milliSecond);
           logger.warn("!!! The sleep has finnished !!!");
-        } 
-        catch(InterruptedException ex) {
+        } catch(InterruptedException ex) {
           logger.error("The exception was happened with sleep(): '{}'", (Object[]) ex.getStackTrace());
         }
-      }
-      catch(NumberFormatException ex) {
+      } catch(NumberFormatException ex) {
         logger.error("The processing of sleep was skipped, because the value of parameter was not an integer: '{}'", optSleep.get());
       }
     }
@@ -102,8 +98,7 @@ public class WebApiServiceImpl implements WebApiService
           }
         }
         logger.warn("!!! The loop has finnished !!! : The read text is: '{}'", line);
-      }
-      catch(NumberFormatException ex) {
+      } catch(NumberFormatException ex) {
         logger.error("The processing of loop was skipped, because the value of parameter was not an integer: '{}'", optLoop.get());
       }
     }
