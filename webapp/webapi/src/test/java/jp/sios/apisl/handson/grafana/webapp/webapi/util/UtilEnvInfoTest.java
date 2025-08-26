@@ -1,10 +1,8 @@
 package jp.sios.apisl.handson.grafana.webapp.webapi.util;
 
-import jakarta.servlet.http.HttpServletRequest;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.BeforeEach;
-import org.mockito.Mockito;
-import static org.junit.jupiter.api.Assertions.*;
 
 class UtilEnvInfoTest {
 

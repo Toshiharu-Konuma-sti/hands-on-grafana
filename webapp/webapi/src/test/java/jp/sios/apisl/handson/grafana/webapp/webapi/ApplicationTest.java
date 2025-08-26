@@ -4,8 +4,10 @@ import static org.mockito.Mockito.mockStatic;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.SpringApplication;
+import org.springframework.boot.test.context.SpringBootTest;
 
-public class ApplicationTest {
+@SpringBootTest
+class ApplicationTest {
 
   @Test
   void contextLoads() {
@@ -40,15 +42,5 @@ public class ApplicationTest {
       mocked.verify(() -> SpringApplication.run(Application.class, args));
     }
   }
-/*
-  @Test
-  void mainDoesNotThrowException() {
-    String[] args = {};
-    try {
-      Application.main(args);
-    } catch (Exception e) {
-      org.junit.jupiter.api.Assertions.fail("main method should not throw exception");
-    }
-  }
-*/
+
 }
