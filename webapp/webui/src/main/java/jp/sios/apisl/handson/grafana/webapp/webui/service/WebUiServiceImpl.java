@@ -64,9 +64,7 @@ public class WebUiServiceImpl implements WebUiService {
   public String callRollDiceApi(
       Optional<String> optSleep, Optional<String> optLoop,  Optional<String> optError) {
     UtilEnvInfo.logStartClassMethod();
-    logger.info(
-        "The received request parameters are: sleep='{}', loop='{}' and error='{}'",
-        optSleep, optLoop, optError);
+    logger.info("The received request parameters are: sleep='{}', loop='{}' and error='{}'", optSleep, optLoop, optError);
 
     List<String> paramList = new ArrayList<String>();
     optSleep.ifPresent(sleep -> paramList.add("sleep=" + sleep));
@@ -123,15 +121,10 @@ public class WebUiServiceImpl implements WebUiService {
     logger.info("The URL to call the API is: '{}'", url);
 
     try {
-      body = this.restClient.get()
-        .uri(url)
-        .retrieve()
-        .body(String.class);
+      body = this.restClient.get().uri(url).retrieve().body(String.class);
       logger.info("The value recieved from the rolldice api is: '{}'", body);
     } catch (HttpClientErrorException | HttpServerErrorException ex) {
-      logger.error(
-          "!!! Could not get a response from the API, because an exception was happened: '{}' !!!",
-          (Object[]) ex.getStackTrace());
+      logger.error("!!! Could not get a response from the API, because an exception was happened: '{}' !!!", (Object[]) ex.getStackTrace());
     }
 
     return body;

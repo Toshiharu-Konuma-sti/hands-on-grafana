@@ -71,9 +71,7 @@ public class WebUiController {
 
     UtilEnvInfo.logStartRequest(request);
     UtilEnvInfo.logStartClassMethod();
-    logger.info(
-        "The received request parameters are: sleep='{}', loop='{}' and error='{}'",
-        optSleep, optLoop, optError);
+    logger.info("The received request parameters are: sleep='{}', loop='{}' and error='{}'", optSleep, optLoop, optError);
 
     String dice = this.service.callRollDiceApi(optSleep, optLoop, optError);
     JSONArray diceList = this.service.callListDiceApi();
