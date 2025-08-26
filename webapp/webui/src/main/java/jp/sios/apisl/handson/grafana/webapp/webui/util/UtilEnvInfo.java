@@ -29,9 +29,9 @@ public class UtilEnvInfo {
   // }}}
 
   /**
-   * リクエストの開始をログに記録します。.
+   * リクエストの処理開始時に、"START"ラベル付きでリクエスト情報をログ出力します。.
    *
-   * @param request ログ記録対象のHTTPリクエスト
+   * @param request ログ出力対象のHTTPリクエスト
    */
   public static void logStartRequest(HttpServletRequest request) {
     UtilEnvInfo.logRequestWithLabel("START", request);
@@ -52,7 +52,7 @@ public class UtilEnvInfo {
   }
 
   /**
-   * 現在のリクエストのURLを取得します。.
+   * 現在リクエストされているURLを取得します。.
    *
    * @param request 現在のHTTPリクエスト
    * @return リクエストされたURLの文字列
@@ -64,8 +64,6 @@ public class UtilEnvInfo {
 
   /**
    * 現在実行中のクラス名とメソッド名をログに出力します。.
-   * ログの出力形式は「>>> calling: クラス名#メソッド名()」となります。
-   * デバッグやトレース用途で、メソッドの開始時に呼び出してください。
    */
   public static void logStartClassMethod() {
     String className = UtilEnvInfo.getClassName();

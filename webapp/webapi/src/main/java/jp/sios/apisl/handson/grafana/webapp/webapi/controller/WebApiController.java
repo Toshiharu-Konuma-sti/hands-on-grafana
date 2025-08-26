@@ -45,6 +45,7 @@ public class WebApiController {
   }
   // }}}
 
+  // {{{ public ResponseEntity<Integer> rollDice(...)
   /**
    * サイコロを振る処理を実行します。.
    *
@@ -59,7 +60,6 @@ public class WebApiController {
    * @return サイコロの出目（1～6の整数値）を含むResponseEntity
    */
   @GetMapping(value = {"/roll"})
-  // {{{ public ResponseEntity<Integer> rollDice(...)
   public ResponseEntity<Integer> rollDice(
       HttpServletRequest request,
       @RequestParam("sleep") Optional<String> optSleep,
@@ -76,6 +76,7 @@ public class WebApiController {
   }
   // }}}
 
+  // {{{ public List<Dice> listDice(HttpServletRequest request)
   /**
    * サイコロのリストを取得します。.
    *
@@ -86,7 +87,6 @@ public class WebApiController {
    * @return サイコロ（Dice）オブジェクトのリスト
    */
   @GetMapping(value = {"/list"})
-  // {{{ public List<Dice> listDice(HttpServletRequest request)
   public List<Dice> listDice(HttpServletRequest request) {
     UtilEnvInfo.logStartRequest(request);
     UtilEnvInfo.logStartClassMethod();

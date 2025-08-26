@@ -26,8 +26,8 @@ public class Application {
 
   // {{{ public static void main(String[] args)
   /**
-   * アプリケーションのエントリーポイントとなるメインメソッドです。.
-   * Spring Bootアプリケーションを起動します。
+   * アプリケーションのエントリーポイントとなるメインメソッドです。
+   * Spring Bootアプリケーションを起動します。.
    *
    * @param args コマンドライン引数
    */

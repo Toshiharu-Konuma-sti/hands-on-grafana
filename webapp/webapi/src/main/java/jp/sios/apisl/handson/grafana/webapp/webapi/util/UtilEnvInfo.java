@@ -21,6 +21,7 @@ public class UtilEnvInfo {
 
   private static final Logger logger = LoggerFactory.getLogger(UtilEnvInfo.getClassName());
 
+  // {{{ public static void logStartRequest(HttpServletRequest request)
   /**
    * リクエストの開始をログに記録します。.
    *
@@ -29,7 +30,9 @@ public class UtilEnvInfo {
   public static void logStartRequest(HttpServletRequest request) {
     UtilEnvInfo.logRequestWithLabel("START", request);
   }
+  // }}}
 
+  // {{{ public static void logFinishRequest(HttpServletRequest request)
   /**
    * リクエストの処理完了時に、"FINISH"ラベル付きでリクエスト情報をログ出力します。.
    *
@@ -38,12 +41,16 @@ public class UtilEnvInfo {
   public static void logFinishRequest(HttpServletRequest request) {
     UtilEnvInfo.logRequestWithLabel("FINISH", request);
   }
+  // }}}
 
+  // {{{ private static void logRequestWithLabel(String label, HttpServletRequest request)
   private static void logRequestWithLabel(String label, HttpServletRequest request) {
     String url = UtilEnvInfo.getCurrentUrl(request);
     logger.info("### {} ### {} ###", label, url);
   }
+  // }}}
 
+  // {{{ public static String getCurrentUrl(HttpServletRequest request)
   /**
    * 現在のリクエストのURLを取得します。.
    *
@@ -54,7 +61,9 @@ public class UtilEnvInfo {
     String currentUrl = request.getRequestURL().toString();
     return currentUrl;
   }
+  // }}}
 
+  // {{{ public static void logStartClassMethod()
   /**
    * 現在実行中のクラス名とメソッド名を取得し、ログに出力します。.
    *
@@ -66,15 +75,20 @@ public class UtilEnvInfo {
     String methodName = UtilEnvInfo.getMethodName();
     logger.info(">>> calling: {}#{}()", className, methodName);
   }
+  // }}}
 
+  // {{{ private static String getClassName()
   private static String getClassName() {
     String className = Thread.currentThread().getStackTrace()[3].getClassName();
     return className;
   }
+  // }}}
 
+  // {{{ private static String getMethodName()
   private static String getMethodName() {
     String methodName = Thread.currentThread().getStackTrace()[3].getMethodName();
     return methodName;
   }
+  // }}}
 
 }

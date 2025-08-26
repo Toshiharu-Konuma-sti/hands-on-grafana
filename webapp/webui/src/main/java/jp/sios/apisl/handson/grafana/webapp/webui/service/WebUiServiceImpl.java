@@ -17,11 +17,11 @@ import org.springframework.web.client.RestClient;
 /**
  * WebUiServiceImplは、Web UI層からWeb APIへのリクエストを仲介するサービス実装クラスです。.
  *
- * <p>サイコロAPIの呼び出しや、サイコロリストの取得、現在のURLの取得などの機能を提供します。
+ * <p>Dice APIの呼び出しや、サイコロリストの取得、現在のURLの取得などの機能を提供します。
  * RestClientを利用して外部APIと通信し、必要に応じてリクエストパラメータを組み立ててAPIを呼び出します。
  * </p>
  * <ul>
- *   <li>サイコロAPIの呼び出し（roll, list）</li>
+ *   <li>Dice APIの呼び出し（roll, list）</li>
  *   <li>API呼び出し時のログ出力</li>
  *   <li>現在のリクエストURLの取得</li>
  * </ul>

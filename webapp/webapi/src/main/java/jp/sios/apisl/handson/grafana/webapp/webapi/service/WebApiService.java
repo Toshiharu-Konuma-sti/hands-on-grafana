@@ -6,8 +6,8 @@ import jp.sios.apisl.handson.grafana.webapp.webapi.entity.Dice;
 import org.springframework.http.ResponseEntity;
 
 /**
- * WebApiServiceインターフェースは、ダイスの操作に関するWeb APIサービスの機能を定義します。.
- * このインターフェースは、ダイスを振る処理やダイスの一覧取得処理を提供します。
+ * WebApiServiceインターフェースは、サイコロの操作に関するWeb APIサービスの機能を定義します。.
+ * このインターフェースは、サイコロを振る処理やサイコロの一覧取得処理を提供します。
  */
 public interface WebApiService {
 
@@ -22,7 +22,7 @@ public interface WebApiService {
   public ResponseEntity<Integer> rollDice(Optional<String> optSleep, Optional<String> optLoop, Optional<String> optError);
 
   /**
-   * Diceオブジェクトの一覧を取得します。.
+   * サイコロ出目の一覧を取得します。.
    *
    * @return Diceオブジェクトのリスト
    */

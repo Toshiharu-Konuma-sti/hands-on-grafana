@@ -6,8 +6,9 @@ import org.json.JSONArray;
 
 /**
  * WebUiServiceインターフェースは、Web UI層から利用されるサービスの定義を提供します。.
- * 主にダイスAPIの呼び出しや、現在のリクエストURLの取得などの機能を提供します。
- * 実装クラスは、APIとの連携やリクエスト処理の詳細を担います。
+ *
+ * <p>主にDice APIの呼び出しや、現在のリクエストURLの取得などの機能を提供します。
+ * 実装クラスは、APIとの連携やリクエスト処理の詳細を担います。</p>
  */
 public interface WebUiService {
 

@@ -64,7 +64,7 @@ class WebUiServiceImplTest {
   }
 
   @Test
-  void testCallRollDiceApiSleepAndLoop() {
+  void testCallRollDiceApi_SleepAndLoop() {
 
     String testUrl = "http://null/api/dice/v1/roll?sleep=1000&loop=5";
     String testResponse = "2";
@@ -111,7 +111,7 @@ class WebUiServiceImplTest {
   }
 
   @Test
-  void testCallRollDiceApiWhenApiReturnsServerError() {
+  void testCallRollDiceApi_WhenApiReturnsServerError() {
     // reproduce the situation where the API returns a server error (500)
     String testUrl = "http://null/api/dice/v1/roll";
 
@@ -133,7 +133,7 @@ class WebUiServiceImplTest {
   }
 
   @Test
-  void testGetCurrentUrlWithQueryString() {
+  void testGetCurrentUrl_WithQueryString() {
     // Mock UtilEnvInfo.getCurrentUrl to return expected value
     String expectedUrl = "http://localhost:8080/test?param=value";
     HttpServletRequest mockRequest = mock(HttpServletRequest.class);

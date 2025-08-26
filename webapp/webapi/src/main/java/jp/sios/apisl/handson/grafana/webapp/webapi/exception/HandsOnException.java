@@ -10,6 +10,7 @@ public class HandsOnException extends Exception {
 
   private static final long serialVersionUID = 1L;
 
+  // {{{ public HandsOnException(String message)
   /**
    * 指定されたメッセージを持つHandsOnExceptionを生成します。.
    *
@@ -18,5 +19,6 @@ public class HandsOnException extends Exception {
   public HandsOnException(String message) {
     super(message);
   }
+  // }}}
 
 }

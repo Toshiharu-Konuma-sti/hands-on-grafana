@@ -16,14 +16,14 @@ import org.springframework.web.servlet.ModelAndView;
  * Web UI コントローラークラス。.
  *
  * <p>このクラスは、Webアプリケーションのルートパス（"/"）へのリクエストを処理します。
- * サービスクラス {@link WebUiService} を利用して、ダイスAPIの呼び出しや
+ * サービスクラス {@link WebUiService} を利用して、Dice APIの呼び出しや
  * 必要な情報の取得を行い、ビューにデータを渡します。
  * </p>
  *
  * <p>主な機能:</p>
  * <ul>
  *   <li>リクエストパラメータ（sleep, loop, error）の受け取りとログ出力</li>
- *   <li>ダイスAPIの呼び出しと結果の取得</li>
+ *   <li>Dice APIの呼び出しと結果の取得</li>
  *   <li>ビューへのデータ設定と画面遷移</li>
  * </ul>
  *
@@ -51,7 +51,7 @@ public class WebUiController {
    * ルートパス（"/"）へのリクエストを処理するコントローラメソッドです。.
    *
    * <p>リクエストパラメータとして "sleep"、"loop"、"error" を受け取り、サービスクラスを利用して
-   * サイコロAPIの呼び出しやリスト取得、現在のURLの取得を行います。取得した情報をModelAndViewに格納し、
+   * Dice APIの呼び出しやリスト取得、現在のURLの取得を行います。取得した情報をModelAndViewに格納し、
    * "index" ビューを返します。
    * </p>
    *
