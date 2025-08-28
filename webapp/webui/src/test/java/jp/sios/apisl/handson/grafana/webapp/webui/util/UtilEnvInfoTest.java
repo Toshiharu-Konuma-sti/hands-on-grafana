@@ -1,69 +1,66 @@
 package jp.sios.apisl.handson.grafana.webapp.webui.util;
 
-import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
+
 import jakarta.servlet.http.HttpServletRequest;
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
+import org.junit.jupiter.api.Test;
 
 class UtilEnvInfoTest {
 
-	@Test
-	void testGetCurrentUrl() {
-		HttpServletRequest request = mock(HttpServletRequest.class);
-		StringBuffer url = new StringBuffer("http://localhost/test/path");
-		when(request.getRequestURL()).thenReturn(url);
+  @Test
+  void testUtilEnvInfoBeanExists() {
+    var utilEnvInfo = new UtilEnvInfo();
+    assertNotNull(utilEnvInfo, "UtilEnvInfo bean should not be null");
+  }
 
-		String result = UtilEnvInfo.getCurrentUrl(request);
+  @Test
+  void testLogStartRequestDoesNotThrow() {
+    HttpServletRequest request = mock(HttpServletRequest.class);
+    when(request.getRequestURL()).thenReturn(new StringBuffer("http://localhost/start"));
 
-		assertEquals("http://localhost/test/path", result);
-	}
+    assertDoesNotThrow(() -> UtilEnvInfo.logStartRequest(request));
+  }
 
-	@Test
-	void testLogStartRequestDoesNotThrow() {
-		HttpServletRequest request = mock(HttpServletRequest.class);
-		when(request.getRequestURL()).thenReturn(new StringBuffer("http://localhost/start"));
+  @Test
+  void testLogFinishRequestDoesNotThrow() {
+    HttpServletRequest request = mock(HttpServletRequest.class);
+    when(request.getRequestURL()).thenReturn(new StringBuffer("http://localhost/finish"));
 
-		assertDoesNotThrow(() -> UtilEnvInfo.logStartRequest(request));
-	}
+    assertDoesNotThrow(() -> UtilEnvInfo.logFinishRequest(request));
+  }
 
-	@Test
-	void testLogFinishRequestDoesNotThrow() {
-		HttpServletRequest request = mock(HttpServletRequest.class);
-		when(request.getRequestURL()).thenReturn(new StringBuffer("http://localhost/finish"));
+  @Test
+  void testGetCurrentUrl() {
+    HttpServletRequest request = mock(HttpServletRequest.class);
+    StringBuffer url = new StringBuffer("http://localhost/test/path");
+    when(request.getRequestURL()).thenReturn(url);
 
-		assertDoesNotThrow(() -> UtilEnvInfo.logFinishRequest(request));
-	}
+    String result = UtilEnvInfo.getCurrentUrl(request);
 
-	@Test
-	void testLogStartClassMethodDoesNotThrow() {
-		assertDoesNotThrow(UtilEnvInfo::logStartClassMethod);
-	}
+    assertEquals("http://localhost/test/path", result);
+  }
 
-	@Test
-	void testMyTest() {
-		var obj = new UtilEnvInfo();
-		obj.logStartClassMethod();
-	}
+  @Test
+  void testGetCurrentUrlWithEmptyUrl() {
+    HttpServletRequest request = mock(HttpServletRequest.class);
+    when(request.getRequestURL()).thenReturn(new StringBuffer(""));
+    String result = UtilEnvInfo.getCurrentUrl(request);
+    assertEquals("", result);
+  }
 
-	@Test
-	void testLogRequestWithLabelDoesNotThrow() throws Exception {
-		HttpServletRequest request = mock(HttpServletRequest.class);
-		when(request.getRequestURL()).thenReturn(new StringBuffer("http://localhost/label"));
-		var method = UtilEnvInfo.class.getDeclaredMethod("logRequestWithLabel", String.class, HttpServletRequest.class);
-		method.setAccessible(true);
-		assertDoesNotThrow(() -> method.invoke(null, "LABEL", request));
-	}
+  @Test
+  void testGetCurrentUrlWithNullRequest() {
+    assertThrows(NullPointerException.class, () -> UtilEnvInfo.getCurrentUrl(null));
+  }
 
-	@Test
-	void testGetCurrentUrlWithEmptyUrl() {
-		HttpServletRequest request = mock(HttpServletRequest.class);
-		when(request.getRequestURL()).thenReturn(new StringBuffer(""));
-		String result = UtilEnvInfo.getCurrentUrl(request);
-		assertEquals("", result);
-	}
+  @Test
+  void testLogStartClassMethodDoesNotThrow() {
+    assertDoesNotThrow(UtilEnvInfo::logStartClassMethod);
+  }
 
-	@Test
-	void testGetCurrentUrlWithNullRequest() {
-		assertThrows(NullPointerException.class, () -> UtilEnvInfo.getCurrentUrl(null));
-	}
 }

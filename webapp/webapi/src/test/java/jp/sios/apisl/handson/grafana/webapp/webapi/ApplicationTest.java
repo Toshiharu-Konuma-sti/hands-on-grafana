@@ -1,4 +1,4 @@
-package jp.sios.apisl.handson.grafana.webapp.webui;
+package jp.sios.apisl.handson.grafana.webapp.webapi;
 
 import static org.mockito.Mockito.mockStatic;
 
@@ -20,7 +20,6 @@ class ApplicationTest {
     try (var mocked = mockStatic(SpringApplication.class)) {
       // Act
       Application.main(args);
-
       // Assert
       mocked.verify(() -> SpringApplication.run(Application.class, args));
     }
