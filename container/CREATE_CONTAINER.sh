@@ -31,11 +31,12 @@ install_plugin_collectiong_log()
 # {{{ create_container()
 create_container()
 {
-echo "\n### START: Create new containers ##########"
-docker-compose \
-	-f docker-compose.yml \
-	-f docker-compose-webapp.yml \
-	up -d -V --remove-orphans
+	echo "\n### START: Create new containers ##########"
+	git submodule update --init
+	docker-compose \
+		-f docker-compose.yml \
+		-f docker-compose-webapp.yml \
+		up -d -V --remove-orphans
 }
 # }}}
 
@@ -116,6 +117,9 @@ case "$1" in
 		clear
 		show_list_container
 		;;
+	"info")
+		show_url
+		;;
 	"")
 		clear
 		start_banner
@@ -126,7 +130,7 @@ case "$1" in
 		finish_banner $S_TIME
 		;;
 	*)
-		echo "Usage: $0 [down|up|list]"
+		echo "Usage: $0 [down|up|list|info]"
 		echo ""
 		exit 1
 		;;
