@@ -19,7 +19,7 @@ groups:
             datasourceUid: loki
             model:
               editorMode: builder
-              expr: sum by (message)(count_over_time({service_name="webapp-webui"} | (detected_level = "error" or detected_level = "ERROR") [1m]))
+              expr: sum by (message)(count_over_time({service_name="webapp-webui"} | (detected_level =~ "(?i)error") [1m]))
               instant: true
               intervalMs: 1000
               maxDataPoints: 43200
