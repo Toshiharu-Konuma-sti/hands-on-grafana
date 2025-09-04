@@ -9,6 +9,19 @@ start_banner()
 }
 # }}}
 
+# {{{ create_container()
+create_container()
+{
+	echo "\n### START: Create new containers ##########"
+	git submodule update --init
+	git submodule update --remote ./../webapp
+	docker-compose \
+		-f docker-compose.yml \
+		-f docker-compose-webapp.yml \
+		up -d -V --remove-orphans
+}
+# }}}
+
 # {{{ destory_container()
 destory_container()
 {
@@ -20,23 +33,28 @@ docker-compose \
 }
 # }}}
 
+# {{{ rebuild_container()
+# $1: the name of container to rebuild
+rebuild_container()
+{
+	CONTAINER_NM=$1
+	echo "\n### START: Rebuild a container ##########"
+	docker stop $CONTAINER_NM
+	IMAGE_NM=$(docker inspect --format='{{.Config.Image}}' $CONTAINER_NM)
+	docker rm $CONTAINER_NM
+	docker rmi $IMAGE_NM
+	docker-compose \
+		-f docker-compose.yml \
+		-f docker-compose-webapp.yml \
+		up -d -V --build $CONTAINER_NM
+}
+# }}}
+
 # {{{ install_plugin_collectiong_log()
 install_plugin_collectiong_log()
 {
 	echo "\n### START: Install a plugin to collect container's logs ##########"
 	docker plugin install grafana/loki-docker-driver:latest --alias loki --grant-all-permissions
-}
-# }}}
-
-# {{{ create_container()
-create_container()
-{
-	echo "\n### START: Create new containers ##########"
-	git submodule update --init
-	docker-compose \
-		-f docker-compose.yml \
-		-f docker-compose-webapp.yml \
-		up -d -V --remove-orphans
 }
 # }}}
 
@@ -113,6 +131,10 @@ case "$1" in
 		show_url
 		finish_banner $S_TIME
 		;;
+	"rebuild")
+		clear
+		rebuild_container $2
+		;;
 	"list")
 		clear
 		show_list_container
@@ -130,7 +152,7 @@ case "$1" in
 		finish_banner $S_TIME
 		;;
 	*)
-		echo "Usage: $0 [down|up|list|info]"
+		echo "Usage: $0 [down|up|list|info|rebuild {container}]"
 		echo ""
 		exit 1
 		;;
