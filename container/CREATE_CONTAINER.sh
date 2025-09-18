@@ -9,6 +9,19 @@ start_banner()
 }
 # }}}
 
+# {{{ finish_banner()
+# $1: time to start this script
+finish_banner()
+{
+	S_TIME=$1
+	E_TIME=$(date +%s)
+	DURATION=$((E_TIME - S_TIME))
+	echo "############################################################"
+	echo "# FINISH SCRIPT ($DURATION seconds)"
+	echo "############################################################"
+}
+# }}}
+
 # {{{ create_container()
 create_container()
 {
@@ -22,6 +35,16 @@ create_container()
 }
 # }}}
 
+# {{{ create_container_except_webapp()
+create_container_except_webapp()
+{
+	echo "\n### START: Create new containers except for the webapps ##########"
+	docker-compose \
+		-f docker-compose.yml \
+		up -d -V
+}
+# }}}
+
 # {{{ destory_container()
 destory_container()
 {
@@ -30,6 +53,16 @@ docker-compose \
 	-f docker-compose.yml \
 	-f docker-compose-webapp.yml \
 	down -v --remove-orphans
+}
+# }}}
+
+# {{{ destory_container_except_webapp()
+destory_container_except_webapp()
+{
+echo "\n### START: Destory existing containers except for the webapps ##########"
+docker-compose \
+	-f docker-compose.yml \
+	down -v
 }
 # }}}
 
@@ -101,22 +134,48 @@ EOS
 }
 # }}}
 
-# {{{ finish_banner()
-# $1: time to start this script
-finish_banner()
+# {{{ show_usage()
+show_usage()
 {
-	S_TIME=$1
-	E_TIME=$(date +%s)
-	DURATION=$((E_TIME - S_TIME))
-	echo "############################################################"
-	echo "# FINISH SCRIPT ($DURATION seconds)"
-	echo "############################################################"
+	cat << EOS
+Usage: $0 [options]
+
+Start the containers needed for the hands-on. If there are any containers
+already running, stop them and remove resources beforehand.
+
+Options:
+  up                    Start the containers.
+  up-no-webapp          Start the containers except for the webapps. (Use this
+                        option when adding containers to the Jenkins hands-on.)
+  down                  Stop the containers and remove resources.
+  down-no-webapp        Stop the containers except for the webapps. (Use this
+                        option when removing containers from the Jenkins hands-on.)
+  rebuild {container}   Stop the specified container, removes its image, and
+                        restarts it.
+  list                  Show the list of containers.
+  info                  Show the information such as URLs.
+
+EOS
 }
 # }}}
 
 S_TIME=$(date +%s)
 
 case "$1" in
+	"up")
+		clear
+		start_banner
+		create_container
+		show_list_container
+		show_url
+		finish_banner $S_TIME
+		;;
+	"up-no-webapp")
+		clear
+		start_banner
+		create_container_except_webapp
+		finish_banner $S_TIME
+		;;
 	"down")
 		clear
 		start_banner
@@ -124,12 +183,10 @@ case "$1" in
 		show_list_container
 		finish_banner $S_TIME
 		;;
-	"up")
+	"down-no-webapp")
 		clear
 		start_banner
-		create_container
-		show_list_container
-		show_url
+		destory_container_except_webapp
 		finish_banner $S_TIME
 		;;
 	"rebuild")
@@ -153,8 +210,7 @@ case "$1" in
 		finish_banner $S_TIME
 		;;
 	*)
-		echo "Usage: $0 [down|up|list|info|rebuild {container}]"
-		echo ""
+		show_usage
 		exit 1
 		;;
 esac
