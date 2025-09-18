@@ -138,7 +138,7 @@ EOS
 show_usage()
 {
 	cat << EOS
-Usage: $0 [options]
+Usage: $(basename $0) [options]
 
 Start the containers needed for the hands-on. If there are any containers
 already running, stop them and remove resources beforehand.
