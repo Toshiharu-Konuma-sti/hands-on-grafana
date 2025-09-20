@@ -145,10 +145,10 @@ already running, stop them and remove resources beforehand.
 
 Options:
   up                    Start the containers.
-  up-no-webapp          Start the containers except for the webapps. (Use this
+  up-to-jenkins         Start the containers except for the webapps. (Use this
                         option when adding containers to the Jenkins hands-on.)
   down                  Stop the containers and remove resources.
-  down-no-webapp        Stop the containers except for the webapps. (Use this
+  down-from-jenkins     Stop the containers except for the webapps. (Use this
                         option when removing containers from the Jenkins hands-on.)
   rebuild {container}   Stop the specified container, removes its image, and
                         restarts it.
@@ -170,7 +170,7 @@ case "$1" in
 		show_url
 		finish_banner $S_TIME
 		;;
-	"up-no-webapp")
+	"up-to-jenkins")
 		clear
 		start_banner
 		create_container_except_webapp
@@ -183,7 +183,7 @@ case "$1" in
 		show_list_container
 		finish_banner $S_TIME
 		;;
-	"down-no-webapp")
+	"down-from-jenkins")
 		clear
 		start_banner
 		destory_container_except_webapp

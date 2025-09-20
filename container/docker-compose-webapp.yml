@@ -91,6 +91,7 @@ services:
     pid: "service:webapp-webui"
     networks:
       - internal
+
   webapp-webapi-node-exporter:
     hostname: webapp-webapi-node-exporter
     container_name: webapp-webapi-node-exporter
