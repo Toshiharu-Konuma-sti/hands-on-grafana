@@ -24,7 +24,7 @@ services:
       - -c
       - |
         wget -O ./pyroscope.jar https://github.com/grafana/pyroscope-java/releases/download/v2.0.0/pyroscope.jar
-        java -javaagent:pyroscope.jar -jar build/libs/apisl.handson.grafana.webapp.webui-0.0.1-SNAPSHOT.jar
+        java -javaagent:pyroscope.jar -jar build/libs/apisl.handson.rollingdice.webapp.webui-0.0.1-SNAPSHOT.jar
     environment:
       PYROSCOPE_APPLICATION_NAME: webapp-webui
       PYROSCOPE_SERVER_ADDRESS: http://alloy:9999
@@ -51,7 +51,7 @@ services:
       - -c
       - |
         wget -O ./pyroscope.jar https://github.com/grafana/pyroscope-java/releases/download/v2.0.0/pyroscope.jar
-        java -javaagent:pyroscope.jar -jar build/libs/apisl.handson.grafana.webapp.webapi-0.0.1-SNAPSHOT.jar
+        java -javaagent:pyroscope.jar -jar build/libs/apisl.handson.rollingdice.webapp.webapi-0.0.1-SNAPSHOT.jar
     environment:
       PYROSCOPE_APPLICATION_NAME: webapp-webapi
       PYROSCOPE_SERVER_ADDRESS: http://alloy:9999
