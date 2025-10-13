@@ -12,7 +12,7 @@ services:
     build:
       context: ../webapp
       dockerfile: Dockerfile-webui
-    image: webapp/webui:latest
+    image: hands-on/grafana/webapp/webui:latest
     ports:
       - 8181:8181
     networks:
@@ -39,7 +39,7 @@ services:
     build:
       context: ../webapp
       dockerfile: Dockerfile-webapi
-    image: webapp/webapi:latest
+    image: hands-on/grafana/webapp/webapi:latest
     ports:
       - 8182:8182
     networks:
