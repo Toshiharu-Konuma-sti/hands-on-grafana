@@ -109,7 +109,7 @@ services:
     command: ["sh", "-c", "mkdir -p /data/mimir && minio server --console-address :9001 /data"]
     environment:
       MINIO_ROOT_USER: mimir
-      MINIO_ROOT_PASSWORD: ${MINIO_PASS}
+      MINIO_ROOT_PASSWORD: ${MINIO_ROOT_PASSWORD}
     volumes:
       - minio-mimir:/data
     healthcheck: *minioHealthcheck
@@ -169,7 +169,7 @@ services:
       - minio-loki
     entrypoint: >
       /bin/sh -c "
-      /usr/bin/mc config host add myminio http://minio-loki:9000 loki ${MINIO_PASS};
+      /usr/bin/mc config host add myminio http://minio-loki:9000 loki ${MINIO_ROOT_PASSWORD};
       /usr/bin/mc rm -r --force myminio/loki;
       /usr/bin/mc mb myminio/loki;
       /usr/bin/mc policy set public myminio/loki;
@@ -186,7 +186,7 @@ services:
     command: ["sh", "-c", "mkdir -p /data/loki && minio server --console-address :9002 /data"]
     environment:
       MINIO_ROOT_USER: loki
-      MINIO_ROOT_PASSWORD: ${MINIO_PASS}
+      MINIO_ROOT_PASSWORD: ${MINIO_ROOT_PASSWORD}
     volumes:
       - minio-loki:/data
     healthcheck: *minioHealthcheck
@@ -260,7 +260,7 @@ services:
       - minio-tempo
     entrypoint: >
       /bin/sh -c "
-      /usr/bin/mc config host add myminio http://minio-tempo:9000 tempo ${MINIO_PASS};
+      /usr/bin/mc config host add myminio http://minio-tempo:9000 tempo ${MINIO_ROOT_PASSWORD};
       /usr/bin/mc rm -r --force myminio/tempo;
       /usr/bin/mc mb myminio/tempo;
       /usr/bin/mc policy set public myminio/tempo;
@@ -277,7 +277,7 @@ services:
     command: ["sh", "-c", "mkdir -p /data/tempo && minio server --console-address :9003 /data"]
     environment:
       MINIO_ROOT_USER: tempo
-      MINIO_ROOT_PASSWORD: ${MINIO_PASS}
+      MINIO_ROOT_PASSWORD: ${MINIO_ROOT_PASSWORD}
     volumes:
       - minio-tempo:/data
     healthcheck: *minioHealthcheck
