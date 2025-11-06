@@ -16,7 +16,7 @@ services:
   grafana:
     container_name: grafana
     hostname: grafana
-    image: grafana/grafana:12.0.2
+    image: grafana/grafana:12.2.1
     volumes:
       - ./grafana/provisioning/datasources/datasources.yaml:/etc/grafana/provisioning/datasources/datasources.yaml:ro
       - ./grafana/provisioning/dashboards:/etc/grafana/provisioning/dashboards:ro
@@ -42,7 +42,7 @@ services:
   prometheus-mimir:
     hostname: prometheus-mimir
     container_name: prometheus-mimir
-    image: prom/prometheus:v3.4.2
+    image: prom/prometheus:v3.7.3
     command:
       - --web.enable-remote-write-receiver
 #      - --web.enable-otlp-receiver
@@ -61,7 +61,7 @@ services:
   mimir-lb:
     hostname: mimir-lb
     container_name: mimir-lb
-    image: &nginxImage nginx:1.29.0
+    image: &nginxImage nginx:1.29.3
     volumes:
       - ./nginx/config/nginx-mimir.conf:/etc/nginx/nginx.conf:ro
     depends_on:
@@ -76,7 +76,7 @@ services:
   mimir-1:
     hostname: mimir-1
     container_name: mimir-1
-    image: &mimirImage grafana/mimir:2.16.1
+    image: &mimirImage grafana/mimir:3.0.0
     command: ["-config.file=/etc/mimir.yaml"]
     depends_on:
       minio-mimir:
@@ -104,7 +104,7 @@ services:
   minio-mimir:
     hostname: minio-mimir
     container_name: minio-mimir
-    image: &minioImage minio/minio:RELEASE.2025-06-13T11-33-47Z
+    image: &minioImage minio/minio:RELEASE.2025-09-07T16-13-09Z
     entrypoint: [""]
     command: ["sh", "-c", "mkdir -p /data/mimir && minio server --console-address :9001 /data"]
     environment:
@@ -138,7 +138,7 @@ services:
   loki-1:
     hostname: loki-1
     container_name: loki-1
-    image: &lokiImage grafana/loki:3.5.1
+    image: &lokiImage grafana/loki:3.5.8
     command: -config.file=/etc/loki/local-config.yaml
     volumes:
       - ./loki/config/loki.yaml:/etc/loki/local-config.yaml
@@ -164,7 +164,7 @@ services:
   minio-loki-createbuckets:
     hostname: minio-loki-createbuckets
     container_name: minio-loki-createbuckets
-    image: &miniomcImage minio/mc:RELEASE.2025-05-21T01-59-54Z
+    image: &miniomcImage minio/mc:RELEASE.2025-08-13T08-35-41Z
     depends_on:
       - minio-loki
     entrypoint: >
@@ -225,7 +225,7 @@ services:
   tempo-init:
     container_name: tempo-init
     hostname: tempo-init
-    image: &tempoImage grafana/tempo:2.8.1
+    image: &tempoImage grafana/tempo:2.9.0
     user: root
     entrypoint:
       - "chown"
@@ -305,7 +305,7 @@ services:
   pyroscope-1:
     container_name: pyroscope-1
     hostname: pyroscope-1
-    image: grafana/pyroscope:1.14.0
+    image: grafana/pyroscope:1.16.0
     ports:
       - 4040:4040
     networks:
@@ -319,7 +319,7 @@ services:
   jaeger:
     container_name: jaeger
     hostname: jaeger
-    image: jaegertracing/all-in-one:1.71.0
+    image: jaegertracing/all-in-one:1.74.0
     ports:
       - 16686:16686
     networks:
@@ -346,7 +346,7 @@ services:
   otel-collector:
     container_name: otel-collector
     hostname: otel-collector
-    image: otel/opentelemetry-collector-contrib:0.129.1
+    image: otel/opentelemetry-collector-contrib:0.139.0
     restart: always
     command: ["--config=/etc/otel-collector-config.yaml", ""]
     volumes:
@@ -357,7 +357,7 @@ services:
   alloy:
     container_name: alloy
     hostname: alloy
-    image: grafana/alloy:v1.9.2
+    image: grafana/alloy:v1.11.3
     command:
       - run
       - --server.http.listen-addr=0.0.0.0:12345
