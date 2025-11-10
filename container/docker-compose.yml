@@ -25,7 +25,6 @@ services:
       - GF_AUTH_ANONYMOUS_ENABLED=true
       - GF_AUTH_ANONYMOUS_ORG_ROLE=Admin
       - GF_AUTH_DISABLE_LOGIN_FORM=true
-#      - GF_FEATURE_TOGGLES_ENABLE=traceqlEditor
       - GF_USERS_DEFAULT_THEME=light
       - GF_SMTP_ENABLED=true
       - GF_SMTP_HOST=maildev:1025
@@ -34,6 +33,7 @@ services:
     networks:
       - internal
       - external
+    restart: unless-stopped
 
 #-----------------------------
 # Grafana Mimir
@@ -57,6 +57,7 @@ services:
     networks:
       - internal
       - external
+    restart: unless-stopped
 
   mimir-lb:
     hostname: mimir-lb
@@ -72,6 +73,7 @@ services:
     networks:
       - internal
       - external
+    restart: unless-stopped
 
   mimir-1:
     hostname: mimir-1
@@ -86,6 +88,7 @@ services:
       - mimir-data-1:/data
     networks:
       - internal
+    restart: unless-stopped
 
   mimir-2:
     hostname: mimir-2
@@ -100,6 +103,7 @@ services:
       - mimir-data-2:/data
     networks:
       - internal
+    restart: unless-stopped
 
   minio-mimir:
     hostname: minio-mimir
@@ -118,6 +122,7 @@ services:
     networks:
       - internal
       - external
+    restart: unless-stopped
 
 #-----------------------------
 # Grafana Loki
@@ -134,6 +139,7 @@ services:
       - loki-2
     networks:
       - internal
+    restart: unless-stopped
 
   loki-1:
     hostname: loki-1
@@ -147,6 +153,7 @@ services:
         condition: service_healthy
     networks:
       - internal
+    restart: unless-stopped
 
   loki-2:
     hostname: loki-2
@@ -160,6 +167,7 @@ services:
         condition: service_healthy
     networks:
       - internal
+    restart: unless-stopped
 
   minio-loki-createbuckets:
     hostname: minio-loki-createbuckets
@@ -195,6 +203,7 @@ services:
     networks:
       - internal
       - external
+    restart: unless-stopped
 
 #-----------------------------
 # Grafana Tempo
@@ -210,6 +219,7 @@ services:
       - tempo-1
     networks:
       - internal
+    restart: unless-stopped
 
   tempo-lb-view:
     hostname: tempo-lb-view
@@ -221,6 +231,7 @@ services:
       - tempo-1
     networks:
       - internal
+    restart: unless-stopped
 
   tempo-init:
     container_name: tempo-init
@@ -251,6 +262,7 @@ services:
         condition: service_healthy
     networks:
       - internal
+    restart: unless-stopped
 
   minio-tempo-createbuckets:
     hostname: minio-tempo-createbuckets
@@ -286,6 +298,7 @@ services:
     networks:
       - internal
       - external
+    restart: unless-stopped
 
 #-----------------------------
 # Grafana Pyroscope
@@ -301,6 +314,7 @@ services:
       - pyroscope-1
     networks:
       - internal
+    restart: unless-stopped
 
   pyroscope-1:
     container_name: pyroscope-1
@@ -311,6 +325,7 @@ services:
     networks:
       - internal
       - external
+    restart: unless-stopped
 
 ##############################
 # obsewrvability: distributed tracing
@@ -327,6 +342,7 @@ services:
       - external
     environment:
       COLLECTOR_OTLP_ENABLED: "true"
+    restart: unless-stopped
 
   zipkin:
     container_name: zipkin
@@ -372,6 +388,7 @@ services:
     networks:
       - internal
       - external
+    restart: unless-stopped
 
 ##############################
 # smtp mock server
@@ -386,6 +403,7 @@ services:
     networks:
       - internal
       - external
+    restart: unless-stopped
 
 ##############################
 # volumes

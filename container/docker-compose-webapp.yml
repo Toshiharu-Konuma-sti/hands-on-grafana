@@ -30,6 +30,7 @@ services:
     environment:
       PYROSCOPE_APPLICATION_NAME: webapp-webui
     tty: true
+    restart: unless-stopped
 
   webapp-webapi:
     container_name: webapp-webapi
@@ -55,6 +56,7 @@ services:
     environment:
       PYROSCOPE_APPLICATION_NAME: webapp-webapi
     tty: true
+    restart: unless-stopped
 
   webapp-mysql:
     hostname: webapp-mysql
@@ -71,6 +73,7 @@ services:
     command: mysqld
     env_file:
       - ../webapp/.env-webapp-mysql
+    restart: unless-stopped
 #    logging:
 #      driver: loki
 #      options:
@@ -83,6 +86,7 @@ services:
     pid: "service:webapp-webui"
     networks:
       - internal
+    restart: unless-stopped
 
   webapp-webapi-node-exporter:
     hostname: webapp-webapi-node-exporter
@@ -91,6 +95,7 @@ services:
     pid: "service:webapp-webapi"
     networks:
       - internal
+    restart: unless-stopped
 
 ##############################
 # networks
