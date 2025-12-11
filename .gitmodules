@@ -1,4 +1,5 @@
 [submodule "webapp"]
 	path = webapp
-	url = git@github.com:Toshiharu-Konuma-sti/hands-on-rollingdice-webapp.git
+	# url = git@github.com:Toshiharu-Konuma-sti/hands-on-rollingdice-webapp.git
+	url = https://github.com/Toshiharu-Konuma-sti/hands-on-rollingdice-webapp.git
 	branch = main
