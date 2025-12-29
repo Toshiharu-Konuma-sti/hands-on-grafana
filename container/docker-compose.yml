@@ -16,7 +16,7 @@ services:
   grafana:
     container_name: grafana
     hostname: grafana
-    image: grafana/grafana:12.2.1
+    image: grafana/grafana:12.3.1
     volumes:
       - ./grafana/provisioning/datasources/datasources.yaml:/etc/grafana/provisioning/datasources/datasources.yaml:ro
       - ./grafana/provisioning/dashboards:/etc/grafana/provisioning/dashboards:ro
@@ -42,7 +42,7 @@ services:
   prometheus-mimir:
     hostname: prometheus-mimir
     container_name: prometheus-mimir
-    image: prom/prometheus:v3.7.3
+    image: prom/prometheus:v3.8.1
     command:
       - --web.enable-remote-write-receiver
 #      - --web.enable-otlp-receiver
@@ -62,7 +62,7 @@ services:
   mimir-lb:
     hostname: mimir-lb
     container_name: mimir-lb
-    image: &nginxImage nginx:1.29.3
+    image: &nginxImage nginx:1.29.4
     volumes:
       - ./nginx/config/nginx-mimir.conf:/etc/nginx/nginx.conf:ro
     depends_on:
@@ -78,7 +78,7 @@ services:
   mimir-1:
     hostname: mimir-1
     container_name: mimir-1
-    image: &mimirImage grafana/mimir:3.0.0
+    image: &mimirImage grafana/mimir:3.0.1
     command: ["-config.file=/etc/mimir.yaml"]
     depends_on:
       minio-mimir:
@@ -144,7 +144,7 @@ services:
   loki-1:
     hostname: loki-1
     container_name: loki-1
-    image: &lokiImage grafana/loki:3.5.8
+    image: &lokiImage grafana/loki:3.5.9
     command: -config.file=/etc/loki/local-config.yaml
     volumes:
       - ./loki/config/loki.yaml:/etc/loki/local-config.yaml
@@ -319,7 +319,7 @@ services:
   pyroscope-1:
     container_name: pyroscope-1
     hostname: pyroscope-1
-    image: grafana/pyroscope:1.16.0
+    image: grafana/pyroscope:1.16.2
     ports:
       - 4040:4040
     networks:
@@ -334,7 +334,7 @@ services:
   jaeger:
     container_name: jaeger
     hostname: jaeger
-    image: jaegertracing/all-in-one:1.74.0
+    image: jaegertracing/all-in-one:1.76.0
     ports:
       - 16686:16686
     networks:
@@ -362,7 +362,7 @@ services:
   otel-collector:
     container_name: otel-collector
     hostname: otel-collector
-    image: otel/opentelemetry-collector-contrib:0.139.0
+    image: otel/opentelemetry-collector-contrib:0.142.0
     restart: always
     command: ["--config=/etc/otel-collector-config.yaml", ""]
     volumes:
@@ -373,7 +373,7 @@ services:
   alloy:
     container_name: alloy
     hostname: alloy
-    image: grafana/alloy:v1.11.3
+    image: grafana/alloy:v1.12.1
     command:
       - run
       - --server.http.listen-addr=0.0.0.0:12345
