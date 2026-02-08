@@ -2,12 +2,14 @@
 
 S_TIME=$(date +%s)
 CUR_DIR=$(cd $(dirname $0); pwd)
-. $CUR_DIR/functions.sh
+. $CUR_DIR/common.sh
+. $CUR_DIR/custom.sh
 
 case "$1" in
 	"up")
 		clear
 		start_banner
+		check_required_commands "docker"
 		create_container $CUR_DIR
 		show_list_container
 		show_url
@@ -16,6 +18,7 @@ case "$1" in
 	"up-to-jenkins")
 		clear
 		start_banner
+		check_required_commands "docker"
 		create_container_except_webapp $CUR_DIR
 		show_list_container
 		show_url
@@ -24,6 +27,7 @@ case "$1" in
 	"down")
 		clear
 		start_banner
+		check_required_commands "docker"
 		destory_container $CUR_DIR
 		show_list_container
 		finish_banner $S_TIME
@@ -31,6 +35,7 @@ case "$1" in
 	"down-from-jenkins")
 		clear
 		start_banner
+		check_required_commands "docker"
 		destory_container_except_webapp $CUR_DIR
 		show_list_container
 		finish_banner $S_TIME
@@ -52,6 +57,7 @@ case "$1" in
 	"")
 		clear
 		start_banner
+		check_required_commands "docker"
 		destory_container $CUR_DIR
 		create_container $CUR_DIR
 		show_list_container
