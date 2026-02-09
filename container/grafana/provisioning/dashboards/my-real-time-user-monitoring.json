@@ -195,82 +195,6 @@
             "mode": "thresholds"
           },
           "mappings": [],
-          "max": 1,
-          "min": 0,
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green",
-                "value": null
-              },
-              {
-                "color": "#EAB839",
-                "value": 0.1
-              },
-              {
-                "color": "red",
-                "value": 0.3
-              }
-            ]
-          },
-          "unit": "none"
-        },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 3,
-        "w": 5,
-        "x": 9,
-        "y": 1
-      },
-      "id": 11,
-      "options": {
-        "colorMode": "value",
-        "graphMode": "none",
-        "justifyMode": "auto",
-        "orientation": "auto",
-        "percentChangeColorMode": "standard",
-        "reduceOptions": {
-          "calcs": [
-            "lastNotNull"
-          ],
-          "fields": "",
-          "values": false
-        },
-        "showPercentChange": false,
-        "textMode": "auto",
-        "wideLayout": true
-      },
-      "pluginVersion": "11.5.2",
-      "targets": [
-        {
-          "datasource": {
-            "type": "loki",
-            "uid": "loki"
-          },
-          "direction": "backward",
-          "editorMode": "code",
-          "expr": "avg_over_time({app_name=\"$app\"} |= \"cls\" | logfmt | kind = `measurement` | unwrap cls [$__range]) by (app_name)",
-          "legendFormat": "CLS",
-          "queryType": "range",
-          "refId": "A"
-        }
-      ],
-      "title": "CLS",
-      "type": "stat"
-    },
-    {
-      "datasource": {
-        "type": "loki",
-        "uid": "loki"
-      },
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "thresholds"
-          },
-          "mappings": [],
           "thresholds": {
             "mode": "absolute",
             "steps": [
@@ -295,7 +219,7 @@
       "gridPos": {
         "h": 3,
         "w": 5,
-        "x": 14,
+        "x": 9,
         "y": 1
       },
       "id": 10,
@@ -332,6 +256,82 @@
         }
       ],
       "title": "LCP",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "loki",
+        "uid": "loki"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "max": 1,
+          "min": 0,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "#EAB839",
+                "value": 0.1
+              },
+              {
+                "color": "red",
+                "value": 0.3
+              }
+            ]
+          },
+          "unit": "none"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 3,
+        "w": 5,
+        "x": 14,
+        "y": 1
+      },
+      "id": 11,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "percentChangeColorMode": "standard",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showPercentChange": false,
+        "textMode": "auto",
+        "wideLayout": true
+      },
+      "pluginVersion": "11.5.2",
+      "targets": [
+        {
+          "datasource": {
+            "type": "loki",
+            "uid": "loki"
+          },
+          "direction": "backward",
+          "editorMode": "code",
+          "expr": "avg_over_time({app_name=\"$app\"} |= \"cls\" | logfmt | kind = `measurement` | unwrap cls [$__range]) by (app_name)",
+          "legendFormat": "CLS",
+          "queryType": "range",
+          "refId": "A"
+        }
+      ],
+      "title": "CLS",
       "type": "stat"
     },
     {
@@ -1175,7 +1175,7 @@
           },
           "gridPos": {
             "h": 4,
-            "w": 2,
+            "w": 3,
             "x": 0,
             "y": 142
           },
@@ -1291,8 +1291,8 @@
           },
           "gridPos": {
             "h": 7,
-            "w": 12,
-            "x": 2,
+            "w": 11,
+            "x": 3,
             "y": 142
           },
           "id": 25,

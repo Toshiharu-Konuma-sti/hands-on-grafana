@@ -1,52 +1,4 @@
 
-# {{{ start_banner()
-start_banner()
-{
-	echo "############################################################"
-	echo "# START SCRIPT"
-	echo "############################################################"
-}
-# }}}
-
-# {{{ finish_banner()
-# $1: time to start this script
-finish_banner()
-{
-	S_TIME=$1
-	E_TIME=$(date +%s)
-	DURATION=$((E_TIME - S_TIME))
-	echo "############################################################"
-	echo "# FINISH SCRIPT ($DURATION seconds)"
-	echo "############################################################"
-}
-# }}}
-
-
-# {{{ call_own_fname()
-call_own_fname()
-{
-	OFNM=$(basename $0)
-	echo "$OFNM"
-}
-# }}}
-
-# {{{ call_show_start_banner()
-# $0: the name of the script being executed 
-call_show_start_banner()
-{
-	echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>\n> START: Script = [$(call_own_fname)]\n>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>"
-}
-# }}}
-
-# {{{ call_show_finish_banner()
-# $0: the name of the script being executed 
-call_show_finish_banner()
-{
-	echo "\n<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<\n< FINISH: Script = [$(call_own_fname)]\n<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<"
-}
-# }}}
-
-
 # {{{ create_container()
 # $1: the current directory
 create_container()
@@ -128,14 +80,6 @@ install_plugin_collectiong_log()
 # }}}
 
 
-# {{{ show_list_container()
-show_list_container()
-{
-	echo "\n### START: Show a list of container ##########"
-	docker ps -a
-}
-# }}}
-
 # {{{ show_url()
 show_url()
 {
@@ -157,8 +101,7 @@ show_url()
  *   - MINIO:      http://localhost:9003 for Tempo
  * - Access to Monitored servers with the URL below.
  *   - webui:      http://localhost:8181
- *   - webapi:     http://localhost:8182/api/dice/v1/roll
- *   - webapi:     http://localhost:8182/api/dice/v1/list
+ *   - webapi:     http://localhost:8182/api/v1/dices
  *   - micrometer: http://localhost:8181/actuator for webui
  *   - micrometer: http://localhost:8182/actuator for webapi
  * - Access to useful Web ui tools with the URL below.

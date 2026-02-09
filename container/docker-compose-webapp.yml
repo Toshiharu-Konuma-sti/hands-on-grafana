@@ -61,7 +61,7 @@ services:
   webapp-mysql:
     hostname: webapp-mysql
     container_name: webapp-mysql
-    image: mysql:8.0
+    image: mysql:8.4.8
     ports:
       - 3306:3306
     networks:
@@ -82,7 +82,7 @@ services:
   webapp-webui-node-exporter:
     hostname: webapp-webui-node-exporter
     container_name: webapp-webui-node-exporter
-    image: &nodeExpImage prom/node-exporter:v1.9.1
+    image: &nodeExpImage prom/node-exporter:v1.10.2
     pid: "service:webapp-webui"
     networks:
       - internal
