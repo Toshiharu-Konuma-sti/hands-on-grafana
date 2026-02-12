@@ -7,7 +7,7 @@ create_container()
 	echo "\n### START: Create new containers ##########"
 	git submodule update --init
 	git submodule update --remote ./../webapp
-	docker-compose \
+	docker compose \
 		-f $CUR_DIR/docker-compose.yml \
 		-f $CUR_DIR/docker-compose-webapp.yml \
 		up -d -V --remove-orphans
@@ -20,7 +20,7 @@ create_container_except_webapp()
 {
 	CUR_DIR=$1
 	echo "\n### START: Create new containers except for the webapps ##########"
-	docker-compose \
+	docker compose \
 		-f $CUR_DIR/docker-compose.yml \
 		up -d -V
 }
@@ -32,7 +32,7 @@ destory_container()
 {
 	CUR_DIR=$1
 	echo "\n### START: Destory existing containers ##########"
-	docker-compose \
+	docker compose \
 		-f $CUR_DIR/docker-compose.yml \
 		-f $CUR_DIR/docker-compose-webapp.yml \
 		down -v --remove-orphans
@@ -45,7 +45,7 @@ destory_container_except_webapp()
 {
 	CUR_DIR=$1
 	echo "\n### START: Destory existing containers except for the webapps ##########"
-	docker-compose \
+	docker compose \
 		-f $CUR_DIR/docker-compose.yml \
 		down -v
 }
@@ -63,7 +63,7 @@ rebuild_container()
 	IMAGE_NM=$(docker inspect --format='{{.Config.Image}}' $CONTAINER_NM)
 	docker rm $CONTAINER_NM
 	docker rmi $IMAGE_NM
-	docker-compose \
+	docker compose \
 		-f $CUR_DIR/docker-compose.yml \
 		-f $CUR_DIR/docker-compose-webapp.yml \
 		up -d -V --build $CONTAINER_NM
