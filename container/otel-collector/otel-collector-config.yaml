@@ -21,9 +21,9 @@ receivers:
               - webapp-webui-node-exporter:9100
               - webapp-webapi-node-exporter:9100
   mysql:
-    username: root
-    password: password
-    endpoint: mysql:3306
+    username: myuser
+    password: mypass
+    endpoint: webapp-mysql:3306
     metrics:
       mysql.query.slow.count:
         enabled: true
