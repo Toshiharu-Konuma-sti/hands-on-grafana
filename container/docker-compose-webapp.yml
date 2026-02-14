@@ -27,7 +27,15 @@ services:
       - ../webapp/.env-webapp
     environment:
       PYROSCOPE_APPLICATION_NAME: webapp-webui
-    tty: true
+    depends_on:
+      webapp-webapi:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://localhost:8181/actuator/health || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 6
+      start_period: 20s
     restart: unless-stopped
 
   webapp-webapi:
@@ -53,7 +61,15 @@ services:
       - ../webapp/.env-webapp
     environment:
       PYROSCOPE_APPLICATION_NAME: webapp-webapi
-    tty: true
+    depends_on:
+      webapp-mysql:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://localhost:8182/actuator/health || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 6
+      start_period: 20s
     restart: unless-stopped
 
   webapp-mysql:
@@ -71,6 +87,11 @@ services:
     command: mysqld
     env_file:
       - ../webapp/.env-webapp-mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
     restart: unless-stopped
 #    logging:
 #      driver: loki
