@@ -1,22 +1,9 @@
 services:
 
-##############################
-# monitored servers
-##############################
-
   webapp-webui:
-    container_name: webapp-webui
-    hostname: webapp-webui
     build:
       context: ../webapp
-      dockerfile: Dockerfile-webui
     image: hands-on/grafana/webapp/webui:latest
-    ports:
-      - 8181:8181
-    networks:
-      - internal
-      - external
-    working_dir: /webui
     command:
       - /bin/bash
       - -c
@@ -27,30 +14,11 @@ services:
       - ../webapp/.env-webapp
     environment:
       PYROSCOPE_APPLICATION_NAME: webapp-webui
-    depends_on:
-      webapp-webapi:
-        condition: service_healthy
-    healthcheck:
-      test: ["CMD-SHELL", "curl -f http://localhost:8181/actuator/health || exit 1"]
-      interval: 10s
-      timeout: 5s
-      retries: 6
-      start_period: 20s
-    restart: unless-stopped
 
   webapp-webapi:
-    container_name: webapp-webapi
-    hostname: webapp-webapi
     build:
       context: ../webapp
-      dockerfile: Dockerfile-webapi
     image: hands-on/grafana/webapp/webapi:latest
-    ports:
-      - 8182:8182
-    networks:
-      - internal
-      - external
-    working_dir: /webapi
     command:
       - /bin/bash
       - -c
@@ -61,42 +29,13 @@ services:
       - ../webapp/.env-webapp
     environment:
       PYROSCOPE_APPLICATION_NAME: webapp-webapi
-    depends_on:
-      webapp-mysql:
-        condition: service_healthy
-    healthcheck:
-      test: ["CMD-SHELL", "curl -f http://localhost:8182/actuator/health || exit 1"]
-      interval: 10s
-      timeout: 5s
-      retries: 6
-      start_period: 20s
-    restart: unless-stopped
 
   webapp-mysql:
-    hostname: webapp-mysql
-    container_name: webapp-mysql
-    image: mysql:8.4.8
-    ports:
-      - 3306:3306
-    networks:
-      - internal
-      - external
     volumes:
       - ../webapp/mysql/config/my.cnf:/etc/mysql/conf.d/my.cnf:ro
       - ../webapp/mysql/init:/docker-entrypoint-initdb.d:ro
-    command: mysqld
     env_file:
       - ../webapp/.env-webapp-mysql
-    healthcheck:
-      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
-      interval: 5s
-      timeout: 5s
-      retries: 10
-    restart: unless-stopped
-#    logging:
-#      driver: loki
-#      options:
-#        loki-url: http://localhost:3100/loki/api/v1/push
 
   webapp-webui-node-exporter:
     hostname: webapp-webui-node-exporter
@@ -125,7 +64,3 @@ networks:
     name: intra-net
     driver: bridge
     internal: true
-  external:
-    name: hands-net
-    driver: bridge
-
