@@ -9,7 +9,8 @@ create_container()
 	git submodule update --remote ./../webapp
 	docker compose \
 		-f $CUR_DIR/docker-compose.yml \
-		-f $CUR_DIR/docker-compose-webapp.yml \
+		-f $CUR_DIR/docker-compose-webapp.base.yml \
+		-f $CUR_DIR/docker-compose-webapp.mode.grafana.yml \
 		up -d -V --remove-orphans
 }
 # }}}
@@ -34,7 +35,8 @@ destory_container()
 	echo "\n### START: Destory existing containers ##########"
 	docker compose \
 		-f $CUR_DIR/docker-compose.yml \
-		-f $CUR_DIR/docker-compose-webapp.yml \
+		-f $CUR_DIR/docker-compose-webapp.base.yml \
+		-f $CUR_DIR/docker-compose-webapp.mode.grafana.yml \
 		down -v --remove-orphans
 }
 # }}}
@@ -65,7 +67,8 @@ rebuild_container()
 	docker rmi $IMAGE_NM
 	docker compose \
 		-f $CUR_DIR/docker-compose.yml \
-		-f $CUR_DIR/docker-compose-webapp.yml \
+		-f $CUR_DIR/docker-compose-webapp.base.yml \
+		-f $CUR_DIR/docker-compose-webapp.mode.grafana.yml \
 		up -d -V --build $CONTAINER_NM
 }
 # }}}
