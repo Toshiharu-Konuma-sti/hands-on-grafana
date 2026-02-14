@@ -11,7 +11,7 @@ services:
         wget -O ./pyroscope.jar https://github.com/grafana/pyroscope-java/releases/download/v2.0.0/pyroscope.jar
         java -javaagent:pyroscope.jar -jar build/libs/apisl.handson.rollingdice.webapp.webui-0.0.1-SNAPSHOT.jar
     env_file:
-      - ../webapp/.env-webapp
+      - .env-webapp-common-pyroscope
     environment:
       PYROSCOPE_APPLICATION_NAME: webapp-webui
 
@@ -26,7 +26,7 @@ services:
         wget -O ./pyroscope.jar https://github.com/grafana/pyroscope-java/releases/download/v2.0.0/pyroscope.jar
         java -javaagent:pyroscope.jar -jar build/libs/apisl.handson.rollingdice.webapp.webapi-0.0.1-SNAPSHOT.jar
     env_file:
-      - ../webapp/.env-webapp
+      - .env-webapp-common-pyroscope
     environment:
       PYROSCOPE_APPLICATION_NAME: webapp-webapi
 
@@ -36,6 +36,10 @@ services:
       - ../webapp/mysql/init:/docker-entrypoint-initdb.d:ro
     env_file:
       - ../webapp/.env-webapp-mysql
+#    logging:
+#      driver: loki
+#      options:
+#        loki-url: http://localhost:3100/loki/api/v1/push
 
   webapp-webui-node-exporter:
     hostname: webapp-webui-node-exporter
