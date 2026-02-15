@@ -346,12 +346,12 @@ services:
     container_name: zipkin
     hostname: zipkin
     image: openzipkin/zipkin:3.5.1
-    restart: always
     ports:
       - 9411:9411
     networks:
       - internal
       - external
+    restart: unless-stopped
 
 ##############################
 # container that relays a data
@@ -361,12 +361,15 @@ services:
     container_name: otel-collector
     hostname: otel-collector
     image: otel/opentelemetry-collector-contrib:0.142.0
-    restart: always
     command: ["--config=/etc/otel-collector-config.yaml", ""]
     volumes:
       - ./otel-collector/otel-collector-config.yaml:/etc/otel-collector-config.yaml
     networks:
       - internal
+      - external
+    ports:
+      - 24224:24224
+    restart: unless-stopped
 
   alloy:
     container_name: alloy
@@ -427,4 +430,3 @@ networks:
   external:
     name: hands-net
     driver: bridge
-

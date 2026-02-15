@@ -5,6 +5,8 @@ receivers:
         endpoint: 0.0.0.0:4317
       http:
         endpoint: 0.0.0.0:4318
+  fluentforward:
+    endpoint: 0.0.0.0:24224
   prometheus:
     config:
       scrape_configs:
@@ -21,9 +23,9 @@ receivers:
               - webapp-webui-node-exporter:9100
               - webapp-webapi-node-exporter:9100
   mysql:
-    username: root
-    password: password
-    endpoint: mysql:3306
+    username: myuser
+    password: mypass
+    endpoint: webapp-mysql:3306
     metrics:
       mysql.query.slow.count:
         enabled: true
@@ -61,7 +63,12 @@ exporters:
     verbosity: detailed
 
 processors:
-  batch:
+  batch: {}
+  resource/mysql:
+    attributes:
+      - key: service.name
+        value: "webapp-mysql"
+        action: upsert
 
 service:
   telemetry:
@@ -71,9 +78,13 @@ service:
     metrics:
       receivers: [otlp, prometheus, mysql]
       exporters: [prometheusremotewrite]
-#      exporters: [debug, otlphttp/mimir]
-    logs:
+#      exporters: [otlphttp/mimir, debug]
+    logs/app:
       receivers: [otlp]
+      exporters: [otlphttp/loki]
+    logs/mysql:
+      receivers: [fluentforward]
+      processors: [resource/mysql]
       exporters: [otlphttp/loki]
     traces:
       receivers: [otlp]
