@@ -32,8 +32,9 @@ receivers:
 
 exporters:
   prometheusremotewrite:
-    endpoint: http://prometheus-mimir:9090/api/v1/write
-#    endpoint: http://prometheus-mimir:9090/api/v1/otlp/v1/metrics
+    endpoint: http://mimir-lb:9009/api/v1/push
+    headers:
+      X-Scope-OrgID: tenant-metrics
     tls:
       insecure: true
     resource_to_telemetry_conversion:
@@ -78,7 +79,6 @@ service:
     metrics:
       receivers: [otlp, prometheus, mysql]
       exporters: [prometheusremotewrite]
-#      exporters: [otlphttp/mimir, debug]
     logs/app:
       receivers: [otlp]
       exporters: [otlphttp/loki]
