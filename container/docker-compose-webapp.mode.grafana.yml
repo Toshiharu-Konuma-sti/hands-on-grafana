@@ -36,10 +36,12 @@ services:
       - ../webapp/mysql/init:/docker-entrypoint-initdb.d:ro
     env_file:
       - ../webapp/.env-webapp-mysql
-#    logging:
-#      driver: loki
-#      options:
-#        loki-url: http://localhost:3100/loki/api/v1/push
+    logging:
+      driver: fluentd
+      options:
+        fluentd-address: "tcp://localhost:24224"
+        fluentd-async: "true"
+        tag: "webapp-mysql"
 
   webapp-webui-node-exporter:
     hostname: webapp-webui-node-exporter
@@ -58,13 +60,3 @@ services:
     networks:
       - internal
     restart: unless-stopped
-
-##############################
-# networks
-##############################
-
-networks:
-  internal:
-    name: intra-net
-    driver: bridge
-    internal: true
