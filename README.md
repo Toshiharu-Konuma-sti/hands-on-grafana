@@ -1,9 +1,9 @@
 # Grafana LGTM Playground
 
-![GitHub](https://img.shields.io/github/license/Toshiharu-Konuma-sti/hands-on-grafana?style=flat-square)
-![GitHub last commit](https://img.shields.io/github/last-commit/Toshiharu-Konuma-sti/hands-on-grafana?style=flat-square)
-![Docker](https://img.shields.io/badge/Docker-Container-blue?style=flat-square&logo=docker&logoColor=white)
-![Grafana](https://img.shields.io/badge/Grafana-LGTM-F46800?style=flat-square&logo=grafana&logoColor=white)
+[![GitHub License](https://img.shields.io/github/license/Toshiharu-Konuma-sti/hands-on-grafana?style=flat-square)](https://github.com/Toshiharu-Konuma-sti/hands-on-grafana/blob/main/LICENSE)
+[![GitHub last commit](https://img.shields.io/github/last-commit/Toshiharu-Konuma-sti/hands-on-grafana?style=flat-square)](https://github.com/Toshiharu-Konuma-sti/hands-on-grafana/commits)
+[![Docker](https://img.shields.io/badge/Docker-Container-blue?style=flat-square&logo=docker&logoColor=white)](https://www.docker.com/)
+[![Grafana](https://img.shields.io/badge/Grafana-LGTM-F46800?style=flat-square&logo=grafana&logoColor=white)](https://grafana.com/)
 
 > **Practical resources and Docker configurations for hands-on learning of the Grafana Observability Stack (Loki, Grafana, Tempo, Mimir).**
 
