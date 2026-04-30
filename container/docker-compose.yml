@@ -14,7 +14,7 @@ services:
   grafana:
     container_name: grafana
     hostname: grafana
-    image: grafana/grafana:12.3.2
+    image: grafana/grafana:13.0.1
     volumes:
       - ./grafana/provisioning/datasources/datasources.yaml:/etc/grafana/provisioning/datasources/datasources.yaml:ro
       - ./grafana/provisioning/dashboards:/etc/grafana/provisioning/dashboards:ro
@@ -40,7 +40,7 @@ services:
   mimir-lb:
     hostname: mimir-lb
     container_name: mimir-lb
-    image: &nginxImage nginx:1.29.5
+    image: &nginxImage nginx:1.30.0
     volumes:
       - ./nginx/config/nginx-mimir.conf:/etc/nginx/nginx.conf:ro
     depends_on:
@@ -56,7 +56,7 @@ services:
   mimir-1:
     hostname: mimir-1
     container_name: mimir-1
-    image: &mimirImage grafana/mimir:3.0.2
+    image: &mimirImage grafana/mimir:3.0.6
     command: ["-config.file=/etc/mimir.yaml"]
     depends_on:
       minio-mimir:
@@ -122,7 +122,7 @@ services:
   loki-1:
     hostname: loki-1
     container_name: loki-1
-    image: &lokiImage grafana/loki:3.6.5
+    image: &lokiImage grafana/loki:3.7.1
     command: -config.file=/etc/loki/local-config.yaml
     volumes:
       - ./loki/config/loki.yaml:/etc/loki/local-config.yaml
@@ -214,7 +214,7 @@ services:
   tempo-init:
     container_name: tempo-init
     hostname: tempo-init
-    image: &tempoImage grafana/tempo:2.9.0
+    image: alpine:latest
     user: root
     entrypoint:
       - "chown"
@@ -228,7 +228,7 @@ services:
   tempo-1:
     container_name: tempo-1
     hostname: tempo-1
-    image: *tempoImage
+    image: &tempoImage grafana/tempo:2.10.5
     command: [ "-config.file=/etc/tempo.yaml" ]
     volumes:
       - ./tempo/config/tempo.yaml:/etc/tempo.yaml
@@ -297,7 +297,7 @@ services:
   pyroscope-1:
     container_name: pyroscope-1
     hostname: pyroscope-1
-    image: grafana/pyroscope:1.18.0
+    image: grafana/pyroscope:2.0.1
     ports:
       - 4040:4040
     networks:
@@ -325,7 +325,7 @@ services:
   zipkin:
     container_name: zipkin
     hostname: zipkin
-    image: openzipkin/zipkin:3.5.1
+    image: openzipkin/zipkin:3.6.1
     ports:
       - 9411:9411
     networks:
@@ -340,7 +340,7 @@ services:
   otel-collector:
     container_name: otel-collector
     hostname: otel-collector
-    image: otel/opentelemetry-collector-contrib:0.142.0
+    image: otel/opentelemetry-collector-contrib:0.151.0
     command: ["--config=/etc/otel-collector-config.yaml", ""]
     volumes:
       - ./otel-collector/otel-collector-config.yaml:/etc/otel-collector-config.yaml
@@ -354,7 +354,7 @@ services:
   alloy:
     container_name: alloy
     hostname: alloy
-    image: grafana/alloy:v1.13.0
+    image: grafana/alloy:v1.16.0
     command:
       - run
       - --server.http.listen-addr=0.0.0.0:12345
