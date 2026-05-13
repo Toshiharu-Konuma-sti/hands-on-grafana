@@ -92,7 +92,6 @@ show_url()
  * Information:
  * - Access to Grafana Web ui tools with the URL below.
  *   - Grafana:    http://localhost:3000
- *     - dashboard(Prometheus):    https://grafana.com/grafana/dashboards/4701-jvm-micrometer/
  *     - dashboard(OpenTelemetry): https://grafana.com/grafana/dashboards/20352-opentelemetry-jvm-micrometer/
  *     - dashboard(Node Exporter): https://grafana.com/grafana/dashboards/1860-node-exporter-full/
  *   - Pyroscope:  http://localhost:4040
