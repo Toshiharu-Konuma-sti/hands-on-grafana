@@ -3,6 +3,7 @@ services:
   webapp-webui:
     build:
       context: ../webapp
+      network: host
     image: hands-on/grafana/webapp/webui:latest
     command:
       - /bin/bash
@@ -18,6 +19,7 @@ services:
   webapp-webapi:
     build:
       context: ../webapp
+      network: host
     image: hands-on/grafana/webapp/webapi:latest
     command:
       - /bin/bash
