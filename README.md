@@ -19,3 +19,11 @@ By leveraging Docker Compose, you can instantly spin up a full observability env
 - **T**empo: High-volume, minimal dependency distributed tracing backend.
 - **M**imir: Long-term storage for Prometheus metrics.
 - **Application**: Sample application instrumented with OpenTelemetry to generate telemetry data.
+
+## 📚 How to Use (Step-by-Step Guide)
+
+For detailed, step-by-step instructions on setting up and running this hands-on environment, please refer to the following article:
+
+👉 **[Grafana OSS LGTM スタックで体験する『オブザーバビリティー入門』 - SIOS Tech Lab](https://tech-lab.sios.jp/archives/51377)**
+
+*(Note: The article is written in Japanese. It guides you through Docker Compose setup, telemetry data visualization, and troubleshooting practice using sample web applications.)*
