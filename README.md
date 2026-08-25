@@ -12,8 +12,6 @@
 This repository is a comprehensive starter kit designed for hands-on learning of the **Grafana LGTM Stack**.
 By leveraging Docker Compose, you can instantly spin up a full observability environment on your local machine to experiment with log aggregation, distributed tracing, and metrics collection.
 
-
-
 ### 🚀 Tech Stack (The LGTM Stack)
 
 - **L**oki: Log aggregation system (like Prometheus, but for logs).
