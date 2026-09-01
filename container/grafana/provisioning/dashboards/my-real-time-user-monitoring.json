@@ -1951,6 +1951,62 @@
       ],
       "title": "Faro log",
       "type": "row"
+    },
+    {
+      "collapsed": true,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 28
+      },
+      "id": 40,
+      "panels": [
+        {
+          "datasource": {
+            "type": "tempo",
+            "uid": "tempo"
+          },
+          "fieldConfig": {
+            "defaults": {},
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 16,
+            "w": 24,
+            "x": 0,
+            "y": 29
+          },
+          "id": 41,
+          "options": {
+            "cellHeight": "sm",
+            "footer": {
+              "countRows": false,
+              "fields": "",
+              "reducer": ["sum"],
+              "show": false
+            },
+            "showHeader": true
+          },
+          "targets": [
+            {
+              "datasource": {
+                "type": "tempo",
+                "uid": "tempo"
+              },
+              "limit": 20,
+              "query": "{resource.service.name=\"$app\"}",
+              "queryType": "traceql",
+              "refId": "A",
+              "tableType": "traces"
+            }
+          ],
+          "title": "Faro Traces",
+          "type": "table"
+        }
+      ],
+      "title": "Traces",
+      "type": "row"
     }
   ],
   "preload": false,
